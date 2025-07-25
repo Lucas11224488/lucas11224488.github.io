@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dynamic Dropdowns</title>
+    <meta charset="UTF-8">
+    <title>Dropdown Alignment</title>
+    <style>
+      .container {
+        display: flex;
+        justify-content: space-around;
+        padding: 20px;
+      }
+  
+      .left-column,
+      .right-column {
+        display: flexbox;
+        flex-direction: column;
+        row-gap: normal;
+          .right-align {
+            text-align: center;
+          }
+      }
+
+      select {
+      width: 160px;
+      }
+    </style>
+</head>
+<body>
+  
+<div class="container">
+    <!-- Left Side -->
+  <div class="left-column">
+    <label for="NightCount">What Night?</label>
+    <select id="NightCount">
+      <option disabled selected hidden>--Choose--</option>
+      <option value="4">1</option>
+      <option value="6">2</option>
+      <option value="8">3</option>
+      <option value="10">4</option>
+      <option value="12">5</option>
+    </select>
+    <br>
+    <br>
+
+    <label for="quantity">Current HP/Max HP:</label>
+    <input type="number" id="LeftCurrentHP" name="LeftCurrentHP" min="0" max="99999">/<input type="number" id="LeftMaxHP" name="LeftMaxHP" min="0" max="99999">
+    <br><br>
+    <label for="quantity">Attack:</label>
+    <input type="number" id="LeftAttack" name="LeftAttack" min="0" max="99999">
+    <br><br>
+    <label for="quantity">Armor:</label>
+    <input type="number" id="LeftArmor" name="LeftArmor" min="0" max="99999">
+    <br><br>
+    <label for="quantity">Speed:</label>
+    <input type="number" id="LeftSpeed" name="LeftSpeed" min="0" max="99999">
+    <br><br>
+    <label for="quantity">Gold:</label>
+    <input type="number" id="LeftGold" name="LeftGold" min="0" max="99999">
+
+
+    <br>
+    <br>
+    <label for="LeftWeapons">Left Weapon:</label>
+    <select name="LeftWeapons" id="LeftWeapons">
+      <option value="WoodenStick">Wooden Stick</option>
+      <option value="BattleAxe">Battle Axe</option>
+      <option value="BearclawBlade">Bearclaw Blade</option>
+      <option value="BejeweledBlade">Bejeweled Blade</option>
+      <option value="BlackbriarBlade">Blackbriar Blade</option>
+      <option value="BloodmoonDagger">Bloodmoon Dagger</option>
+      <option value="BloodmoonSickle">Bloodmoon Sickle</option>
+      <option value="BoomStick">Boom Stick</option>
+      <option value="BrittlebarkBow">Brittlebark Bow</option>
+      <option value="BrittlebarkClub">Brittlebark Club</option>
+      <option value="ElderwoodStaff">Elderwood Staff</option>
+      <option value="ExplosiveSword">Explosive Sword</option>
+      <option value="FeatherweightBlade">Featherweight Blade</option>
+      <option value="GemstoneScepter">Gemstone Scepter</option>
+      <option value="GraniteHammer">Granite Hammer</option>
+      <option value="GraniteLance">Granite Lance</option>
+      <option value="GrindstoneClub">Grindstone Club</option>
+      <option value="Haymaker">Haymaker</option>
+      <option value="HeartDrinker">Heart Drinker</option>
+      <option value="HiddenDagger">Hidden Dagger</option>
+      <option value="IronstoneBow">Ironstone Bow</option>
+      <option value="IronstoneGreatsword">Ironstone Greatsword</option>
+      <option value="LifebloodSpear">Lifeblood Spear</option>
+      <option value="LifestealScythe">Lifesteal Scythe</option>
+      <option value="MountainCleaver">Mountain Cleaver</option>
+      <option value="QuickgrowthSpear">Quickgrowth Spear</option>
+      <option value="RazorthornSpear">Razorthorn Spear</option>
+      <option value="RedwoodRod">Redwood Rod</option>
+      <option value="RoyalCrownblade">Royal Crownblade</option>
+      <option value="RoyalScepter">Royal Scepter</option>
+      <option value="SpearshieldLance">Spearshield Lance</option>
+      <option value="SpikyClub">Spiky Club</option>
+      <option value="StoneslabSword">Stoneslab Sword</option>
+      <option value="SwiftstrikeBow">Swiftstrike Bow</option>
+      <option value="SwiftstrikeRapier">Swiftstrike Rapier</option>
+      <option value="SwordOfTheHero">Sword Of The Hero</option>
+      <option value="TempestBlade">Tempest Blade</option>
+      <option value="TwinBlade">Twin Blade</option>
+      <option value="WoodcuttersAxe">Woodcutter's Axe</option>
+    </select>
+
+    <br>
+    <br>
+    <label for="LeftEdges">Left Edge:</label>
+    <select name="LeftEdges" id="LeftEdges">
+      <option value="">None</option>
+      <option value="AgileEdge">Agile Edge</option>
+      <option value="BleedingEdge">Bleeding Edge</option>
+      <option value="BluntEdge">Blunt Edge</option>
+      <option value="CuttingEdge">Cutting Edge</option>
+      <option value="FeatherweightEdge">Featherweight Edge</option>
+      <option value="JaggedEdge">Jagged Edge</option>
+      <option value="SmokingEdge">Smoking Edge</option>
+      <option value="ThievingEdge">Thieving Edge</option>
+    </select>
+    <br>
+    <br>
+  <!-- This part is for selecting the night and therefore the amount of items slots you have -->
+
+
+
+
+    <div id="dropdownContainer"></div>
+
+    <template id="ItemSlots">
+        <label>Item Slot:</label>
+        <select>
+          <option value="">None</option>
+          <option value="ArmorRegrowth">Armor Regrowth</option>
+          <option value="AssualtGreaves">Assualt Greaves</option>
+          <option value="BlacksmithBond">Blacksmith Bond</option>
+          <option value="BloodChain">Blood Chain</option>
+          <option value="BloodSausage">Blood Sausage</option>
+          <option value="BloodmoonArmor">Bloodmoon Armor</option>
+          <option value="BloodySteak">Bloody Steak</option>
+          <option value="BrambleBuckler">Bramble Buckler</option>
+          <option value="BriarRose">Briar Rose</option>
+          <option value="BrittlebarkArmor">Brittlebark Armor</option>
+          <option value="BrittlebarkBuckler">Brittlebark Buckler</option>
+          <option value="CactusCap">Cactus Cap</option>
+          <option value="CandiedNuts">Candied Nuts</option>
+          <option value="ChainmailArmor">Chainmail Armor</option>
+          <option value="CharcoalRoast">Charcoal Roast</option>
+          <option value="CherryBomb">Cherry Bomb</option>
+          <option value="CherryCocktail">Cherry Cocktail</option>
+          <option value="CitrineEarring">Citrine Earring</option>
+          <option value="CitrineGemstone">Citrine Gemstone</option>
+          <option value="CitrineRing">Citrine Ring</option>
+          <option value="CrackedBouldershield">Cracked Bouldershield</option>
+          <option value="CrackedWhetstone">Cracked Whetstone</option>
+          <option value="CrimsonCloak">Crimson Cloak</option>
+          <option value="DoublePlatedArmor">Double-Plated Armor</option>
+          <option value="ElderwoodNecklace">Elderwood Necklace</option>
+          <option value="EmeraldCrown">Emerald Crown</option>
+          <option value="EmeraldEarring">Emerald Earring</option>
+          <option value="EmeraldGemstone">Emerald Gemstone</option>
+          <option value="EmeraldRing">Emerald Ring</option>
+          <option value="EmergencyShield">Emergency Shield</option>
+          <option value="EnergyDrain">Energy Drain</option>
+          <option value="ExplosiveSurprise">Explosive Surprise</option>
+          <option value="FeatherweightArmor">Featherweight Armor</option>
+          <option value="FeatherweightGreaves">Featherweight Greaves</option>
+          <option value="FeatherweightHelmet">Featherweight Helmet</option>
+          <option value="FirecrackerBelt">Firecracker Belt</option>
+          <option value="FortifiedGauntlet">Fortified Gauntlet</option>
+          <option value="GoldRing">Gold Ring</option>
+          <option value="GraniteCrown">Granite Crown</option>
+          <option value="GraniteThorns">Granite Thorns</option>
+          <option value="HeartshapedAcorn">Heartshaped Acorn</option>
+          <option value="HeartshapedPotion">Heartshaped Potion</option>
+          <option value="Honeycomb">Honeycomb</option>
+          <option value="HornedHelmet">Horned Helmet</option>
+          <option value="IronRose">Iron Rose</option>
+          <option value="IronShrapnel">Iron Shrapnel</option>
+          <option value="IronTransfusion">Iron Transfusion</option>
+          <option value="IronskinPotion">Ironskin Potion</option>
+          <option value="IronstoneBracelet">Ironstone Bracelet</option>
+          <option value="IronstoneSandals">Ironstone Sandals</option>
+          <option value="LeatherBoots">Leather Boots</option>
+          <option value="LifebloodArmor">Lifeblood Armor</option>
+          <option value="LifebloodBurst">Lifeblood Burst</option>
+          <option value="LifebloodHelmet">Lifeblood Helmet</option>
+          <option value="OakHeart">Oak Heart</option>
+          <option value="OreHeart">Ore Heart</option>
+          <option value="PetrifiedChestnut">Petrified Chestnut</option>
+          <option value="PineconeBreastplate">Pinecone Breastplate</option>
+          <option value="PlatedGreaves">Plated Greaves</option>
+          <option value="PlatedHelmet">Plated Helmet</option>
+          <option value="PowderCookie">Powder Cookie</option>
+          <option value="PowderKeg">Powder Keg</option>
+          <option value="PowderPlate">Powder Plate</option>
+          <option value="RazorScales">Razor Scales</option>
+          <option value="RazorvineTalisman">Razorvine Talisman</option>
+          <option value="RedwoodCloak">Redwood Cloak</option>
+          <option value="RedwoodHelmet">Redwood Helmet</option>
+          <option value="RedwoodRoast">Redwood Roast</option>
+          <option value="RoastedChestnut">Roasted Chestnut</option>
+          <option value="RockRoast">Rock Roast</option>
+          <option value="RoyalHelmet">Royal Helmet</option>
+          <option value="RubyCrown">Ruby Crown</option>
+          <option value="RubyEarring">Ruby Earring</option>
+          <option value="RubyGemstone">Ruby Gemstone</option>
+          <option value="RubyRing">Ruby Ring</option>
+          <option value="SaffronFeather">Saffron Feather</option>
+          <option value="SanguineRose">Sanguine Rose</option>
+          <option value="SapphireCrown">Sapphire Crown</option>
+          <option value="SapphireEarring">Sapphire Earring</option>
+          <option value="SapphireGemstone">Sapphire Gemstone</option>
+          <option value="SapphireRing">Sapphire Ring</option>
+          <option value="ShieldTalisman">Shield Talisman</option>
+          <option value="SmokeBomb">Smoke Bomb</option>
+          <option value="SpikedWine">Spiked Wine</option>
+          <option value="SpinyChestnut">Spiny Chestnut</option>
+          <option value="StoneSteak">Stone Steak</option>
+          <option value="StuddedGauntlet">Studded Gauntlet</option>
+          <option value="SugarBomb">Sugar Bomb</option>
+          <option value="SweetWine">Sweet Wine</option>
+          <option value="SwiftstrikeBelt">Swiftstrike Belt</option>
+          <option value="SwiftstrikeCloak">Swiftstrike Cloak</option>
+          <option value="SwiftstrikeCrown">Swiftstrike Crown</option>
+          <option value="SwiftstrikeGauntlet">Swiftstrike Gauntlet</option>
+          <option value="SwordTalisman">Sword Talisman</option>
+          <option value="TempestBreastplate">Tempest Breastplate</option>
+          <option value="ThornRing">Thorn Ring</option>
+          <option value="TwinfuseKnot">Twinfuse Knot</option>
+      </select>
+      <br><br>
+    </template>
+
+    </template>
+<!-- Creates all the boxes for left Player's items -->
+    <script>
+      const countSelector = document.getElementById("NightCount");
+      const container = document.getElementById("dropdownContainer");
+      const template = document.getElementById("ItemSlots");
+
+      countSelector.addEventListener("change", () => {
+        const count = parseInt(countSelector.value);
+        container.innerHTML = ""; // Clear existing dropdowns
+
+        for (let i = 0; i < count; i++) {
+          const clone = template.content.cloneNode(true);
+          const select = clone.querySelector("select");
+          const label = clone.querySelector("label");
+
+          const uniqueId = `itemslots_${i}`;
+          select.id = uniqueId;
+          select.name = uniqueId;
+          label.setAttribute("for", uniqueId);
+
+          container.appendChild(clone);
+        }
+      });
+    </script>
+  </div>
+<br>
+
+
+<!-- Right Side (Foe) -->
+  <div class="right-column">
+    <label for="FoeType">Player or Enemy?</label>
+    <select id="FoeType">
+      <option disabled selected hidden>--Choose--</option>
+      <option value="0">Player</option>
+      <option value="1">Enemy</option>
+    </select>
+    <br><br>
+
+    <div id="dropdownContainer2"></div>
+
+    <template id="ItemSlots">
+      <label>Item Slot:</label>
+      <select>
+        <option value="">None</option>
+        <option value="ArmorRegrowth">Armor Regrowth</option>
+        <option value="AssualtGreaves">Assualt Greaves</option>
+        <option value="BlacksmithBond">Blacksmith Bond</option>
+        <option value="BloodChain">Blood Chain</option>
+        <option value="BloodSausage">Blood Sausage</option>
+        <option value="BloodmoonArmor">Bloodmoon Armor</option>
+        <option value="BloodySteak">Bloody Steak</option>
+        <option value="BrambleBuckler">Bramble Buckler</option>
+        <option value="BriarRose">Briar Rose</option>
+        <option value="BrittlebarkArmor">Brittlebark Armor</option>
+        <option value="BrittlebarkBuckler">Brittlebark Buckler</option>
+        <option value="CactusCap">Cactus Cap</option>
+        <option value="CandiedNuts">Candied Nuts</option>
+        <option value="ChainmailArmor">Chainmail Armor</option>
+        <option value="CharcoalRoast">Charcoal Roast</option>
+        <option value="CherryBomb">Cherry Bomb</option>
+        <option value="CherryCocktail">Cherry Cocktail</option>
+        <option value="CitrineEarring">Citrine Earring</option>
+        <option value="CitrineGemstone">Citrine Gemstone</option>
+        <option value="CitrineRing">Citrine Ring</option>
+        <option value="CrackedBouldershield">Cracked Bouldershield</option>
+        <option value="CrackedWhetstone">Cracked Whetstone</option>
+        <option value="CrimsonCloak">Crimson Cloak</option>
+        <option value="DoublePlatedArmor">Double-Plated Armor</option>
+        <option value="ElderwoodNecklace">Elderwood Necklace</option>
+        <option value="EmeraldCrown">Emerald Crown</option>
+        <option value="EmeraldEarring">Emerald Earring</option>
+        <option value="EmeraldGemstone">Emerald Gemstone</option>
+        <option value="EmeraldRing">Emerald Ring</option>
+        <option value="EmergencyShield">Emergency Shield</option>
+        <option value="EnergyDrain">Energy Drain</option>
+        <option value="ExplosiveSurprise">Explosive Surprise</option>
+        <option value="FeatherweightArmor">Featherweight Armor</option>
+        <option value="FeatherweightGreaves">Featherweight Greaves</option>
+        <option value="FeatherweightHelmet">Featherweight Helmet</option>
+        <option value="FirecrackerBelt">Firecracker Belt</option>
+        <option value="FortifiedGauntlet">Fortified Gauntlet</option>
+        <option value="GoldRing">Gold Ring</option>
+        <option value="GraniteCrown">Granite Crown</option>
+        <option value="GraniteThorns">Granite Thorns</option>
+        <option value="HeartshapedAcorn">Heartshaped Acorn</option>
+        <option value="HeartshapedPotion">Heartshaped Potion</option>
+        <option value="Honeycomb">Honeycomb</option>
+        <option value="HornedHelmet">Horned Helmet</option>
+        <option value="IronRose">Iron Rose</option>
+        <option value="IronShrapnel">Iron Shrapnel</option>
+        <option value="IronTransfusion">Iron Transfusion</option>
+        <option value="IronskinPotion">Ironskin Potion</option>
+        <option value="IronstoneBracelet">Ironstone Bracelet</option>
+        <option value="IronstoneSandals">Ironstone Sandals</option>
+        <option value="LeatherBoots">Leather Boots</option>
+        <option value="LifebloodArmor">Lifeblood Armor</option>
+        <option value="LifebloodBurst">Lifeblood Burst</option>
+        <option value="LifebloodHelmet">Lifeblood Helmet</option>
+        <option value="OakHeart">Oak Heart</option>
+        <option value="OreHeart">Ore Heart</option>
+        <option value="PetrifiedChestnut">Petrified Chestnut</option>
+        <option value="PineconeBreastplate">Pinecone Breastplate</option>
+        <option value="PlatedGreaves">Plated Greaves</option>
+        <option value="PlatedHelmet">Plated Helmet</option>
+        <option value="PowderCookie">Powder Cookie</option>
+        <option value="PowderKeg">Powder Keg</option>
+        <option value="PowderPlate">Powder Plate</option>
+        <option value="RazorScales">Razor Scales</option>
+        <option value="RazorvineTalisman">Razorvine Talisman</option>
+        <option value="RedwoodCloak">Redwood Cloak</option>
+        <option value="RedwoodHelmet">Redwood Helmet</option>
+        <option value="RedwoodRoast">Redwood Roast</option>
+        <option value="RoastedChestnut">Roasted Chestnut</option>
+        <option value="RockRoast">Rock Roast</option>
+        <option value="RoyalHelmet">Royal Helmet</option>
+        <option value="RubyCrown">Ruby Crown</option>
+        <option value="RubyEarring">Ruby Earring</option>
+        <option value="RubyGemstone">Ruby Gemstone</option>
+        <option value="RubyRing">Ruby Ring</option>
+        <option value="SaffronFeather">Saffron Feather</option>
+        <option value="SanguineRose">Sanguine Rose</option>
+        <option value="SapphireCrown">Sapphire Crown</option>
+        <option value="SapphireEarring">Sapphire Earring</option>
+        <option value="SapphireGemstone">Sapphire Gemstone</option>
+        <option value="SapphireRing">Sapphire Ring</option>
+        <option value="ShieldTalisman">Shield Talisman</option>
+        <option value="SmokeBomb">Smoke Bomb</option>
+        <option value="SpikedWine">Spiked Wine</option>
+        <option value="SpinyChestnut">Spiny Chestnut</option>
+        <option value="StoneSteak">Stone Steak</option>
+        <option value="StuddedGauntlet">Studded Gauntlet</option>
+        <option value="SugarBomb">Sugar Bomb</option>
+        <option value="SweetWine">Sweet Wine</option>
+        <option value="SwiftstrikeBelt">Swiftstrike Belt</option>
+        <option value="SwiftstrikeCloak">Swiftstrike Cloak</option>
+        <option value="SwiftstrikeCrown">Swiftstrike Crown</option>
+        <option value="SwiftstrikeGauntlet">Swiftstrike Gauntlet</option>
+        <option value="SwordTalisman">Sword Talisman</option>
+        <option value="TempestBreastplate">Tempest Breastplate</option>
+        <option value="ThornRing">Thorn Ring</option>
+        <option value="TwinfuseKnot">Twinfuse Knot</option>
+      </select>
+      <br>
+    </template>
+
+    <template id="WeaponsRight">
+      <div class="right-column">
+      <label for="WeaponsRight">Right Weapon:</label>
+      <select name="WeaponsRight" id="WeaponsRight">
+        <option value="WoodenStick">Wooden Stick</option>
+        <option value="BattleAxe">Battle Axe</option>
+        <option value="BearclawBlade">Bearclaw Blade</option>
+        <option value="BejeweledBlade">Bejeweled Blade</option>
+        <option value="BlackbriarBlade">Blackbriar Blade</option>
+        <option value="BloodmoonDagger">Bloodmoon Dagger</option>
+        <option value="BloodmoonSickle">Bloodmoon Sickle</option>
+        <option value="BoomStick">Boom Stick</option>
+        <option value="BrittlebarkBow">Brittlebark Bow</option>
+        <option value="BrittlebarkClub">Brittlebark Club</option>
+        <option value="ElderwoodStaff">Elderwood Staff</option>
+        <option value="ExplosiveSword">Explosive Sword</option>
+        <option value="FeatherweightBlade">Featherweight Blade</option>
+        <option value="GemstoneScepter">Gemstone Scepter</option>
+        <option value="GraniteHammer">Granite Hammer</option>
+        <option value="GraniteLance">Granite Lance</option>
+        <option value="GrindstoneClub">Grindstone Club</option>
+        <option value="Haymaker">Haymaker</option>
+        <option value="HeartDrinker">Heart Drinker</option>
+        <option value="HiddenDagger">Hidden Dagger</option>
+        <option value="IronstoneBow">Ironstone Bow</option>
+        <option value="IronstoneGreatsword">Ironstone Greatsword</option>
+        <option value="LifebloodSpear">Lifeblood Spear</option>
+        <option value="LifestealScythe">Lifesteal Scythe</option>
+        <option value="MountainCleaver">Mountain Cleaver</option>
+        <option value="QuickgrowthSpear">Quickgrowth Spear</option>
+        <option value="RazorthornSpear">Razorthorn Spear</option>
+        <option value="RedwoodRod">Redwood Rod</option>
+        <option value="RoyalCrownblade">Royal Crownblade</option>
+        <option value="RoyalScepter">Royal Scepter</option>
+        <option value="SpearshieldLance">Spearshield Lance</option>
+        <option value="SpikyClub">Spiky Club</option>
+        <option value="StoneslabSword">Stoneslab Sword</option>
+        <option value="SwiftstrikeBow">Swiftstrike Bow</option>
+        <option value="SwiftstrikeRapier">Swiftstrike Rapier</option>
+        <option value="SwordOfTheHero">Sword Of The Hero</option>
+        <option value="TempestBlade">Tempest Blade</option>
+        <option value="TwinBlade">Twin Blade</option>
+        <option value="WoodcuttersAxe">Woodcutter's Axe</option>
+      </select>
+      </div>
+      <br>
+    </template>
+
+    <template id="RightStats">
+      <div class="right-column">    
+      <label for="quantity">Current HP/Max HP:</label>
+      <input type="number" id="RightCurrentHP" name="RightCurrentHP" min="0" max="99999">/<input type="number" id="RightMaxHP" name="RightMaxHP" min="0" max="99999">
+      <br><br>
+      <label for="quantity">Attack:</label>
+      <input type="number" id="RightAttack" name="RightAttack" min="0" max="99999">
+      <br><br>
+      <label for="quantity">Armor:</label>
+      <input type="number" id="RightArmor" name="RightArmor" min="0" max="99999">
+      <br><br>
+      <label for="quantity">Speed:</label>
+      <input type="number" id="RightSpeed" name="RightSpeed" min="0" max="99999">
+      <br><br>
+      <label for="quantity">Gold:</label>
+      <input type="number" id="RightGold" name="RightGold" min="0" max="99999">
+      <br><br>
+      </div>
+    </template>
+
+
+
+    <template id="RightEdges">
+      <div class="right-column">
+      <label for="BlacksmithEdges">Right Edge:</label>
+      <select name="RightEdges" id="RightEdges">
+          <option value="">None</option>
+          <option value="AgileEdge">Agile Edge</option>
+          <option value="BleedingEdge">Bleeding Edge</option>
+          <option value="BluntEdge">Blunt Edge</option>
+          <option value="CuttingEdge">Cutting Edge</option>
+          <option value="FeatherweightEdge">Featherweight Edge</option>
+          <option value="JaggedEdge">Jagged Edge</option>
+          <option value="SmokingEdge">Smoking Edge</option>
+          <option value="ThievingEdge">Thieving Edge</option>
+      </select>
+      </div>
+      <br>
+    </template>
+
+    <template id="EnemiesType">
+      <label for="enemies">Enemy:</label>
+      <select name="enemies" id="enemies">
+      <option disabled>~~Regular Enemies~~</option>
+      <option value="Bat">Bat</option>
+      <option value="Bear">Bear</option>
+      <option value="Hedgehog">Hedgehog</option>
+      <option value="Raven">Raven</option>
+      <option value="Spider">Spider</option>
+      <option value="Wolf">Wolf</option>
+
+      <!-- Night 1 Bosses -->
+      <option disabled>~~Night 1 Bosses~~</option>
+      <option value="BlackKnight">Black Knight</option>
+      <option value="BloodmoonWerewolf">Bloodmoon Werewolf</option>
+      <option value="BrittlebarkBeast">Brittlebark Beast</option>
+      <option value="IronstoneGolem">Ironstone Golem</option>
+      <option value="RazorclawGrizzly">Razorclaw Grizzly</option>
+      <option value="RazortuskHog">Razortusk Hog</option>
+
+      <!-- Night 2 Bosses -->
+      <option disabled>~~Night 2 Bosses~~</option>
+      <option value="BlackbriarKing">Blackbriar King</option>
+      <option value="MountainTroll">Mountain Troll</option>
+      <option value="SwiftstrikeStag">Swiftstrike Stag</option>
+
+      <!-- Night 3 Boss -->
+      <option disabled>~~Night 3 Bosses~~</option>
+      <option value="Leshen">Leshen</option>
+      <option value="WoodlandAbomination">Woodland Abomination</option>
+
+      <!-- MiniBosses -->
+      <option disabled>~~MiniBosses~~</option>
+      <option value="IronshellBeetle">Ironshell Beetle</option>
+      <option value="SilkweaverQueen">Silkweaver Queen</option>
+      </select>
+    </template>
+
+    <script>
+      const containerright = document.getElementById("dropdownContainer2");
+      const template2 = document.getElementById("ItemSlots").innerHTML;
+      const Weapons2 = document.getElementById("WeaponsRight").innerHTML;
+      const Edges2 = document.getElementById("RightEdges").innerHTML;
+      const Stats2 = document.getElementById("RightStats").innerHTML;
+      const EnemyList = document.getElementById("EnemiesType").innerHTML;
+      const Foe2 = document.getElementById("FoeType");
+
+      countSelector.addEventListener("change", () => {
+          //Foe2.addEventListener("change", () => {
+              const Type = parseInt(Foe2.value);
+              if (Type < 1) {
+                const template = document.getElementById("ItemSlots");
+
+                countSelector.addEventListener("change", () => {
+                  const count = parseInt(countSelector.value);
+                  containerright.innerHTML = ""; // Clear existing dropdowns
+                  containerright.innerHTML += Stats2
+                  containerright.innerHTML += Weapons2
+                  containerright.innerHTML += Edges2
+
+                  for (let i = 0; i < count; i++) {
+                    const clone = template.content.cloneNode(true);
+                    const select = clone.querySelector("select");
+                    const label = clone.querySelector("label");
+
+                    const uniqueId = `itemslotRight_${i}`;
+                    select.id = uniqueId;
+                    select.name = uniqueId;
+                    label.setAttribute("for", uniqueId);
+                    containerright.appendChild(clone);
+                  }
+                })
+            }
+              else if (Type > 0) {
+                  containerright.innerHTML = ""; // clear existing dropdowns
+                  containerright.innerHTML = EnemyList;
+              }
+      });//});
+
+      Foe2.addEventListener("change", () => {
+          //countSelector.addEventListener("change", () => {
+              const Type = parseInt(Foe2.value);
+              if (Type < 1) {
+              const containerright = document.getElementById("dropdownContainer2");
+              const template = document.getElementById("ItemSlots");
+
+                const count = parseInt(countSelector.value);
+                containerright.innerHTML = ""; // Clear existing dropdowns
+                containerright.innerHTML += Stats2
+                containerright.innerHTML += Weapons2
+                containerright.innerHTML += Edges2
+                
+                for (let i = 0; i < count; i++) {
+                  const clone = template.content.cloneNode(true);
+                  const select = clone.querySelector("select");
+                  const label = clone.querySelector("label");
+
+                  const uniqueId = `itemslotRight_${i}`;
+                  select.id = uniqueId;
+                  select.name = uniqueId;
+                  label.setAttribute("for", uniqueId);
+                  containerright.appendChild(clone);
+                }
+            }
+              else if (Type > 0) {
+                  containerright.innerHTML = ""; // clear existing dropdowns
+                  containerright.innerHTML = EnemyList;
+              }
+      //})
+
+      });
+    </script>
+  </div>
+</div>
+
+
+<button onclick="saveSelections()">Submit</button>
+
+<!-- [10currenthp; 10maxhp; 3attack; 0armor; 4speed; SwordOfTheHero, CuttingEdge, ; 0level; 0gold] -->
+<script>
+function saveSelections() {
+  // Add the [] around the final data
+  var Level = document.getElementById("NightCount").value;
+  var LeftCurrentHP = document.getElementById("LeftCurrentHP").value;
+  var LeftMaxHP = document.getElementById("LeftMaxHP").value;
+  var LeftAttack = document.getElementById("LeftAttack").value;
+  var LeftArmor = document.getElementById("LeftArmor").value;
+  var LeftSpeed = document.getElementById("LeftSpeed").value;
+  var LeftGold = document.getElementById("LeftGold").value;
+  var LeftWeapons = document.getElementById("LeftWeapons").value;
+  var LeftEdge = document.getElementById("LeftEdges").value;
+  ItemsLeft = document.getElementById(`itemslots_0`).value;
+  const PlayOrEn =  document.getElementById("FoeType").value
+
+  for (let i = 1; i < Level; i++) {
+    var ItemsLeft = ItemsLeft + ", " + document.getElementById(`itemslots_${i}`).value
+  }
+  LeftPlayer =  "[" + LeftCurrentHP + "; " + LeftMaxHP + "; " + LeftAttack + "; " + LeftArmor + "; " + LeftSpeed + "; " + LeftWeapons + ", " + LeftEdge + ", " + ItemsLeft + "; " + (Level/2 - 1) + "; " + LeftGold + "]"
+  console.log(LeftPlayer)
+
+  if (PlayOrEn < 1) {
+    var RightWeapons = document.getElementById("WeaponsRight").value;
+    var RightEdge = document.getElementById("RightEdges").value;
+    var RightCurrentHP = document.getElementById("RightCurrentHP").value;
+    var RightMaxHP = document.getElementById("RightMaxHP").value;
+    var RightAttack = document.getElementById("RightAttack").value;
+    var RightArmor = document.getElementById("RightArmor").value;
+    var RightSpeed = document.getElementById("RightSpeed").value;
+    var RightGold = document.getElementById("RightGold").value;
+    ItemsRight = document.getElementById(`itemslotRight_0`).value;
+    // const PlayOrEn =  document.getElementById("FoeType").value
+
+  //    for (let i = 1; i < Level; i++) {
+  //     ItemsRight += ", " + document.getElementById(`itemslotRight_${i}`).value;
+  //   }
+
+  //   RightPlayer = "[" + RightCurrentHP + "; " + RightMaxHP + "; " + RightAttack + "; " + RightArmor + "; " + RightSpeed + "; " + RightWeapons + ", " + RightEdge + ", " + ItemsRight + "; " + (Level/2 - 1) + "; " + RightGold + "]";
+  // } else {
+  //   let RightEnemy = document.getElementById("enemies").value;
+  //   RightPlayer = "[" + RightEnemy + ', ' + (Level/2 - 1) + "]";
+  // }
+  
+    for (let i = 1; i < Level; i++) {
+      //For Players
+      var ItemsRight = ItemsRight + ", " + document.getElementById(`itemslotRight_${i}`).value
+    }
+    RightPlayer = "[" + RightCurrentHP + "; " + RightMaxHP + "; " + RightAttack + "; " + RightArmor + "; " + RightSpeed + "; " + RightWeapons + ", " + RightEdge + ", " + ItemsRight + "; " + (Level/2 - 1) + "; " + RightGold + "]"
+    console.log(RightPlayer)
+  }
+  else if (PlayOrEn > 0) {
+    //For Enemies
+    var RightEnemy = document.getElementById("enemies").value;
+    RightPlayer = "[" + RightEnemy + ', ' + (Level/2 - 1) + "]"
+    console.log(RightPlayer)
+  }
+  
+
+//here add the send the two players to the python script.
+//LeftPlayer and RightPlayer
+//  fetch('/submit_players', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({
+//       LeftPlayer: LeftPlayer,
+//       RightPlayer: RightPlayer
+//     })
+//   })
+//   .then(response => response.json())
+//   .then(data => {
+//     console.log("Server responded:", data);
+//   })
+//   .catch(error => {
+//     console.error("Error sending data to server:", error);
+//   });
+}
+</script>
+</body>
+</html>
