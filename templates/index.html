@@ -642,26 +642,26 @@ function saveSelections() {
     console.log(RightPlayer)
   }
   
-
-//here add the send the two players to the python script.
-//LeftPlayer and RightPlayer
-//  fetch('/submit_players', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({
-//       LeftPlayer: LeftPlayer,
-//       RightPlayer: RightPlayer
-//     })
-//   })
-//   .then(response => response.json())
-//   .then(data => {
-//     console.log("Server responded:", data);
-//   })
-//   .catch(error => {
-//     console.error("Error sending data to server:", error);
-//   });
+  // Send LeftPlayer and RightPlayer to Flask backend
+  fetch("/submit_players", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      LeftPlayer: LeftPlayer,
+      RightPlayer: RightPlayer
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log("Server response:", data);
+    alert("Server says: " + data.output);  // Optional: show result
+  })
+  .catch(error => {
+    console.error("Error sending to server:", error);
+    alert("Failed to send data to server.");
+  });
 }
 </script>
 </body>

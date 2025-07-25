@@ -1,5 +1,25 @@
 import numpy as np
 import random
+from flask import Flask, request, render_template, jsonify
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')  # Ensure your HTML file is named 'index.html' and in a 'templates' folder.
+
+@app.route('/submit_players', methods=['POST'])
+def submit_players():
+    data = request.get_json()
+    LeftPlayer = data.get('LeftPlayer')
+    RightPlayer = data.get('RightPlayer')
+    print("LeftPlayer:", LeftPlayer)
+    Result = MainFight(LeftPlayer, RightPlayer)
+    return jsonify({"output": Result})
+
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)
 
 # LItems = ["BlacksmithBond", "BrittlebarkArmor", "BlacksmithBond"]
 # RItems = ["VampireWine", "DoublePlatedArmor", "BrittlebarkArmor"]
@@ -3601,9 +3621,13 @@ def MainFight(Left, Right):
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         print("Player", Players[0], "has died first")
         print("Player", Players[1], "has won:", P2.CurrentHP,"/", P2.MaxHP, "HP", P2.Armor, "Armor", P2.Attack, "Attack")
+        Result = f"Player {Players[0]} hase died first. Player {Players[1]} has won: {P2.CurrentHP} / {P2.MaxHP} HP {P2.Armor} Armor {P2.Attack} Attack"
 
     if P2.CurrentHP <= 0:
         EndBattleHeal(P1, P2)
         print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         print("Player", Players[1], "has died first")
         print("Player", Players[0], "has won:", P1.CurrentHP,"/", P1.MaxHP, "HP", P1.Armor, "Armor", P1.Attack, "Attack")
+        Result = f"Player {Players[1]} hase died first. Player {Players[0]} has won: {P1.CurrentHP} / {P1.MaxHP} HP {P1.Armor} Armor {P1.Attack} Attack"
+
+    return Result
