@@ -1629,7 +1629,7 @@
               "Snake" : {"FirstTurn"}, #Gives 2 + Lvl poison on first turn hit
               "Spider" : {"BattleStart"}, #If Spider is faster, then it deals 3+Lvl damage BattleStart
               "Turtle": {"TakeDamage"}, #lose all armor
-              "Wolf" : {"PreStrike"}, #If Foe.CurrenHP <=5 temp attack is set to +2+Lvl
+              "Wolf" : {"PreStrike"}, #If Foe.CurrentHP <=5 temp attack is set to +2+Lvl
 
 
               #Night 1 Bosses
@@ -1729,7 +1729,7 @@
 
       if Name == "Wolf": #Might be able to make it be one check wolf and then the level scales the stats?
           #Attack maxes to 2 at lvl 3
-          Stats = [3+3*Lvl, 3+3*Lvl, 1+min(1, Lvl), 0, 1+Lvl, ["Wolf"], Level, 0] #If Foe.CurrenHP <=5 temp attack is set to +2+Lvl
+          Stats = [3+3*Lvl, 3+3*Lvl, 1+min(1, Lvl), 0, 1+Lvl, ["Wolf"], Level, 0] #If Foe.CurrentHP <=5 temp attack is set to +2+Lvl
 
       #Bosses-Night 1
       if Name == "BlackKnight":
@@ -3029,7 +3029,7 @@
 
       if Name == "SanguineRose": #When healed heal again for 1 hp
           l = 1
-          if Player.CurrenHP/Player.MaxHP < 0.5:
+          if Player.CurrentHP/Player.MaxHP < 0.5:
               l = Player.TwilightCrestMult
           v = 1
           if Player.Stun > 0: #
@@ -3683,7 +3683,7 @@
 
       if Name == "LimestoneFruit":  #Gain 8 armor, if hp isnt full gain 2 acid
           ArmorGain(Player, Foe, 8)
-          if Player.CurrenHP != Player.MaxHP:
+          if Player.CurrentHP != Player.MaxHP:
               StatusInterp("Acid", Player, Foe, 2)
               #GainAcid(Player, Foe, 2)
 
@@ -4089,7 +4089,7 @@
           Player.Attack = Player.Attack - 1 #Maybe need to not do this with the HolyCrucifix itemset
 
       if Name == "MoonlightCleaver":  #If below 50% hp cannot gain status
-          if Player.CurrenHP/Player.MaxHP < 0.5:
+          if Player.CurrentHP/Player.MaxHP < 0.5:
               Player.PreventStatusGain = True
 
       if Name == "PurelakeStaff":  #BS: Gain 2 purity. OH: Lose 1 purity
@@ -4415,7 +4415,7 @@
           if Player.Armor > 0:
               ArmorGain(Player, Foe, -Player.Armor)
 
-      if Name == "Wolf":  #If Foe.CurrenHP <=5 temp attack is set to +2+Lvl
+      if Name == "Wolf":  #If Foe.CurrentHP <=5 temp attack is set to +2+Lvl
           if Foe.CurrentHP <= 5:
               Player.TempAttack = Player.TempAttack + 1 + Player.Level
 
