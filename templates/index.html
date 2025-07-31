@@ -512,7 +512,7 @@
 
     <template id="QualitySlider">
       <label hidden="True">Item Slot:</label> 
-      <input type="range" min="0" max="2" value="1" class="slider-container"></input>
+      <input type="range" min="0" max="2" value="0" class="slider-container"></input>
       <!-- </span> -->
       <br><br>
     </template>
@@ -1191,6 +1191,7 @@
   #asyncio.ensure_future(install_and_run())
   #document.getElementById("resultDisplay").innerText = []
   result_box = document.getElementById("resultDisplay")
+  #debug_Box = document.getElementById("debugBox")
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       #Above this line is not updated from the main python code file
       
@@ -1738,154 +1739,154 @@
       Lvl = Level - 1
       if Name == "Bat":
           #Correct
-          Stats = [4+2*Lvl, 4+2*Lvl, 1+Lvl, 0, 2+Lvl, ["Bat"], Level, 0] #Heal 1+Lvl HP OnHit every other strike
+          Stats = [4+2*Lvl, 4+2*Lvl, 1+Lvl, 0, 2+Lvl, ["Bat"], Level, 0, [0]] #Heal 1+Lvl HP OnHit every other strike
 
       if Name == "Bear":
           #Correct
-          Stats = [3+2*Lvl, 3+2*Lvl, 1+Lvl, 2+Lvl, 0+Lvl, ["Bear"], Level, 0] #Gains 3+Lvl attack if foe has armor
+          Stats = [3+2*Lvl, 3+2*Lvl, 1+Lvl, 2+Lvl, 0+Lvl, ["Bear"], Level, 0, [0]] #Gains 3+Lvl attack if foe has armor
 
       if Name == "Beaver":
-          Stats = [4+2*Lvl, 4+2*Lvl, 1+Lvl, 0, 1+Lvl, ["Beaver"], Level, 0] #Gains 3+Lvl regen on BS
+          Stats = [4+2*Lvl, 4+2*Lvl, 1+Lvl, 0, 1+Lvl, ["Beaver"], Level, 0, [0]] #Gains 3+Lvl regen on BS
 
       if Name == "CrazedHoneybear":
           #14, 6, 8, 4 LVL 3 +5 damage to armored foes
-          Stats = [6+4*Lvl, 6+4*Lvl, 2+2*Lvl, 4+2*Lvl, 2*Lvl] #10, 4, 6, 2 LVL 2 +4 damage to armored foes
+          Stats = [6+4*Lvl, 6+4*Lvl, 2+2*Lvl, 4+2*Lvl, 2*Lvl, ["CrazedHoneybear"], Level, 0, [0]] #10, 4, 6, 2 LVL 2 +4 damage to armored foes
 
       if Name == "Dragonfly": #Gain attack = Speed - player speed >= 0
-          Stats = [2+Lvl, 2+Lvl, 0, 0, 3+2*Lvl, ["Dragonfly"], Level, 0] 
+          Stats = [2+Lvl, 2+Lvl, 0, 0, 3+2*Lvl, ["Dragonfly"], Level, 0, [0]] 
 
       if Name == "Frog":
-          Stats = [2, 2, 1+Lvl, 2+Lvl, -max(Lvl - 1, 0)*(Lvl - 3)*2 + max(Lvl - 1, 0)*(Lvl - 2)*1.5, ["Frog"], Level, 0] #Gain 1 +Lvl armor on exposed?
+          Stats = [2, 2, 1+Lvl, 2+Lvl, -max(Lvl - 1, 0)*(Lvl - 3)*2 + max(Lvl - 1, 0)*(Lvl - 2)*1.5, ["Frog"], Level, 0, [0]] #Gain 1 +Lvl armor on exposed?
 
       if Name == "Hedgehog":
           #Armor is 1 to 2 to 4?
-          Stats = [1+Lvl, 1+Lvl, 1, max(1, 2*Lvl), 0, ["Hedgehog"], Level, 0] #Gains 3+Lvl thorns on BattleStart
+          Stats = [1+Lvl, 1+Lvl, 1, max(1, 2*Lvl), 0, ["Hedgehog"], Level, 0, [0]] #Gains 3+Lvl thorns on BattleStart
 
       if Name == "HoneyBee": #Give the foe 3+Lvl poison, 2+Lvl acid, and 1+Lvl stun on hit
-          Stats = [6+4*Lvl, 6+4*Lvl, 2, 15, 2+2*Lvl, ["HoneyBee"], Level, 0] 
+          Stats = [6+4*Lvl, 6+4*Lvl, 2, 15, 2+2*Lvl, ["HoneyBee"], Level, 0, [0]] 
 
       if Name == "Raven": #Might be able to make it be one check enemy and then the level scales the stats?
           #Correct
-          Stats = [3+2*Lvl, 3+2*Lvl, 0, 0, 2+Lvl, ["Raven"], Level, 0] #OnHit steals 1+Lvl gold
+          Stats = [3+2*Lvl, 3+2*Lvl, 0, 0, 2+Lvl, ["Raven"], Level, 0, [0]] #OnHit steals 1+Lvl gold
 
       if Name == "Slime":  # Battle Start: Give the player 4/6/8 acid
-          Stats = [2, 2, 2, 2+2*Lvl, 0, ["Slime"], Level, 0]
+          Stats = [2, 2, 2, 2+2*Lvl, 0, ["Slime"], Level, 0, [0]]
 
       if Name == "Snake": #Gives 2 + Lvl poison on first turn hit
-          Stats = [2+Lvl, 2+Lvl, 1, 0, 2+Lvl, ["Snake"], Level, 0]
+          Stats = [2+Lvl, 2+Lvl, 1, 0, 2+Lvl, ["Snake"], Level, 0, [0]]
 
       if Name == "Spider": #Might be able to make it be one check enemy and then the level scales the stats?
           #Correct
-          Stats = [2+Lvl, 2+Lvl, 1, 0, 2+Lvl, ["Spider"], Level, 0] #If Spider is faster, then it deals 3+Lvl damage BattleStart
+          Stats = [2+Lvl, 2+Lvl, 1, 0, 2+Lvl, ["Spider"], Level, 0, [0]] #If Spider is faster, then it deals 3+Lvl damage BattleStart
 
       if Name == "Turtle": #Lose all armor
-          Stats = [1, 1, 3 + 3*Lvl, 15, 0, ["Turtle"], Level, 0]
+          Stats = [1, 1, 3 + 3*Lvl, 15, 0, ["Turtle"], Level, 0, [0]]
 
       if Name == "Wolf": #Might be able to make it be one check wolf and then the level scales the stats?
           #Attack maxes to 2 at lvl 3
-          Stats = [3+3*Lvl, 3+3*Lvl, 1+min(1, Lvl), 0, 1+Lvl, ["Wolf"], Level, 0] #If Foe.CurrentHP <=5 temp attack is set to +2+Lvl
+          Stats = [3+3*Lvl, 3+3*Lvl, 1+min(1, Lvl), 0, 1+Lvl, ["Wolf"], Level, 0, [0]] #If Foe.CurrentHP <=5 temp attack is set to +2+Lvl
 
       #Bosses-Night 1
       if Name == "BlackKnight":
-          Stats = [10, 10, 0, 5, 0, ["BlackKnight"], Level, 0] #Gain attack = Foe.Attack + 2
+          Stats = [10, 10, 0, 5, 0, ["BlackKnight"], Level, 0, [0]] #Gain attack = Foe.Attack + 2
 
       if Name == "BloodmoonWerewolf":
-          Stats = [15, 15, 3, 0, 1, ["BloodmoonWerewolf"], Level, 0] #When player is below 50% HP, gains 5 attack
+          Stats = [15, 15, 3, 0, 1, ["BloodmoonWerewolf"], Level, 0, [0]] #When player is below 50% HP, gains 5 attack
 
       if Name == "BrittlebarkBeast":
-          Stats = [40, 40, 3, 0, 2, ["BrittlebarkBeast"], Level, 0] #Whenever you take damage take 3 more
+          Stats = [40, 40, 3, 0, 2, ["BrittlebarkBeast"], Level, 0, [0]] #Whenever you take damage take 3 more
 
       if Name == "IronstoneGolem":
-          Stats = [5, 5, 4, 15, 1, ["IronstoneGolem"], Level, 0] #When exposed lose 3 attack
+          Stats = [5, 5, 4, 15, 1, ["IronstoneGolem"], Level, 0, [0]] #When exposed lose 3 attack
 
       if Name == "RazorclawGrizzly":
-          Stats = [10, 10, 3, 5, 2, ["RazorclawGrizzly"], Level, 0] #Attacks ignore armor
+          Stats = [10, 10, 3, 5, 2, ["RazorclawGrizzly"], Level, 0, [0]] #Attacks ignore armor
 
       if Name == "RazortuskHog":
-          Stats = [5, 5, 4, 0, 4, ["RazortuskHog"], Level, 0] #If Razortusk Hog has more speed, first strike does 10 extra damage
+          Stats = [5, 5, 4, 0, 4, ["RazortuskHog"], Level, 0, [0]] #If Razortusk Hog has more speed, first strike does 10 extra damage
 
       #Swamp Night 1
       if Name == "CarnivorousSlime":
-          Stats = [20, 20, 1, 5, 5, ["CarnivorousSlime"], Level, 0] #Gives 3 acid and converts all player's hp except 1 into armor
+          Stats = [20, 20, 1, 5, 5, ["CarnivorousSlime"], Level, 0, [0]] #Gives 3 acid and converts all player's hp except 1 into armor
 
       if Name == "FungalGiant":
-          Stats = [30, 30, 3, 0, 0, ["FungalGiant"], Level, 0] #Gains 1 poison for each status effect the player has
+          Stats = [30, 30, 3, 0, 0, ["FungalGiant"], Level, 0, [0]] #Gains 1 poison for each status effect the player has
 
       if Name == "IronshellSnail":
-          Stats = [5, 5, 3, 50, -1, ["IronshellSnail"], Level, 0] #Gains 5 acid
+          Stats = [5, 5, 3, 50, -1, ["IronshellSnail"], Level, 0, [0]] #Gains 5 acid
 
       if Name == "StormcloudDruid":
-          Stats = [20, 20, 2, 0, 2, ["StormcloudDruid"], Level, 0] #Stun the player for 1 turn every other strike
+          Stats = [20, 20, 2, 0, 2, ["StormcloudDruid"], Level, 0, [0]] #Stun the player for 1 turn every other strike
 
       if Name == "SwampsongSiren":
-          Stats = [15, 15, 3, 0, 2, ["SwampsongSiren"], Level, 0] #Gives the Player -2 attack
+          Stats = [15, 15, 3, 0, 2, ["SwampsongSiren"], Level, 0, [0]] #Gives the Player -2 attack
     
       if Name == "ToxicMiretoad":
-          Stats = [20, 20, 2, 0, 3, ["ToxicMiretoad"], Level, 0] #Steals all the player's armor and gives 3 poison
+          Stats = [20, 20, 2, 0, 3, ["ToxicMiretoad"], Level, 0, [0]] #Steals all the player's armor and gives 3 poison
 
       #Bosses-Night 2
       if Name == "BlackbriarKing":
-          Stats = [50, 50, 0, 0, 0, ["BlackbriarKing"], Level, 0] #CANNOT ATTACK, instead gains 2 thorns every turn. 4 if wounded(Below 50% hp)
+          Stats = [50, 50, 0, 0, 0, ["BlackbriarKing"], Level, 0, [0]] #CANNOT ATTACK, instead gains 2 thorns every turn. 4 if wounded(Below 50% hp)
 
       if Name == "GoldwingMonarch":
-          Stats = [40, 40, 3, 0, 4, ["GoldwingMonarch"], Level, 0] #Steals all the players gold and heals for 2*Gold
+          Stats = [40, 40, 3, 0, 4, ["GoldwingMonarch"], Level, 0, [0]] #Steals all the players gold and heals for 2*Gold
 
       if Name == "FrostbiteDruid": #Gives the player 1 freeze
-          Stats = [10, 10, 3, 20, 4, ["FrostbiteDruid"], Level, 0]
+          Stats = [10, 10, 3, 20, 4, ["FrostbiteDruid"], Level, 0, [0]]
 
       if Name == "MountainTroll": #Currently lazy coding only works if Troll stays 0 speed
-          Stats = [20, 20, 10, 10, 0, ["MountainTroll"], Level, 0] #Attack every other turn
+          Stats = [20, 20, 10, 10, 0, ["MountainTroll"], Level, 0, [0]] #Attack every other turn
 
       if Name == "RedwoodTreant":
-          Stats = [25, 25, 3, 15, 0, ["RedwoodTreant"], Level, 0] #Temp gains 3 attack if player has no armor
+          Stats = [25, 25, 3, 15, 0, ["RedwoodTreant"], Level, 0, [0]] #Temp gains 3 attack if player has no armor
 
       if Name == "SwiftstrikeStag":
-          Stats = [10, 10, 3, 5, 5, ["SwiftstrikeStag"], Level, 0] #3 Strikes per turn
+          Stats = [10, 10, 3, 5, 5, ["SwiftstrikeStag"], Level, 0, [0]] #3 Strikes per turn
 
       #Swamp Night 2
       if Name == "ClearspringSpirit":
-          Stats = [30, 30, 3, 0, 2, ["ClearspringSpirit"], Level, 0] #BS: Gains 10 Purity. On Hit randomly decrease a self or player status 
+          Stats = [30, 30, 3, 0, 2, ["ClearspringSpirit"], Level, 0, [0]] #BS: Gains 10 Purity. On Hit randomly decrease a self or player status 
 
       if Name == "GraniteGriffin":
-          Stats = [20, 20, 5, 10, 0, ["GraniteGriffin"], Level, 0] #Gains 40 armor and 4 stun
+          Stats = [20, 20, 5, 10, 0, ["GraniteGriffin"], Level, 0, [0]] #Gains 40 armor and 4 stun
     
       if Name == "LiferootExperiment":
-          Stats = [40, 40, 3, 0, 0, ["LiferootExperiment"], Level, 0] #Gains 10 regen
+          Stats = [40, 40, 3, 0, 0, ["LiferootExperiment"], Level, 0, [0]] #Gains 10 regen
 
       if Name == "RockshellTortoise":
-          Stats = [20, 20, 4, 10, 0, ["RockshellTortoise"], Level, 0] #Whenever it is struck, gains 4 armor
+          Stats = [20, 20, 4, 10, 0, ["RockshellTortoise"], Level, 0, [0]] #Whenever it is struck, gains 4 armor
 
       if Name == "SilverscaleShark":
-          Stats = [15, 15, 0, 10, 3, ["SilverscaleShark"], Level, 0] #TS: Gives the player 2 riptide. Gains 1 temp attack per player riptide
+          Stats = [15, 15, 0, 10, 3, ["SilverscaleShark"], Level, 0, [0]] #TS: Gives the player 2 riptide. Gains 1 temp attack per player riptide
 
       if Name == "StonescaleBasilisk": #Gives 2 poison on hit
-          Stats = [10, 10, 4, 20, 2, ["StonescaleBasilisk"], Level, 0] 
+          Stats = [10, 10, 4, 20, 2, ["StonescaleBasilisk"], Level, 0, [0]] 
 
       #Bosses-Night 3
       if Name == "Leshen":
-          Stats = [50, 50, 7, 0, 3, ["Leshen"], Level, 0] #Nothing?
+          Stats = [50, 50, 7, 0, 3, ["Leshen"], Level, 0, [0]] #Nothing?
 
       if Name == "WoodlandAbomination": #Phase 2, but you heal to full hp sooooo, its just a new fight
-          Stats = [100, 100, 0, 50, 2, ["WoodlandAbomination"], Level, 0] #Gains an attack at start of turn
+          Stats = [100, 100, 0, 50, 2, ["WoodlandAbomination"], Level, 0, [0]] #Gains an attack at start of turn
       
       #Minibosses
       if Name == "IronshellBeetle":
-          Stats = [10, 10, 7, 50, 0, ["IronshellBeetle"], Level, 0] #OnHit lose 1 attack
+          Stats = [10, 10, 7, 50, 0, ["IronshellBeetle"], Level, 0, [0]] #OnHit lose 1 attack
 
       if Name == "LifebloodCount": #Lifeblood Count, Heals 3 on hit
-          Stats = [30, 30, 3, 0, 2, ["LifebloodCount"], Level, 0] #Heals 3 on hit
+          Stats = [30, 30, 3, 0, 2, ["LifebloodCount"], Level, 0, [0]] #Heals 3 on hit
 
       if Name == "SilkweaverQueen":
-          Stats = [20, 20, 3, 10, 4, ["SilkweaverQueen"], Level, 0] #Turn Start steals 1 speed. If the foe has 0 or less speed, deal 3 damage instead
+          Stats = [20, 20, 3, 10, 4, ["SilkweaverQueen"], Level, 0, [0]] #Turn Start steals 1 speed. If the foe has 0 or less speed, deal 3 damage instead
         
       if Name == "CovenPlaguemother": #Gives the player 2 stacks of a random status they dont have
-          Stats = [30, 30, 3, 10, 2, ["CovenPlaguemother"], Level, 0]
+          Stats = [30, 30, 3, 10, 2, ["CovenPlaguemother"], Level, 0, [0]]
 
       if Name == "MurkwaterGator": #BattleStart gives the player riptide = to player's attack
-          Stats = [20, 20, 4, 15, 3, ["MurkwaterGator"], Level, 0]
+          Stats = [20, 20, 4, 15, 3, ["MurkwaterGator"], Level, 0, [0]]
 
       if Name == "PalaceSentinel": #Turn Start if it is slower, self stun and gain 2 speed
-          Stats = [20, 20, 7, 20, 0, ["PalaceSentinel"], Level, 0]
+          Stats = [20, 20, 7, 20, 0, ["PalaceSentinel"], Level, 0, [0]]
 
 
       return Stats
@@ -1991,7 +1992,7 @@
           self.Order = Order
 
           self.WoundTriggers = 0
-          #Determines if you start above wounded threashhold
+          #Determines if you start above wounded threshhold
           if self.CurrentHP/self.MaxHP > 0.5: 
               self.WoundTriggers = 1
 
@@ -5005,47 +5006,50 @@ def MainFight(Left, Right, EnemyType):
             Players = [EnemyType, "Left"]
 
       #battlestart Phase
+      Death = False
       P1.Search("BombBonus", P2)
       P2.Search("BombBonus", P1)
       P1.Search("BattleStart", P2)
       P2.Search("BattleStart", P1)
-
+      if checkLife(P1, P2, Players) == 1:
+          Death = True
 
       #COULD just have a turn 1 line set so it doesnt check if its turn 1 every single turn
       #And then loop through the 2-40 turns
-      for turn in range(0, 500):
-              #Turn Xa
-              TurnCount(P1, P2, turn) #Turn Start including first turn extra work
+      if not Death:
+        for turn in range(0, 500):
+            #Turn Xa
+            TurnCount(P1, P2, turn) #Turn Start including first turn extra work
 
-              #First Player's Strikes
-              if (P1.Stun <= 0) and (P1.Count("CantAttack") == 0):
-                  for i in range(0, P1.StrikesCount):
-                      P2 = P1.Strike(P2) #Strike
-                      if checkLife(P1, P2, Players) == 1:
-                          break
+            #First Player's Strikes
+            if (P1.Stun <= 0) and (P1.Count("CantAttack") == 0):
+                for i in range(0, P1.StrikesCount):
+                    P2 = P1.Strike(P2) #Strike
+                    if checkLife(P1, P2, Players) == 1:
+                        break
 
-              #PostTurn Stuff for firstturn
-              EndTurn(P1, P2, turn)
+            #PostTurn Stuff for firstturn
+            EndTurn(P1, P2, turn)
 
-              if checkLife(P1, P2, Players) == 1:
-                      break
+            if checkLife(P1, P2, Players) == 1:
+                    break
 
-              #Turn Xb
-              TurnCount(P2, P1, turn) #Turn Start including first turn extra work
+            #Turn Xb
+            TurnCount(P2, P1, turn) #Turn Start including first turn extra work
 
-              #Second Player's Strikes
-              if (P2.Stun <= 0) and (P2.Count("CantAttack") == 0):
-                  for i in range(0, P2.StrikesCount):
-                      P1 = P2.Strike(P1) #Strike
-                      if checkLife(P1, P2, Players) == 1:
-                          break
+            #Second Player's Strikes
+            if (P2.Stun <= 0) and (P2.Count("CantAttack") == 0):
+                for i in range(0, P2.StrikesCount):
+                    P1 = P2.Strike(P1) #Strike
+                    if checkLife(P1, P2, Players) == 1:
+                        break
 
-              #PostTurn Stuff for firstturn
-              EndTurn(P2, P1, turn)
+            #PostTurn Stuff for firstturn
+            EndTurn(P2, P1, turn)
 
-              if checkLife(P1, P2, Players) == 1:
-                      break
-            
+            if checkLife(P1, P2, Players) == 1:
+                    break
+                
 
 
                       
@@ -5135,21 +5139,22 @@ def saveSelections(event):
 
     if int(Level) > 2:
         try:
-            QualityLeft = [document.getElementById("quality_0").value, document.getElementById("quality_1").value]
+            QualityLeft = [0, 0, int(document.getElementById("quality_0").value), int(document.getElementById("quality_1").value)]
         except ValueError:
-            QualityLeft = [1, 1]
+            QualityLeft = [0, 0, 0, 0] #Because the weapon and edge are in the item slots
     else:
-          QualityLeft = [1, 1]
+          QualityLeft = [0, 0, 0, 0]
 
     for ii in  range(2, int(Level)):
         try:
-            QualityLeft.append(document.getElementById(f"quality_{ii}").value)
+            QualityLeft.append(int(document.getElementById(f"quality_{ii}").value))
         except ValueError:
-            QualityLeft.append([1])
+            QualityLeft.append([0])
 
     LeftItems = [LeftWeapons, LeftEdge] + ItemsLeft
     LeftPlayer = [LeftCurrentHP, LeftMaxHP, LeftAttack, LeftArmor, LeftSpeed, LeftItems, int(Level)/2 - 1, LeftGold, QualityLeft]
     document.getElementById("resultDisplay").innerText = str(LeftPlayer)
+    #document.getElementById("debugBox").innerText = str(LeftPlayer)
 
     if int(PlayOrEn) < 1:
       try:    
@@ -5209,17 +5214,17 @@ def saveSelections(event):
 
       if int(Level) > 2:
         try:
-            QualityRight = [document.getElementById("qualityRight_0").value, document.getElementById("qualityRight_1").value]
+            QualityRight = [0, 0, int(document.getElementById("qualityRight_0").value), int(document.getElementById("qualityRight_1").value)]
         except ValueError:
-            QualityRight = [1, 1]
+            QualityRight = [0, 0, 0,0]
       else:
-          QualityRight = [1, 1]
+          QualityRight = [0, 0, 0, 0]
 
       for ii in  range(2, int(Level)):
         try:
-            QualityRight.append(document.getElementById(f"qualityRight_{ii}").value)
+            QualityRight.append(int(document.getElementById(f"qualityRight_{ii}").value))
         except ValueError:
-            QualityRight.append([1])
+            QualityRight.append([0])
 
       RightItems = [RightWeapons, RightEdge] + ItemsRight
       RightPlayer = [RightCurrentHP, RightMaxHP, RightAttack, RightArmor, RightSpeed, RightItems, int(Level)/2 - 1, RightGold, QualityRight]
@@ -5232,7 +5237,7 @@ def saveSelections(event):
       else:
           LevelX = np.copy(Level)
       RightEnemy = Enemies(RightEnemyName, min(int(LevelX)/2 - 1, 3))
-      RightEnemy = RightEnemy.append([1, 1]) #Might need more quality?
+      #RightEnemy = RightEnemy.append([0, 0]) #Might need more quality?
 
     if int(PlayOrEn) < 1:
         MainFight(LeftPlayer, RightPlayer, "RightPlayer")
@@ -5245,6 +5250,7 @@ def saveSelections(event):
 <br><br>
 <fieldset>
 <div id="resultDisplay">Waiting on a Submission (Don't forget to select the night and Player or Enemy)</div>
+<!-- <div id="debugBox"></div> -->
 </fieldset>
 </body>
 </html>
