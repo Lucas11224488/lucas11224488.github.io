@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dynamic Dropdowns</title>
+  <title>He is Coming Battle Simulation</title>
     <meta charset="UTF-8">
     <title>Dropdown Alignment</title>
     <style>
@@ -2123,6 +2123,7 @@
           self.HealingDisabled = False
           if Count(self, "CantHeal") > 0:
             self.HealingDisabled = True
+          self.Alive = True
           #self.RHeal = 0 Prob not using
 
       #That is search weapons (Blacksmithing is added after the base effects) then items.
@@ -2194,39 +2195,42 @@
           
 
       def StrikeCalc(self, Foe):
-          self.FreezeMult = 1
-          if self.Freeze > 0:
-              self.FreezeMult = self.BaseFreezeMult
-          StrikeMult(self, Foe)
-          if np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)*Foe.FirstFoeStrikeMult > 0:
-              Foe.DamageFromFoeStrike = np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)
-              Foe.HPloseFromFoeStrike = max(0, np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)- Foe.Armor)
+          if self.Alive and Foe.Alive: #Might be just Foe.Alive in game?
+            self.FreezeMult = 1
+            if self.Freeze > 0:
+                self.FreezeMult = self.BaseFreezeMult
+            StrikeMult(self, Foe)
+            if np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)*Foe.FirstFoeStrikeMult > 0:
+                Foe.DamageFromFoeStrike = np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)
+                Foe.HPloseFromFoeStrike = max(0, np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)- Foe.Armor)
+                Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult))
+                self.AliveCheck(Foe)
+                Death(Foe)
+                HP1Check(Foe, self)
+                Foe.DeltaArmor = min(Foe.Armor, np.floor((self.StrikeMult*(self.Attack + self.TempAttack))))
+                ArmorLose(Foe, self)
+                Foe.DeltaArmor = 0
+                Foe.Armor = max(0, Foe.Armor - np.floor((self.StrikeMult*(self.Attack + self.TempAttack))))
 
-              Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult))
-              Death(Foe)
-              HP1Check(Foe, self)
-              Foe.DeltaArmor = min(Foe.Armor, np.floor((self.StrikeMult*(self.Attack + self.TempAttack))))
-              ArmorLose(Foe, self)
-              Foe.DeltaArmor = 0
-              Foe.Armor = max(0, Foe.Armor - np.floor((self.StrikeMult*(self.Attack + self.TempAttack))))
-
-          #Might need to go into the strike function in its own seperate for loop??????????
-          OnHit(self, Foe) #Checks for On hit effects including weapons and blacksmithed and include dealdamage
-      
+            #Might need to go into the strike function in its own seperate for loop??????????
+            OnHit(self, Foe) #Checks for On hit effects including weapons and blacksmithed and include dealdamage
+        
       def StrikeCalcIgnoreArmor(self, Foe):
-          self.FreezeMult = 1
-          if self.Freeze > 0:
-              self.FreezeMult = self.BaseFreezeMult
-          StrikeMult(self, Foe)
-          if np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)*Foe.FirstFoeStrikeMult > 0:
-              Foe.DamageFromFoeStrike = np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)
-              Foe.HPloseFromFoeStrike = max(0, np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)) #Idk why its -Foe.Armor here?
-              Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult))
-              Death(Foe)
-              HP1Check(Foe, self)
-          #Might need to go into the strike function in its own seperate for loop??????????
-          OnHit(self, Foe) #Checks for On hit effects including weapons and blacksmithed and include dealdamage
-      
+          if self.Alive and Foe.Alive:
+            self.FreezeMult = 1
+            if self.Freeze > 0:
+                self.FreezeMult = self.BaseFreezeMult
+            StrikeMult(self, Foe)
+            if np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)*Foe.FirstFoeStrikeMult > 0:
+                Foe.DamageFromFoeStrike = np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)
+                Foe.HPloseFromFoeStrike = max(0, np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)) #Idk why its -Foe.Armor here?
+                Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult))
+                self.AliveCheck(Foe)
+                Death(Foe)
+                HP1Check(Foe, self)
+            #Might need to go into the strike function in its own seperate for loop??????????
+            OnHit(self, Foe) #Checks for On hit effects including weapons and blacksmithed and include dealdamage
+        
 
       def ThornsDamage(self, Foe):
           if Foe.Thorns > 0:
@@ -2252,7 +2256,7 @@
               #Foe.Thorns = 0
       
       def Wounded(self, Foe):
-          if self.CurrentHP/self.MaxHP <= 0.5 and self.CurrentHP>0 and self.WoundTriggers > 0:
+          if self.CurrentHP/self.MaxHP <= 0.5 and self.CurrentHP>0 and self.WoundTriggers > 0  and self.Alive and Foe.Alive:
               P = self
               P.WoundTriggers = self.WoundTriggers - 1
               #Check each players inv slot by slot for wounded in self and wounded in foe if foe has blood chain
@@ -2263,7 +2267,7 @@
 
       def Exposed(self, Foe):
           P = self
-          if self.Armor == 0 and self.ExposedTriggers > 0 and self.GainedArmor == True:
+          if self.Armor == 0 and self.ExposedTriggers > 0 and self.GainedArmor == True and self.Alive and Foe.Alive:
               P.ExposedTriggers = self.ExposedTriggers - 1
               P.GainedArmor = False #Toggles checkGainedArmor
               self.MultiSearch("Exposed", Foe, "FoeExposed")
@@ -2279,43 +2283,53 @@
           return x
 
       def Search(self, Tag, Foe):
-          P = self
-          for slot in range(0, len(P.Items)): #max(len(P.Items), len(Foe.Items))):
-              if Tag in ItemTags[P.Items[slot]]:
-                  [P, Foe] = ItemsEffect(Tag, self.Quality[slot], self.Items[slot], P, Foe)
+          if self.Alive and Foe.Alive:
+            P = self
+            for slot in range(0, len(P.Items)): #max(len(P.Items), len(Foe.Items))):
+                if Tag in ItemTags[P.Items[slot]]:
+                    [P, Foe] = ItemsEffect(Tag, self.Quality[slot], self.Items[slot], P, Foe)
 
       def RandomSearch(self, Tag, Foe):
-          P = self
-          List = []
-          for slot in range(0, len(P.Items)): #max(len(P.Items), len(Foe.Items))):
-              if Tag in ItemTags[P.Items[slot]]:
-                  List = List.append(slot)
-          #This *probably* works Idk
-          if List != []:
-              RanNumber = random.randint(0, len(List))
-              slot = int(List(RanNumber))
-              [P, Foe] = ItemsEffect(Tag, self.Quality[slot], self.Items[slot], P, Foe)
+          if self.Alive and Foe.Alive:
+            P = self
+            List = []
+            for slot in range(0, len(P.Items)): #max(len(P.Items), len(Foe.Items))):
+                if Tag in ItemTags[P.Items[slot]]:
+                    List = List.append(slot)
+            #This *probably* works Idk
+            if List != []:
+                RanNumber = random.randint(0, len(List))
+                slot = int(List(RanNumber))
+                [P, Foe] = ItemsEffect(Tag, self.Quality[slot], self.Items[slot], P, Foe)
 
       def MultiSearch(self, TagP, Foe, TagF): #Seperate multisearch REQUIRES Speed order check (Outside when used)??
-          P = self
-          if self.Order == "First":
-              for slot in range(0, max(len(P.Items), len(Foe.Items))):
-                  if slot < len(P.Items):
-                    if TagP in ItemTags[P.Items[slot]]:
-                      [P, Foe] = ItemsEffect(TagP, self.Quality[slot], self.Items[slot], P, Foe)
+          if self.Alive and Foe.Alive:
+            P = self
+            if self.Order == "First":
+                for slot in range(0, max(len(P.Items), len(Foe.Items))):
+                    if slot < len(P.Items):
+                        if TagP in ItemTags[P.Items[slot]]:
+                            [P, Foe] = ItemsEffect(TagP, self.Quality[slot], self.Items[slot], P, Foe)
 
-                  if slot < len(Foe.Items):
-                    if TagF in ItemTags[Foe.Items[slot]]:
-                      [Foe, P] = ItemsEffect(TagF, Foe.Quality[slot], Foe.Items[slot], Foe, P)
+                    if slot < len(Foe.Items):
+                        if TagF in ItemTags[Foe.Items[slot]]:
+                            [Foe, P] = ItemsEffect(TagF, Foe.Quality[slot], Foe.Items[slot], Foe, P)
 
-          if self.Order == "Second":
-              for slot in range(0, max(len(P.Items), len(Foe.Items))):
-                  if slot < len(Foe.Items):
-                    if TagF in ItemTags[Foe.Items[slot]]:
-                      [Foe, P] = ItemsEffect(TagF, Foe.Quality[slot], Foe.Items[slot], Foe, P)
-                  if slot < len(P.Items):
-                    if TagP in ItemTags[P.Items[slot]]:
-                      [P, Foe] = ItemsEffect(TagP, self.Quality[slot], self.Items[slot], P, Foe)
+            if self.Order == "Second":
+                for slot in range(0, max(len(P.Items), len(Foe.Items))):
+                    if slot < len(Foe.Items):
+                        if TagF in ItemTags[Foe.Items[slot]]:
+                            [Foe, P] = ItemsEffect(TagF, Foe.Quality[slot], Foe.Items[slot], Foe, P)
+                    if slot < len(P.Items):
+                        if TagP in ItemTags[P.Items[slot]]:
+                            [P, Foe] = ItemsEffect(TagP, self.Quality[slot], self.Items[slot], P, Foe)
+
+      def AliveCheck(self, Foe): #Checks which player, if any, died
+            if self.CurrentHP <= 0:
+                self.Alive = False
+            if Foe.CurrentHP <= 0:
+                Foe.Alive = False
+
 
       def RandomStatus(self, Foe, Value, Has): #Look at Player/ Foe? / Both? (Might add more functionality) and selects a status effect they currently have.
           Statuses = ["Thorns", "Freeze", "Regen", "Poison", "Stun", "Riptide", "Acid", "Purity"] #list(StatusFunctions.keys())
@@ -2381,8 +2395,9 @@
       
 
   def DealDamage(Damagevalue, Player, Foe):
-      if Damagevalue > 0:
+      if Damagevalue > 0 and Player.Alive and Foe.Alive:
           Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - Damagevalue) #Updates hp of foe if foe's armor reached 0
+          Player.AliveCheck(Foe)
           Death(Foe)
           Player.TempBombBonus = 0
           Player.BombMult = 1
@@ -2835,6 +2850,7 @@
       if Name == "CrimsonFang":  #If your hp is full, lose 5 hp and gain 2 strikes
           if Player.MaxHP == Player.CurrentHP:
               Player.CurrentHP = Player.CurrentHP - 5
+              Player.AliveCheck(Foe)
               Death(Player)
               HP1Check(Player, Foe)
               GainStrikes(Player, Foe, 2)
@@ -3000,6 +3016,7 @@
 
       if Name == "MarshlightLantern": #Lose 3 hp and gain 8 armor
           Player.CurrentHP = Player.CurrentHP - 3
+          Player.AliveCheck(Foe)
           Death(Player)
           HP1Check(Player, Foe)
           ArmorGain(Player, Foe, 8)
@@ -3199,6 +3216,7 @@
       if Name == "SunlightCrest":  #If you're above 50% hp, lose 3 hp and gain 1 attack
           if Player.CurrentHP/Player.MaxHP > 0.5:
               Player.CurrentHP = Player.CurrentHP - 3
+              Player.AliveCheck(Foe)
               Death(Player)
               HP1Check(Player, Foe)
               Player.Attack = Player.Attack + 1
@@ -3289,6 +3307,7 @@
               if "SelfArmorLose" in Player.Items:
                   if Player.Armor >= 1:
                       Player.CurrentHP = min(Player.CurrentHP, Player.CurrentHP + Player.Armor - 1) 
+                      Player.AliveCheck(Foe)
                       Death(Player)
                       HP1Check(Player, Foe)
                       Player.DeltaArmor = 1
@@ -3301,6 +3320,7 @@
                       Player.Search("TakeDamageS", Foe) #Adds TakeDamage check
                   else:
                       Player.CurrentHP = min(Player.CurrentHP, Player.CurrentHP + Player.Armor - 1) 
+                      Player.AliveCheck(Foe)
                       Death(Player)
                       HP1Check(Player, Foe)
                       Player.Armor = max(0, Player.Armor - 1)
@@ -3310,6 +3330,7 @@
 
               else:
                   Player.CurrentHP = min(Player.CurrentHP, Player.CurrentHP + Player.Armor - 1) 
+                  Player.AliveCheck(Foe)
                   Death(Player)
                   HP1Check(Player, Foe)
                   if Player.Armor >= 1:
@@ -3358,6 +3379,7 @@
               
       if Name == "IronTransfusion": #Gain 2 armor lose 1 hp
           Player.CurrentHP = Player.CurrentHP - 1
+          Player.AliveCheck(Foe)
           Death(Player)
           HP1Check(Player, Foe)
           #Player.Armor = Player.Armor + 2
@@ -3535,6 +3557,7 @@
 
       if Name == "SwordTalisman": #deal 1 more damage
           Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - 1) #Updates hp of foe if foe's armor reached 0
+          Player.AliveCheck(Foe)
           Death(Foe)
           HP1Check(Foe, Player)
           if Foe.Armor > 0:
@@ -4069,6 +4092,7 @@
 
       if Name == "GraniteAxe":  #Lose 3 hp and gain 3 armor
           Player.CurrentHP = Player.CurrentHP - 2
+          Player.AliveCheck(Foe)
           Death(Player)
           HP1Check(Player, Foe)
           #Player.Armor = Player.Armor + 4
@@ -4113,6 +4137,7 @@
 
       if Name == "BloodlordsAxe":  #Foe loses 5 hp, you restore 5 hp
           Foe.CurrentHP = Foe.CurrentHP - 5
+          Player.AliveCheck(Foe)
           Death(Foe)
           HP1Check(Foe, Player)
           TakeDamage(Foe, Player)
@@ -4772,7 +4797,7 @@
               List = List.append(slot)
       List.remove(Instrument)
       #This *probably* works Idk
-      if List != []:
+      if List != [] and Player.Alive and Foe.Alive:
           RanNumber = random.randint(0, len(List))
           slot = int(List(RanNumber))
           Choice = Player.Items[slot].append("S")
@@ -4827,6 +4852,7 @@
           DealDamage(DamageValue, Player, Foe)
       elif any("SelfArmorLose" in ItemTags[item] for item in Player.Items): #"SelfArmorLose" in ItemTags[Player.Items]:
           Player.CurrentHP = min(Player.CurrentHP, Player.CurrentHP + Player.Armor - DamageValue)
+          Player.AliveCheck(Foe)
           Death(Player)
           HP1Check(Player, Foe)
           if Player.Armor > 0:
@@ -4974,10 +5000,12 @@
       if U1.CurrentHP <= 0:
           #print("Player", P[0], "has died first")
           #print("Player", P[1], "has won:", U2.CurrentHP,"/", U2.MaxHP, "HP", U2.Armor, "Armor", U2.Attack, "Attack")
+          U1.Alive = False
           x = 1
       if U2.CurrentHP <= 0:
           #print("Player", P[1], "has died first")
           #print("Player", P[0], "has won:", U1.CurrentHP,"/", U1.MaxHP, "HP", U1.Armor, "Armor", U1.Attack, "Attack")
+          U2.Alive = False
           x = 1
       return x
 
