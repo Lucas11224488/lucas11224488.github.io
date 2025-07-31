@@ -1206,7 +1206,7 @@
               "CitrineRing" : {"BattleStart", "Jewelry", "Unique", "Ring", "Citrine"}, #Deal damage = to speed
               "ClearspringFeather" : {"BattleStart", "Water"}, #Decrease a random status effect by 1 and give it to the foe
               "ClearspringWatermelon" : {"BattleStart", "Exposed", "Wounded"}, #Decrease a random status effect by 1
-              "CrackedWhetstone" : {"FirstTurn", "Stone"}, #Gain 2 attack for the first turn only
+              "CrackedWhetstone" : {"FirstTurnStrike", "Stone"}, #Gain 2 attack for the first turn only
               "DeviledEgg" : {"Unique", "Sanguine"}, #Does Nothing
               "DoublePlatedArmor" : {"Exposed"}, #Gain 3 armor
               "EmeraldCrown" : {"Jewelry", "Emerald"},
@@ -1226,7 +1226,7 @@
               "LeatherBelt" : {}, #Stats
               "LeatherGlove" : {}, #Its just base stats
               "LeatherVest" : {}, #Its just base stats
-              "LifebloodHelmet" : {"Unique", "FirstTurn"}, #On First turn restore hp = damage from strikes Could maybe be "FirstTurnOnHit" instead??
+              "LifebloodHelmet" : {"Unique", "FirstTurnPostStrike"}, #On First turn restore hp = damage from strikes Could maybe be "FirstTurnOnHit" instead??
               "LiferootGauntlet" : {"BattleStart", "Wood"}, #Gain 1 Regen
               "LiferootTome" : {"Wood", "Cooldown", "Tome"}, #CD 4: Gain 3 regen
               "LightspeedPotion" : {"BattleStart", "Unique", "Potion"}, #BatStart Restore HP = Speed
@@ -1319,7 +1319,7 @@
               "HeartshapedAcorn" : {"BattleStart", "Unique", "Wood"}, #If you have 0 base armor set HP to MaxHP
               "HeartshapedPotion" : {"HP1","Sanguine", "Potion", "Unique"}, #When reaching exactly 1 hp first time restore HP to MaxHP (Need to add every that loses hp)
               "HeartshapedElixir" : {"HP5","Sanguine", "Potion", "Unique"}, #When reaching below 5 hp first time restore HP to MaxHP (Need to add every that loses hp)
-              #"HerosCrossguard" : {"FirstTurn", "Unique"}, #FT: On Hit trigger twice??
+              #"HerosCrossguard" : {"FirstTurnStrike", "Unique"}, #FT: On Hit trigger twice??
               "IceSpikes" : {"TurnStart", "Water"}, #If you have freeze, gain 5 thorns
               "IceTomb" : {"TurnStart", "Water"}, #If you have armor, gain 3 armor and 1 freeze.
               "ImpressivePhysique" : {"Exposed"}, #Exposed: Stun the foe for 1 turn
@@ -1601,7 +1601,7 @@
               #"CleaverOfWrath" : {"Weapon"}, #Your max hp is always 1 (Disables all max hp changes)
               #"ScepterOfGreed" : {"Weapon"}, #Cant gain gold. (Disables all gold gain)
               "SwordOfPride" : {"Weapon", "BattleStart"}, #If the foe has more attack, armor, or speed, take 3 damage
-              #"BeeStinger" : {"Weapon", "FirstTurn", "Food"}, #Give the foe 4 poison, 3 acid, and 2 stun on hit
+              #"BeeStinger" : {"Weapon", "FirstTurnStrike", "Food"}, #Give the foe 4 poison, 3 acid, and 2 stun on hit
               "BlackbriarBow" : {"Weapon", "CantAttack", "TurnStart"}, #Turn Start gain thorns = to your attack
               #"BrokenWineglass" : {"Weapon", "Wounded"}, #When wounded, on your next turn keep striking until the foe is wounded
               "CherryBlade" : {"Weapon", "BattleStart", "Exposed", "Food", "Bomb"}, #Deal 4 damage on batstart and exposed
@@ -1677,11 +1677,11 @@
               "Dragonfly" : {"BattleStart"}, #Gain attack = Speed - player speed >= 0
               "Frog" : {"Exposed"}, #Gain 1 +Lvl armor on exposed?
               "Hedgehog" : {"BattleStart"},#Gains 3+Lvl thorns on BattleStart
-              "HoneyBee" : {"FirstTurn"}, #Give the foe 3+Lvl poison, 2+Lvl acid, and 1+Lvl stun on hit? 
+              "HoneyBee" : {"FirstTurnStrike"}, #Give the foe 3+Lvl poison, 2+Lvl acid, and 1+Lvl stun on hit? 
               #"Raccoon" : {"SuperBattleStart"}, #Steals 1 + lvl items at random
               "Raven" : {"OnHit"}, # OnHit steals 1+Lvl gold
               "Slime" : {"BattleStart"}, # Battle Start: Give the player 4/6/8 acid
-              "Snake" : {"FirstTurn"}, #Gives 2 + Lvl poison on first turn hit
+              "Snake" : {"FirstTurnStrike"}, #Gives 2 + Lvl poison on first turn hit
               "Spider" : {"BattleStart"}, #If Spider is faster, then it deals 3+Lvl damage BattleStart
               "Turtle": {"TakeDamage"}, #lose all armor
               "Wolf" : {"PreStrike"}, #If Foe.CurrentHP <=5 temp attack is set to +2+Lvl
@@ -1693,7 +1693,7 @@
               "BrittlebarkBeast" : {"TakeDamage"}, #Whenever it takes damage take 3 more
               "IronstoneGolem" : {"Exposed"}, #When exposed lose 3 attack
               "RazorclawGrizzly" : {"IgnoreFoeArmor"}, #Attacks ignore armor
-              "RazortuskHog" : {"FirstTurn"},#If Razortusk Hog has more speed, first strike does 10 extra damage
+              "RazortuskHog" : {"FirstTurnStrike"},#If Razortusk Hog has more speed, first strike does 10 extra damage
               #Swamp Night 1
               "CarnivorousSlime" : {"BattleStart"}, #Gives 3 acid and converts all player's hp except 1 into armor
               "FungalGiant" : {"BattleStart"}, #Gains 1 poison for each status effect the player has
@@ -2027,6 +2027,8 @@
 
           self.DeltaArmor = 0 #Purely used for armor lose currently then run a check for armorlose items then reset deltaarmor to 0
           self.FirstTurn = True
+          self.FirstTurnStrike = True
+          self.FirstTurnPostStrike = True
           self.TempAttack = 0
           self.ThornsTriggers = 0
           self.StrikeMult = 1
@@ -2179,6 +2181,8 @@
               self.FreezeMult = self.BaseFreezeMult
           for i in range(0, SC): #Check if death occurs before each strike/after?
               self.TempAttack = 0
+              if self.FirstTurnStrike == True:
+                  self.Search("FirstTurnStrike", Foe)
               self.StrikeCounter = self.StrikeCounter + 1
               PreStrikeAttackBonus(self, Foe)
               PreStrikeL(self, Foe) #Need to set self.TempAttack = 0 since these weapons set attack not gain?
@@ -2191,6 +2195,7 @@
                   self.FirstStrike = False
               self.ThornsDamage(Foe) #Adds thorns activation
               Foe.FirstFoeStrikeMult = 1
+              self.TempAttack = 0
           self.StrikesCount = self.BaseStrikesCount
           
 
@@ -2202,6 +2207,8 @@
             StrikeMult(self, Foe)
             if np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)*Foe.FirstFoeStrikeMult > 0:
                 Foe.DamageFromFoeStrike = np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)
+                if self.FirstTurnPostStrike == True:
+                  self.Search("FirstTurnPostStrike", Foe)
                 Foe.HPloseFromFoeStrike = max(0, np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)- Foe.Armor)
                 Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult))
                 self.AliveCheck(Foe)
@@ -2223,6 +2230,8 @@
             StrikeMult(self, Foe)
             if np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)*Foe.FirstFoeStrikeMult > 0:
                 Foe.DamageFromFoeStrike = np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)
+                if self.FirstTurnPostStrike == True:
+                  self.Search("FirstTurnPostStrike", Foe)
                 Foe.HPloseFromFoeStrike = max(0, np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)) #Idk why its -Foe.Armor here?
                 Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult))
                 self.AliveCheck(Foe)
@@ -2288,16 +2297,25 @@
       def Search(self, Tag, Foe):
           if self.Alive and Foe.Alive:
             P = self
-            for slot in range(0, len(P.Items)): #max(len(P.Items), len(Foe.Items))):
-                if Tag in ItemTags[P.Items[slot]]:
-                    [P, Foe] = ItemsEffect(Tag, self.Quality[slot], self.Items[slot], P, Foe)
+            if isinstance(Tag, str):
+                Tag = [Tag]
+            for slot in range(0, len(P.Items)):
+                # Check if any tag in Tag is in the item's tags
+                if any(t in ItemTags[P.Items[slot]] for t in Tag):
+                    [P, Foe] = ItemsEffect(Tag[0], self.Quality[slot], self.Items[slot], P, Foe)
+            #for slot in range(0, len(P.Items)): #max(len(P.Items), len(Foe.Items))):
+                #if Tag in ItemTags[P.Items[slot]]:
+                    #[P, Foe] = ItemsEffect(Tag, self.Quality[slot], self.Items[slot], P, Foe)
 
       def RandomSearch(self, Tag, Foe):
           if self.Alive and Foe.Alive:
             P = self
             List = []
-            for slot in range(0, len(P.Items)): #max(len(P.Items), len(Foe.Items))):
-                if Tag in ItemTags[P.Items[slot]]:
+            if isinstance(Tag, str):
+                Tag = [Tag]
+            for slot in range(0, len(P.Items)):
+                # Check if any tag in Tag is in the item's tags
+                if any(t in ItemTags[P.Items[slot]] for t in Tag):
                     List = List.append(slot)
             #This *probably* works Idk
             if List != []:
@@ -2308,23 +2326,27 @@
       def MultiSearch(self, TagP, Foe, TagF): #Seperate multisearch REQUIRES Speed order check (Outside when used)??
           if self.Alive and Foe.Alive:
             P = self
+            if isinstance(TagP, str):
+                TagP = [TagP]
+            if isinstance(TagF, str):
+                TagF = [TagF]
             if self.Order == "First":
                 for slot in range(0, max(len(P.Items), len(Foe.Items))):
                     if slot < len(P.Items):
-                        if TagP in ItemTags[P.Items[slot]]:
+                        if any(t in ItemTags[P.Items[slot]] for t in TagP):
                             [P, Foe] = ItemsEffect(TagP, self.Quality[slot], self.Items[slot], P, Foe)
 
                     if slot < len(Foe.Items):
-                        if TagF in ItemTags[Foe.Items[slot]]:
+                        if any(t in ItemTags[Foe.Items[slot]] for t in TagF):
                             [Foe, P] = ItemsEffect(TagF, Foe.Quality[slot], Foe.Items[slot], Foe, P)
 
             if self.Order == "Second":
                 for slot in range(0, max(len(P.Items), len(Foe.Items))):
                     if slot < len(Foe.Items):
-                        if TagF in ItemTags[Foe.Items[slot]]:
+                        if any(t in ItemTags[Foe.Items[slot]] for t in TagF):
                             [Foe, P] = ItemsEffect(TagF, Foe.Quality[slot], Foe.Items[slot], Foe, P)
                     if slot < len(P.Items):
-                        if TagP in ItemTags[P.Items[slot]]:
+                        if any(t in ItemTags[P.Items[slot]] for t in TagP):
                             [P, Foe] = ItemsEffect(TagP, self.Quality[slot], self.Items[slot], P, Foe)
 
       def AliveCheck(self, Foe): #Checks which player, if any, died
@@ -3346,6 +3368,7 @@
                   Player.Search("TakeDamageS", Foe) #Adds TakeDamage check
 
       if Name == "CactusCap":  #Convert armor to thorns
+          Player.Armor = Player.Armor
           #if Player.Armor >= 1:
               #x = np(Player.Armor)
               #SelfArmorLose(Player, Foe, Player.Armor)
@@ -4189,9 +4212,9 @@
           Player.WoundTriggers = Player.WoundTriggers - 1
           Player.ExposedTriggers = Player.ExposedTriggers - 1
           if "BloodChain" in Foe.Items:
-              Player.MultiSearch("Wounded" or "Exposed", Foe, "Wounded" or "FoeExposed") #It might activate all the faster persons items first instead of a slot by slot check
+              Player.MultiSearch(["Wounded", "Exposed"], Foe, ["Wounded", "FoeExposed"]) #It might activate all the faster persons items first instead of a slot by slot check
           else:
-              Player.MultiSearch("Wounded" or "Exposed", Foe, "FoeExposed")
+              Player.MultiSearch(["Wounded", "Exposed"], Foe, "FoeExposed")
 
       if Name == "LeatherWhip":  #Gain 5 max hp
           #Might need to add a check for honey roast
@@ -4311,7 +4334,7 @@
       if Name == "SilverscaleSwordfish":  #Gain 1 extra strike on battle start, #First Turn on hit give the foe 1 riptide
           if Phase == "BattleStart":
               GainStrikes(Player, Foe, 1)
-          if Phase == "FirstTurn":
+          if Phase == "FirstTurnStrike":
               StatusInterp("Riptide", Foe, Player, 1)
 
       #Blacksmith Edge
@@ -4745,8 +4768,9 @@
       Player.Search("TakeDamage", Foe)
 
   def OnHit(Player, Foe):
+      #document.getElementById("debugBox").innerText = str(Player.FirstTurn) + str(Foe.FirstTurn)
       if Player.FirstTurn:
-          Player.Search("OnHit" or "FirstTurnOnHit", Foe)
+          Player.Search(["OnHit", "FirstTurnOnHit"], Foe)
       else:
           Player.Search("OnHit", Foe)
 
@@ -4794,17 +4818,22 @@
   def Symphony(Player, Foe, Instrument):
       #I think I can use the new "Phase" system to make it so I only need 1 instrument item and include the "Symphony" Phase tag to not trigger another symphony unless you have the one item.
       #Triggers a random instrument(Not the one that was triggered)
-      List = []
+      ListInstruments = []
+      RemovedOnce = False
       for slot in range(0, len(Player.Items)): #max(len(P.Items), len(Foe.Items))):
           if "Instrument" in ItemTags[Player.Items[slot]]:
-              List = List.append(slot)
-      List.remove(Instrument)
+              ListInstruments.append(slot)
+
+      for slot in range(0, len(Player.Items)): #max(len(P.Items), len(Foe.Items))):
+          if not RemovedOnce and Instrument == Player.Items[slot]:
+                RemovedOnce = True
+                ListInstruments.remove(slot)
       #This *probably* works Idk
-      if List != [] and Player.Alive and Foe.Alive:
-          RanNumber = random.randint(0, len(List))
-          slot = int(List(RanNumber))
-          Choice = Player.Items[slot].append("S")
-          [Player, Foe] = ItemsEffect("Symphony", self.Quality[slot], "".join(Choice), Player, Foe)
+      if ListInstruments != [] and Player.Alive and Foe.Alive:
+          RanNumber = random.randint(0, len(ListInstruments) - 1)
+          slot = int(ListInstruments[RanNumber])
+          Choice = Player.Items[slot] + "S"
+          [Player, Foe] = ItemsEffect("Symphony", Player.Quality[slot], Choice, Player, Foe)
 
   def TurnCount(Player, Foe, TurnNum):
       Player.TurnCounter = Player.TurnCounter + 1
@@ -4813,13 +4842,13 @@
       Player.Search("Cooldown", Foe)
 
       if TurnNum == 0:
-          Player.Search("TurnStart" or "EveryOtherTurn" or "FirstTurn", Foe)
+          Player.Search(["TurnStart", "EveryOtherTurn", "FirstTurn"], Foe)
 
       elif TurnNum % 2 == 0:
-          Player.Search("TurnStart" or "EveryOtherTurn", Foe)
+          Player.Search(["TurnStart", "EveryOtherTurn"], Foe)
 
       else:
-          Player.Search("TurnStart" or "OddEveryOtherTurn", Foe)
+          Player.Search(["TurnStart", "OddEveryOtherTurn"], Foe)
 
       if Player.Armor > 0 and Player.Acid > 0:
           Player.DeltaArmor = min(Player.Armor, Player.Acid)
@@ -4842,8 +4871,9 @@
       Foe.Search("PreFoeStrike", Player)
 
   def PreStrikeL(Player, Foe):
-      Player.TempAttack = 0
-      Player.Search("PreStrikeL", Foe)
+      if Count(Player, "PreStrikeL") > 0:
+        Player.TempAttack = 0
+        Player.Search("PreStrikeL", Foe)
 
   def AfterFoeFirstStrike(Player, Foe):
       Player.Search("AfterFoeFirstStrike", Foe)
@@ -4956,6 +4986,8 @@
       RipTriggs = Count(Player, "RiptideTriggers") + Count(Foe, "RiptideTriggers")
       if TurnNum == 0:
           Player.FirstTurn = False
+          Player.FirstTurnStrike = False
+          Player.FirstTurnPostStrike = False
           #Player.Search("FirstTurn", Foe) #Idk why this was here
 
       if Player.Freeze > 0:
@@ -5281,7 +5313,7 @@ def saveSelections(event):
 <br><br>
 <fieldset>
 <div id="resultDisplay">Waiting on a Submission (Don't forget to select the night and Player or Enemy)</div>
-<!-- <div id="debugBox"></div> -->
+<!-- <div id="debugBox">You shouldn't see this message</div> -->
 </fieldset>
 </body>
 </html>
