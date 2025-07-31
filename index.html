@@ -1557,7 +1557,7 @@
               "GraniteAxe" : {"Weapon", "Unique", "Stone", "OnHit"}, #Lose 3 hp and gain 3 armor
               "IcicleSpear" : {"Weapon", "Water", "Exposed"}, #Give the enemy 1 freeze for each equipped water item
               "IronstoneBow" : {"Weapon", "OnHit", "Stone"}, #On hit lose 1 speed. If Speed is 0 or less only attack every other turn (Idk if it attacks everytime the first turn you are at 0 or less speed)
-              "LifebloodSpear" : {"Weapon", "FirstHPRestore"}, #Gains attack = first hp restored sounds hard
+              "LifebloodSpear" : {"Weapon", "HP3Restore"}, #Whenever you heal for 3 or more, gain 1 attack
               #"LiferootHammer" : {"Weapon"}, #Regen that triggers overheal increases max hp. I assume this is before the Overheal gem
               "LightningRod" : {"Weapon", "Unique", "TurnStart"}, #If stunned, gain 1 attack
               "LightningWhip" : {"Weapon", "Unique", "TurnStart"}, #If foe is stunned, gain 1 strike
@@ -4132,7 +4132,8 @@
       if Name == "IronstoneBow":  #On hit lose 1 speed. If Speed is 0 or less only attack every other turn
           Player.Speed = Player.Speed - 1
 
-      #if Name == "LifebloodSpear" : {"Weapon", "FirstHPRestore"}, #Gains attack = first hp restored sounds hard
+      if Name == "LifebloodSpear":  #Gains attack = first hp restored sounds hard
+          Player.Attack = Player.Attack + 1
 
       if Name == "LightningRod":  #If stunned, gain 1 attack
           if Player.Stun > 0:
@@ -4852,6 +4853,7 @@
 
       if Player.Armor > 0 and Player.Acid > 0:
           Player.DeltaArmor = min(Player.Armor, Player.Acid)
+          DealDamage(Player.DeltaArmor, Foe, Player)
           Foe.Search("AcidDamage", Player)
 
       if Player.Armor == 0 and Player.Poison > 0:
