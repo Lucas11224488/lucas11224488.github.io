@@ -1391,7 +1391,7 @@
               "BlackbriarArmor" : {"TakeDamage", "TakeDamageS"}, #Whenever you take damage, gain 2 thorns
               "BloodstoneRing" : {"BattleStart", "Sanguine", "Ring"}, #BS: Gain 5 max hp and restore 5 hp
               "BrittlebarkArmor" : {"TakeDamage", "Wood"}, #Take another damage
-              "CactusCap" : {"BattleStart", "Unique"}, #Convert armor to thorns
+              "CactusCap" : {"ThornMultNoArmor", "Unique"}, #Convert armor to thorns
               "ChainmailArmor" : {"Wounded"}, #RegainBaseArmor MIGHT BE IMPLIMENTED INCORRECTLY
               "CitrineGemstone" : {"Unique", "Jewelry", "Citrine"}, #Invert base speed
               "ClearspringDuck" : {"TurnStart", "Unique", "Water"}, #Gain 1 armor and decrease a random status effect by 1
@@ -2238,6 +2238,9 @@
               ThornsMult = 2**c
               if self.Armor > 0:
                   c = Foe.Count("ThornMultArmor")
+                  ThornsMult = ThornsMult * 2**c
+              elif self.Armor <= 0:
+                  c = Foe.Count("ThornMultNoArmor")
                   ThornsMult = ThornsMult * 2**c
               #basically this only checks for it once?
               # if "CandiedNuts" in Foe.Items:
@@ -3343,10 +3346,10 @@
                   Player.Search("TakeDamageS", Foe) #Adds TakeDamage check
 
       if Name == "CactusCap":  #Convert armor to thorns
-          if Player.Armor >= 1:
-              x = np(Player.Armor)
-              SelfArmorLose(Player, Foe, Player.Armor)
-              StatusInterp("Thorns", Player, Foe, x)
+          #if Player.Armor >= 1:
+              #x = np(Player.Armor)
+              #SelfArmorLose(Player, Foe, Player.Armor)
+              #StatusInterp("Thorns", Player, Foe, x)
               #GainThorns(Player, Foe, x)
 
       if Name == "ChainmailArmor": #RegainBaseArmor
@@ -4530,7 +4533,7 @@
 
       if Name == "Turtle": #Lose all armor
           if Player.Armor > 0:
-              ArmorGain(Player, Foe, -Player.Armor)
+              SelfArmorLose(Player, Foe, Player.Armor)
 
       if Name == "Wolf":  #If Foe.CurrentHP <=5 temp attack is set to +2+Lvl
           if Foe.CurrentHP <= 5:
@@ -4715,7 +4718,7 @@
             if Player.FirstHealToggle == True:
                 FirstHPRestore(Player, Foe, min(Value, Value - x))
             if  z >= 3:
-                Player.Search("HP3Restore")
+                Player.Search("HP3Restore", Foe)
                 
             HPRestored(Player, Foe)
         if "HPOverHeal" in Player.Items and x > 0:
@@ -4862,17 +4865,17 @@
               Player.DeltaArmor = 0
           TakeDamage(Player, Foe)
           #Idk why below was here removing it might break smth
-      # else:
-      #     #DealDamage(DamageValue, Foe, Player)
-      #     if DamageValue > 0:
-      #         Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - DamageValue) #Updates hp of foe if foe's armor reached 0
-      #         HP1Check(Foe, Player)
-      #         if Foe.Armor > 0:
-      #             Foe.DeltaArmor = max(min(Foe.Armor, DamageValue), 0)
-      #             ArmorLose(Foe, Player)
-      #             Foe.DeltaArmor = 0
-      #             Foe.Armor = max(0, Foe.Armor - DamageValue)
-      #         TakeDamage(Foe, Player)
+      else:
+          #DealDamage(DamageValue, Foe, Player)
+          if DamageValue > 0:
+              Player.CurrentHP = min(Player.CurrentHP, Player.CurrentHP + Player.Armor - DamageValue) #Updates hp of foe if foe's armor reached 0
+              HP1Check(Foe, Player)
+              if Player.Armor > 0:
+                  Player.DeltaArmor = max(min(Player.Armor, DamageValue), 0)
+                  ArmorLose(Player, Foe)
+                  Player.DeltaArmor = 0
+                  Player.Armor = max(0, Player.Armor - DamageValue)
+              TakeDamage(Player, Foe)
 
   def StrikeMult(Player, Foe):
       Player.Search("StrikeMult", Foe)
@@ -4891,14 +4894,14 @@
       for nn in range(0, Player.BombTrigger):
           DealDamage(Player.BombMult*(Damage + Player.BombBonus + Player.TempBombBonus), Player, Foe)
           if Player.BombMult*(Damage + Player.BombBonus + Player.TempBombBonus) >= 5:
-              Player.Search("BombDamage5")
+              Player.Search("BombDamage5", Foe)
 
   def SelfBombDamage(Damage, Player, Foe):
       #Add check to see if you do more damage/Retrigger
       for nn in range(0, Player.BombTrigger):
           DealDamage(Player.BombMult*(Damage + Player.BombBonus + Player.TempBombBonus), Foe, Player)
           if Player.BombMult*(Damage + Player.BombBonus + Player.TempBombBonus) >= 5:
-              Player.Search("BombDamage5")
+              Player.Search("BombDamage5", Foe)
 
   def GainFreeze(Player, Foe, FreezeCount):
       Player.Freeze = Player.Freeze + FreezeCount
