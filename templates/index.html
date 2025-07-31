@@ -28,8 +28,39 @@
     <!-- Include PyScript -->
       <link rel="stylesheet" href="https://pyscript.net/releases/2025.7.3/core.css">
       <script type="module" src="https://pyscript.net/releases/2025.7.3/core.js"></script>
+
+      <style>
+    .slider-container {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 50px;
+      height: 10px;
+      background: linear-gradient(to right, lightgrey 33%, gold 33%, gold 66%, rgb(79, 210, 228) 66%);
+      border-radius: 5px;
+      outline: none;
+      margin: 0;
+    }
+     .slider-container::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 5px;
+      height: 15px;
+      background-color: #000;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .slider-container::-moz-range-thumb {
+      width: 5px;
+      height: 15px;
+      background-color: #000;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
+
   
 <div class="container">
     <!-- Left Side -->
@@ -86,6 +117,7 @@
         <option value="ChainmailSword">Chainmail Sword</option>
         <option value="ChampionsBlade">Champions Blade</option>
         <option value="CherryBlade">Cherry Blade</option>
+        <option value="Dashmasters Dagger">Dashmasters Dagger</option>
         <option value="DeathcapBow">Deathcap Bow</option>
         <option value="ElderwoodStaff">Elderwood Staff</option>
         <option value="ExplosiveSword">Explosive Sword</option>
@@ -183,10 +215,6 @@
     </select>
     <br>
     <br>
-  <!-- This part is for selecting the night and therefore the amount of items slots you have -->
-
-
-
 
     <div id="dropdownContainer"></div>
 
@@ -245,6 +273,7 @@
             <option value="ClearspringOpal">Clearspring Opal</option>
             <option value="ClearspringRose">Clearspring Rose</option>
             <option value="ClearspringWatermelon">Clearspring Watermelon</option>
+            <option value="ColdResistance">Cold Resistance</option>
             <option value="CombustibleLemon">Combustible Lemon</option>
             <option value="Cookbook">Cookbook</option>
             <option value="CorrodedBone">Corroded Bone</option>
@@ -479,31 +508,46 @@
             <option value="WeaverShield">Weaver Shield</option>
             <option value="WetEgg">Wet Egg</option>
       </select>
-      <br><br>
     </template>
 
+    <template id="QualitySlider">
+      <label hidden="True">Item Slot:</label> 
+      <input type="range" min="0" max="2" value="1" class="slider-container"></input>
+      <!-- </span> -->
+      <br><br>
     </template>
+    
+
 <!-- Creates all the boxes for left Player's items -->
     <script>
       const countSelector = document.getElementById("NightCount");
-      const container = document.getElementById("dropdownContainer");
-      const template = document.getElementById("ItemSlots");
-
       countSelector.addEventListener("change", () => {
         const count = parseInt(countSelector.value);
+        const ItemSlots = document.getElementById("ItemSlots");
+        const Quality = document.getElementById("QualitySlider");
+        const container = document.getElementById("dropdownContainer");
         container.innerHTML = ""; // Clear existing dropdowns
 
         for (let i = 0; i < count; i++) {
-          const clone = template.content.cloneNode(true);
-          const select = clone.querySelector("select");
-          const label = clone.querySelector("label");
+          const content = ItemSlots.content.cloneNode(true)
+          const labelIS = content.querySelector("label");
+          const selectIS = content.querySelector("select");
 
-          const uniqueId = `itemslots_${i}`;
-          select.id = uniqueId;
-          select.name = uniqueId;
-          label.setAttribute("for", uniqueId);
+          const IS = `itemslots_${i}`;
+          selectIS.id = IS;
+          selectIS.name = IS;
+          labelIS.setAttribute("for", IS);
+          container.appendChild(content);
 
-          container.appendChild(clone);
+          const contentQ = Quality.content.cloneNode(true)
+          const labelQ = contentQ.querySelector("label");
+          const selectQ= contentQ.querySelector("input");
+
+          const Q = `quality_${i}`;
+          selectQ.id = Q;
+          selectQ.name = Q;
+          labelQ.setAttribute("for", Q);
+          container.appendChild(contentQ);
         }
       });
     </script>
@@ -523,7 +567,7 @@
 
     <div id="dropdownContainer2"></div>
     <div id="dropdownContainer2Lower"></div>
-    <template id="ItemSlots">
+    <!-- <template id="ItemSlots">
       <label>Item Slot:</label>
       <select>
         <option value="">None</option>
@@ -578,6 +622,7 @@
         <option value="ClearspringOpal">Clearspring Opal</option>
         <option value="ClearspringRose">Clearspring Rose</option>
         <option value="ClearspringWatermelon">Clearspring Watermelon</option>
+        <option value="ColdResistance">Cold Resistance</option>
         <option value="CombustibleLemon">Combustible Lemon</option>
         <option value="Cookbook">Cookbook</option>
         <option value="CorrodedBone">Corroded Bone</option>
@@ -813,7 +858,7 @@
         <option value="WetEgg">Wet Egg</option>
             </select>
       <br>
-    </template>
+    </template> -->
 
     <template id="WeaponsRight">
       <div class="right-column">
@@ -837,6 +882,7 @@
         <option value="ChainmailSword">Chainmail Sword</option>
         <option value="ChampionsBlade">Champions Blade</option>
         <option value="CherryBlade">Cherry Blade</option>
+        <option value="Dashmasters Dagger">Dashmasters Dagger</option>
         <option value="DeathcapBow">Deathcap Bow</option>
         <option value="ElderwoodStaff">Elderwood Staff</option>
         <option value="ExplosiveSword">Explosive Sword</option>
@@ -1035,89 +1081,97 @@
     </template>
 
     <script>
-      const containerright = document.getElementById("dropdownContainer2");
-      const containerright2 = document.getElementById("dropdownContainer2Lower");
-      const template2 = document.getElementById("ItemSlots").innerHTML;
-      const Weapons2 = document.getElementById("WeaponsRight").innerHTML;
-      const Edges2 = document.getElementById("RightEdges").innerHTML;
-      const Stats2 = document.getElementById("RightStats").innerHTML;
-      const EnemyList = document.getElementById("EnemiesType").innerHTML;
-      const Foe2 = document.getElementById("FoeType");
+        const containerright = document.getElementById("dropdownContainer2");
+        const containerright2 = document.getElementById("dropdownContainer2Lower");
+        const Weapons2 = document.getElementById("WeaponsRight").innerHTML;
+        const Edges2 = document.getElementById("RightEdges").innerHTML;
+        const Stats2 = document.getElementById("RightStats").innerHTML;
+        const EnemyList = document.getElementById("EnemiesType").innerHTML;
+        const Foe2 = document.getElementById("FoeType");
+        const template = document.getElementById("ItemSlots");
+        containerright.innerHTML = ""; // Clear existing dropdowns
+        containerright.innerHTML += Stats2
+        containerright.innerHTML += Weapons2
+        containerright.innerHTML += Edges2
 
-      //countSelector.addEventListener("change", () => {
-          //Foe2.addEventListener("change", () => {
-              const Type = parseInt(Foe2.value);
-              if (Type == 0) {
-                const template = document.getElementById("ItemSlots");
-
-                //countSelector.addEventListener("change", () => {
-                  
-                  containerright.innerHTML = ""; // Clear existing dropdowns
-                  containerright.innerHTML += Stats2
-                  containerright.innerHTML += Weapons2
-                  containerright.innerHTML += Edges2
-
-                  countSelector.addEventListener("change", () => {
-                  containerright2.innerHTML = ""; // Clear existing dropdowns
-                  const Type = parseInt(Foe2.value);
-                  if (Type == 0) {
-                  const count = parseInt(countSelector.value);
-                  for (let i = 0; i < count; i++) {
-                    const clone = template.content.cloneNode(true);
-                    const select = clone.querySelector("select");
-                    const label = clone.querySelector("label");
-
-                    const uniqueId = `itemslotRight_${i}`;
-                    select.id = uniqueId;
-                    select.name = uniqueId;
-                    label.setAttribute("for", uniqueId);
-                    containerright2.appendChild(clone);
-                  }
-                  }
-                })
-            }
-              else if (Type > 0) {
-                  containerright.innerHTML = ""; // clear existing dropdowns
-                  containerright2.innerHTML = ""; // Clear existing dropdowns
-                  containerright.innerHTML = EnemyList;
-              }
-      //});//});
-
-      Foe2.addEventListener("change", () => {
-          //countSelector.addEventListener("change", () => {
-              const Type = parseInt(Foe2.value);
-              if (Type < 1) {
-              const containerright = document.getElementById("dropdownContainer2");
-              const containerright2 = document.getElementById("dropdownContainer2Lower");
-              const template = document.getElementById("ItemSlots");
-
+        countSelector.addEventListener("change", () => {
+            const Type = parseInt(Foe2.value);
+            containerright2.innerHTML = ""; // Clear existing dropdowns
+            if (Type == 0) {
                 const count = parseInt(countSelector.value);
-                containerright.innerHTML = ""; // Clear existing dropdowns
-                containerright2.innerHTML = ""; // Clear existing dropdowns
+                const ItemSlots = document.getElementById("ItemSlots");
+                const Quality = document.getElementById("QualitySlider");
+
+                for (let i = 0; i < count; i++) {
+                const content = ItemSlots.content.cloneNode(true)
+                const labelIS = content.querySelector("label");
+                const selectIS = content.querySelector("select");
+
+                const IS = `itemslotRight_${i}`;
+                selectIS.id = IS;
+                selectIS.name = IS;
+                labelIS.setAttribute("for", IS);
+                containerright2.appendChild(content);
+
+                const contentQ = Quality.content.cloneNode(true)
+                const labelQ = contentQ.querySelector("label");
+                const selectQ= contentQ.querySelector("input");
+
+                const Q = `qualityRight_${i}`;
+                selectQ.id = Q;
+                selectQ.name = Q;
+                labelQ.setAttribute("for", Q);
+                containerright2.appendChild(contentQ);
+                }
+            }
+        else if (Type > 0) {
+            containerright.innerHTML = ""; 
+            containerright2.innerHTML = ""; 
+            containerright.innerHTML = EnemyList;
+        }
+            });
+
+        Foe2.addEventListener("change", () => {
+                const Type = parseInt(Foe2.value);
+                if (Type < 1) {
+                const countSelector = document.getElementById("NightCount");
+                const count = parseInt(countSelector.value);
+                containerright.innerHTML = ""; 
+                containerright2.innerHTML = "";
                 containerright.innerHTML += Stats2
                 containerright.innerHTML += Weapons2
                 containerright.innerHTML += Edges2
-                
-                for (let i = 0; i < count; i++) {
-                  const clone = template.content.cloneNode(true);
-                  const select = clone.querySelector("select");
-                  const label = clone.querySelector("label");
+                const ItemSlots = document.getElementById("ItemSlots");
+                const Quality = document.getElementById("QualitySlider");
 
-                  const uniqueId = `itemslotRight_${i}`;
-                  select.id = uniqueId;
-                  select.name = uniqueId;
-                  label.setAttribute("for", uniqueId);
-                  containerright2.appendChild(clone);
-                }
+                    for (let i = 0; i < count; i++) {
+                    const content = ItemSlots.content.cloneNode(true)
+                    const labelIS = content.querySelector("label");
+                    const selectIS = content.querySelector("select");
+
+                    const IS = `itemslotRight_${i}`;
+                    selectIS.id = IS;
+                    selectIS.name = IS;
+                    labelIS.setAttribute("for", IS);
+                    containerright2.appendChild(content);
+
+                    const contentQ = Quality.content.cloneNode(true)
+                    const labelQ = contentQ.querySelector("label");
+                    const selectQ= contentQ.querySelector("input");
+
+                    const Q = `qualityRight_${i}`;
+                    selectQ.id = Q;
+                    selectQ.name = Q;
+                    labelQ.setAttribute("for", Q);
+                    containerright2.appendChild(contentQ);
+                    }
             }
-              else if (Type > 0) {
-                  containerright.innerHTML = ""; // clear existing dropdowns
-                  containerright2.innerHTML = ""; // Clear existing dropdowns
-                  containerright.innerHTML = EnemyList;
-              }
-      //})
-
-      });
+                else if (Type > 0) {
+                    containerright.innerHTML = ""; 
+                    containerright2.innerHTML = "";
+                    containerright.innerHTML = EnemyList;
+                }
+        });
     </script>
   </div>
 </div>
@@ -1386,7 +1440,7 @@
               "WeaverArmor" : {"BattleStart", "Unique"}, #If you have 0 base armor, gain armor = current hp
               #"ArcaneCloak" : {"Unique"}, #Reset Cooldowns after they trigger
               "BloodmoonArmor" : {"SelfDamage", "Unique"}, #If youd take damage from your own items, deal it to the foes
-              #"ColdResistance" : {"Unique"}, #Freeze doubles your attack instead of halving
+              "ColdResistance" : {"Unique"}, #Freeze doubles your attack instead of halving
               #"GrandCrescendo" : {"Unique"}, #Symphony triggers all other instruments
               "GraniteThorns" : {"Unique", "Stone", "BattleStart"}, #Needs a counter to not remove thorns
               #"PrimeForm" : {"Unique"}, #Double attack while hp is full
@@ -1538,7 +1592,7 @@
               "TwinBlade" : {"Weapon", "BattleStart"}, #Base strikes count = 2 #Might want to make a PreBattle Tag??
               #"AncientWarhammer" : {"Weapon", "OnHit"}, #OH: Remove all of the foe's armor
               "BearclawBlade" : {"Weapon", "PreStrikeL"}, #Attack = Missing HP
-              #"DashmastersDagger" : {"Weapon", "BattlseStart"}, #Gain additional strikes equal to speed
+              "DashmastersDagger" : {"Weapon", "BattleStart"}, #Gain additional strikes equal to speed
               #"LakebedSword" : {"Weapon"}, #Doubles the effects from Purity
               "MountainCleaver" : {"Weapon", "BattleStart", "Stone"}, #Attack = Base Armor
               "SpikyClub" : {"Weapon"},  #Maybe GainThorns tag? or add it to everything that adds thorns. GainThorns becomes GainAttack
@@ -1923,7 +1977,7 @@
 
   #need to add equipments (Including enemy and bosses effects as equipment) and blacksmith effects
   class Player:
-      def __init__(self, Stats, Order): #self, CurrentHP, MaxHP, Attack, Armor, Speed, Items, Lvl, Gold, Order):
+      def __init__(self, Stats, Order): #self, CurrentHP, MaxHP, Attack, Armor, Speed, Items, Lvl, Gold, Quality, Order):
           
           self.CurrentHP = Stats[0]
           self.MaxHP = Stats[1]
@@ -1933,6 +1987,7 @@
           self.Items = Stats[5]
           self.Level = Stats[6]
           self.Gold = Stats[7]
+          self.Quality = Stats[8]
           self.Order = Order
 
           self.WoundTriggers = 0
@@ -2061,6 +2116,12 @@
           self.PreventStatusGain = False
           self.FirstStatus = True
           self.FreezeMult = 1
+          self.BaseFreezeMult = 0.5
+          if "ColdResistance" in self.Items:
+              self.BaseFreezeMult = 2
+          self.HealingDisabled = False
+          if Count(self, "CantHeal") > 0:
+            self.HealingDisabled = True
           #self.RHeal = 0 Prob not using
 
       #That is search weapons (Blacksmithing is added after the base effects) then items.
@@ -2069,7 +2130,7 @@
       def Strike(self, Foe):
           self.FreezeMult = 1
           if self.Freeze > 0:
-              self.FreezeMult = 0.5
+              self.FreezeMult = self.BaseFreezeMult
           SC = int(np.copy(self.StrikesCount))
           # if Foe.Armor > 0:
           #     mult = 1
@@ -2113,7 +2174,7 @@
       def StrikeLoop(self, Foe, SC):
           self.FreezeMult = 1
           if self.Freeze > 0:
-              self.FreezeMult = 0.5
+              self.FreezeMult = self.BaseFreezeMult
           for i in range(0, SC): #Check if death occurs before each strike/after?
               self.TempAttack = 0
               self.StrikeCounter = self.StrikeCounter + 1
@@ -2134,13 +2195,14 @@
       def StrikeCalc(self, Foe):
           self.FreezeMult = 1
           if self.Freeze > 0:
-              self.FreezeMult = 0.5
+              self.FreezeMult = self.BaseFreezeMult
           StrikeMult(self, Foe)
           if np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)*Foe.FirstFoeStrikeMult > 0:
               Foe.DamageFromFoeStrike = np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)
               Foe.HPloseFromFoeStrike = max(0, np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)- Foe.Armor)
 
               Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult))
+              Death(Foe)
               HP1Check(Foe, self)
               Foe.DeltaArmor = min(Foe.Armor, np.floor((self.StrikeMult*(self.Attack + self.TempAttack))))
               ArmorLose(Foe, self)
@@ -2153,12 +2215,13 @@
       def StrikeCalcIgnoreArmor(self, Foe):
           self.FreezeMult = 1
           if self.Freeze > 0:
-              self.FreezeMult = 0.5
+              self.FreezeMult = self.BaseFreezeMult
           StrikeMult(self, Foe)
           if np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)*Foe.FirstFoeStrikeMult > 0:
               Foe.DamageFromFoeStrike = np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)
               Foe.HPloseFromFoeStrike = max(0, np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)) #Idk why its -Foe.Armor here?
               Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult))
+              Death(Foe)
               HP1Check(Foe, self)
           #Might need to go into the strike function in its own seperate for loop??????????
           OnHit(self, Foe) #Checks for On hit effects including weapons and blacksmithed and include dealdamage
@@ -2218,7 +2281,7 @@
           P = self
           for slot in range(0, len(P.Items)): #max(len(P.Items), len(Foe.Items))):
               if Tag in ItemTags[P.Items[slot]]:
-                  [P, Foe] = ItemsEffect(Tag, self.Items[slot], P, Foe)
+                  [P, Foe] = ItemsEffect(Tag, self.Quality[slot], self.Items[slot], P, Foe)
 
       def RandomSearch(self, Tag, Foe):
           P = self
@@ -2230,7 +2293,7 @@
           if List != []:
               RanNumber = random.randint(0, len(List))
               slot = int(List(RanNumber))
-              [P, Foe] = ItemsEffect(Tag, self.Items[slot], P, Foe)
+              [P, Foe] = ItemsEffect(Tag, self.Quality[slot], self.Items[slot], P, Foe)
 
       def MultiSearch(self, TagP, Foe, TagF): #Seperate multisearch REQUIRES Speed order check (Outside when used)??
           P = self
@@ -2238,20 +2301,20 @@
               for slot in range(0, max(len(P.Items), len(Foe.Items))):
                   if slot < len(P.Items):
                     if TagP in ItemTags[P.Items[slot]]:
-                      [P, Foe] = ItemsEffect(TagP, self.Items[slot], P, Foe)
+                      [P, Foe] = ItemsEffect(TagP, self.Quality[slot], self.Items[slot], P, Foe)
 
                   if slot < len(Foe.Items):
                     if TagF in ItemTags[Foe.Items[slot]]:
-                      [Foe, P] = ItemsEffect(TagF, Foe.Items[slot], Foe, P)
+                      [Foe, P] = ItemsEffect(TagF, Foe.Quality[slot], Foe.Items[slot], Foe, P)
 
           if self.Order == "Second":
               for slot in range(0, max(len(P.Items), len(Foe.Items))):
                   if slot < len(Foe.Items):
                     if TagF in ItemTags[Foe.Items[slot]]:
-                      [Foe, P] = ItemsEffect(TagF, Foe.Items[slot], Foe, P)
+                      [Foe, P] = ItemsEffect(TagF, Foe.Quality[slot], Foe.Items[slot], Foe, P)
                   if slot < len(P.Items):
                     if TagP in ItemTags[P.Items[slot]]:
-                      [P, Foe] = ItemsEffect(TagP, self.Items[slot], P, Foe)
+                      [P, Foe] = ItemsEffect(TagP, self.Quality[slot], self.Items[slot], P, Foe)
 
       def RandomStatus(self, Foe, Value, Has): #Look at Player/ Foe? / Both? (Might add more functionality) and selects a status effect they currently have.
           Statuses = ["Thorns", "Freeze", "Regen", "Poison", "Stun", "Riptide", "Acid", "Purity"] #list(StatusFunctions.keys())
@@ -2270,8 +2333,12 @@
 
           if CurrentStatus != []:
               PickedStatus = random.choice(CurrentStatus)
-              StatusStacks = getattr(self, PickedStatus)
-              StatusInterp(PickedStatus, self, Foe, Value)
+              if Value < 0:
+                  StatusStacks = min(-Value, getattr(self, PickedStatus)) #Should be amount removed
+                  StatusInterp(PickedStatus, self, Foe, -StatusStacks)
+              elif Value > 0:
+                  StatusStacks = getattr(self, PickedStatus)
+                  StatusInterp(PickedStatus, self, Foe, Value)
               #RanNumber = random.randint(0, len(CurrentStatus))
               # if PickedStatus != "Stun" and PickedStatus != "Freeze":
               #     StatusFunctions[PickedStatus](self, Foe, Value)
@@ -2291,26 +2358,31 @@
               "Acid": GainAcid,
               "Purity": GainPurity,
           }
-      Player.StatusesGained = []
+      # Player.StatusesGained = []
       Player.PreventStatusGain = False
       Player.Search("PreventStatusGain", Foe)
-      if Status != "null" and not Player.PreventStatusGain:
+      if Status != "null" and not Player.PreventStatusGain and Value > 0:
           StatusFunctions[Status](Player, Foe, Value)
 
-          if Value > 0 and "CrystalMirror" in Player.Items:
+          if "CrystalMirror" in Player.Items:
               StatusFunctions[Status](Foe, Player, Value) #Gives the foe the status effect
 
           if Status not in Player.StatusesGained:
               Player.StatusesGained.append(Status)
               Player.Search("FirstGainStatus", Foe)
 
-          if Value > 0 and "RiverflowTalisman" in Player.Items:
+          if "RiverflowTalisman" in Player.Items:
               StatusFunctions[Status](Player, Foe, 1)
+
+      elif Value < 0 and getattr(Player, Status) > 0:
+          Player.Search("LoseStatus", Foe)
+          StatusFunctions[Status](Player, Foe, max(Value, -getattr(Player, Status)))
       
 
   def DealDamage(Damagevalue, Player, Foe):
       if Damagevalue > 0:
           Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - Damagevalue) #Updates hp of foe if foe's armor reached 0
+          Death(Foe)
           Player.TempBombBonus = 0
           Player.BombMult = 1
           HP1Check(Foe, Player)
@@ -2334,7 +2406,7 @@
       #     #Foe.Exposed(Player)
 
   #Write ItemsEffect("VampireWine") runs +4 to self hp
-  def ItemsEffect(Phase, Name, Player, Foe):
+  def ItemsEffect(Phase, Quality, Name, Player, Foe): #Quality is a number 0: Normal, 1: Gold, 2: Diamond, 2**Quality gives the multiplier
       if Name == "ArcaneBell":  #Decrease all cooldowns by 1.
           Player.CooldownReduction = Player.CooldownReduction + 1
           Symphony(Player, Foe, "ArcaneBell")
@@ -2343,62 +2415,63 @@
           Player.CooldownReduction = Player.CooldownReduction + 1
 
       if Name == "CherryBomb": #Deals 1 damage 2 times
-              BombDamage(1, Player, Foe)
-              BombDamage(1, Player, Foe)
+              BombDamage(1*(2**Quality), Player, Foe)
+              BombDamage(1*(2**Quality), Player, Foe)
 
       if Name == "CitrineEarring":  #Gain 1 Speed every other turn
           #Player.Speed = Player.Speed + 1
-          Player.DeltaSpeed = 1
-          GainSpeed(Player, Foe, 1)
+          Player.DeltaSpeed = 1*(2**Quality)
+          GainSpeed(Player, Foe, 1*(2**Quality))
 
-      if Name == "CitrineRing": #Possible they die and it doesnt end calc
+      if Name == "CitrineRing": 
           for nn in range(0, Player.RingTrigger):
             if Player.Speed > 4:
                 GainStrikes(Player, Foe, 1)
 
       if Name == "ClearspringFeather":  #Decrease a random status effect by 1 and give it to the foe......
-          [Status, Stacks] = Player.RandomStatus(Foe, -1, True) #This automagically changes a random self status effect
+          [Status, Stacks] = Player.RandomStatus(Foe, -1*(2**Quality), True) #This automagically changes a random self status effect
           if Stacks > 0:
-              StatusInterp(Status, Foe, Player, 1)
+              StatusInterp(Status, Foe, Player, Stacks)
 
       if Name == "ClearspringWatermelon":  #Decrease a random status effect by 1
-          [Status, Stacks] = Player.RandomStatus(Foe, -1, True) #This automagically changes a random self status effect
+          [Status, Stacks] = Player.RandomStatus(Foe, -1*(2**Quality), True) #This automagically changes a random self status effect
 
       if Name == "CrackedWhetstone":  #Gain 2 attack for the first turn only
-          Player.TempAttack = Player.TempAttack + 2
+          Player.TempAttack = Player.TempAttack + 2*(2**Quality)
 
           # if Player.FirstTurn:
           #     Player.Attack = Player.Attack + 2
           # else:
           #     Player.Attack = Player.Attack - 2
 
-      #if Name == "DeviledEgg" : {"Unique", "Sanguine"}, #Does Nothing
+      if Name == "DeviledEgg":  #Does Nothing
+          Player.Armor = Player.Armor
 
       if Name == "DoublePlatedArmor":
           #Player.Armor = Player.Armor + 3
           #Player.GainedArmor = True
           #Runs check for gained armor items
-          ArmorGain(Player, Foe, 3)
+          ArmorGain(Player, Foe, 3*(2**Quality))
 
       if Name == "EmeraldEarring": #Restore 1 hp
-          HealingCalc(Player, Foe, 1)
+          HealingCalc(Player, Foe, 1*(2**Quality))
 
       if Name == "EmeraldRing":
           for nn in range(0, Player.RingTrigger):
-              HealingCalc(Player, Foe, 3)
+              HealingCalc(Player, Foe, 3*(2**Quality))
 
       if Name == "EmergencyShield": #Less speed than enemy, give 5 armor
           if Player.Speed < Foe.Speed:
               #Player.Armor = Player.Armor + 5
-              ArmorGain(Player, Foe, 5)
+              ArmorGain(Player, Foe, 5*(2**Quality))
 
       if Name == "FrostbiteGauntlet": #Give the enemy 1 Freeze
-          StatusInterp("Freeze", Foe, Player, 1)
+          StatusInterp("Freeze", Foe, Player, 1*(2**Quality))
           #Freeze(1, Player, Foe)
           
-      if Name == "FrostbiteTrap": #Give the enemy 2 freeze
-          StatusInterp("Freeze", Foe, Player, 2)
-          #Freeze(2, Player, Foe)
+      if Name == "FrostbiteTrap": #Give the enemy 3 freeze
+          StatusInterp("Freeze", Foe, Player, 3*(2**Quality))
+          #Freeze(3, Player, Foe)
 
       if Name == "GraniteEgg":  #Does Nothing
           Player.Armor = Player.Armor
@@ -2406,19 +2479,19 @@
       if Name == "GraniteTome":  #CD 4: Gain 6 armor
           if (Player.Cooldown + Player.CooldownReduction < np.ceil(4*Player.CooldownMult) and Player.GraniteTome) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.TomeTriggers):
-                  ArmorGain(Player, Foe, 6)
+                  ArmorGain(Player, Foe, 6*(2**Quality))
                   Cooldowned(Player, Foe)
               Player.GraniteTome = False
 
       if Name == "HolyTome":  #CD 4: Gain 3 attack
           if (Player.Cooldown + Player.CooldownReduction < np.ceil(4*Player.CooldownMult) and Player.HolyTome) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.TomeTriggers):
-                  Player.Attack = Player.Attack + 3
+                  Player.Attack = Player.Attack + 3*(2**Quality)
                   Cooldowned(Player, Foe)
               Player.HolyTome = False
 
       if Name == "HornedHelmet": #Gain 1 thorn
-          StatusInterp("Thorns", Player, Foe, 1)
+          StatusInterp("Thorns", Player, Foe, 1*(2**Quality))
           #GainThorns(Player, Foe, 1)
 
       if Name == "IceblockShield": #Self freeze 2
@@ -2441,7 +2514,7 @@
       if Name == "LiferootTome":  #CD 4: Gain 3 regen
           if (Player.Cooldown + Player.CooldownReduction < np.ceil(4*Player.CooldownMult) and Player.LiferootTome) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.TomeTriggers):
-                  StatusInterp("Regen", Player, Foe, 3)
+                  StatusInterp("Regen", Player, Foe, 3*(2**Quality))
                   #GainRegen(Player, Foe, 3)
                   Cooldowned(Player, Foe)
               Player.LiferootTome = False
@@ -2458,23 +2531,23 @@
 
       if Name == "MusclePotion":  #Every 3 strikes gain 1 attack
           if Player.StrikeCounter%3 == 0:
-              Player.Attack = Player.Attack + 1
+              Player.Attack = Player.Attack + 1*(2**Quality)
 
       if Name == "MuscleElixir":  #Every 3 strikes gain 1 attack, 1 armor, and 1 speed
           if Player.StrikeCounter%3 == 0:
-              Player.Attack = Player.Attack + 1
-              ArmorGain(Player, Foe, 1)
-              GainSpeed(Player, Foe, 1)
+              Player.Attack = Player.Attack + 1*(2**Quality)
+              ArmorGain(Player, Foe, 1*(2**Quality))
+              GainSpeed(Player, Foe, 1*(2**Quality))
 
       if Name == "PetrifyingFlask": #Wounded: Gain 10 armor and 2 stun
-          ArmorGain(Player, Foe, 10)
-          StatusInterp("Stun", Player, Foe, 2)
+          ArmorGain(Player, Foe, 10*(2**Quality))
+          StatusInterp("Stun", Player, Foe, 2*(2**Quality))
           #Stun(2, Foe, Player)
 
       if Name == "PetrifyingElixir": #Wounded: Gain 10 armor and stun everyone for 2 turns
-          ArmorGain(Player, Foe, 10)
-          StatusInterp("Stun", Player, Foe, 2)
-          StatusInterp("Stun", Foe, Player, 2)
+          ArmorGain(Player, Foe, 10*(2**Quality))
+          StatusInterp("Stun", Player, Foe, 2*(2**Quality))
+          StatusInterp("Stun", Foe, Player, 2*(2**Quality))
           #Stun(2, Foe, Player)
           #Stun(2, Player, Foe)
 
@@ -2482,12 +2555,12 @@
           Foe.Powder = Foe.Powder + 2
 
       if Name == "PurelakeHelmet": #BatStart: Gain 1 Purity
-          StatusInterp("Purity", Player, Foe, 1)
+          StatusInterp("Purity", Player, Foe, 1*(2**Quality))
           #GainPurity(Player, Foe, 1)
 
       if Name == "RedwoodCloak": #If on BatStart hp not full, restore 2
           if Healable(Player):
-              HealingCalc(Player, Foe, 2)
+              HealingCalc(Player, Foe, 2*(2**Quality))
               # x = Player.CurrentHP - Player.MaxHP + 2
               # Player.CurrentHP = min(Player.MaxHP, Player.CurrentHP + 2)
               # HPRestored(Player, Foe) #Adds check if have an item with effect from hp healing
@@ -2495,7 +2568,7 @@
               #     DealDamage(x, Player, Foe)
 
       if Name == "RedwoodHelmet": #Restore 3 hp on exposed
-          HealingCalc(Player, Foe, 3)
+          HealingCalc(Player, Foe, 3*(2**Quality))
 
       if Name == "RoyalHorn":  #Wounded: Gain 2 gold symphony
           Player.Gold = Player.Gold + 2
@@ -2505,12 +2578,12 @@
           Player.Gold = Player.Gold + 2
 
       if Name == "RubyEarring": #Deal 1 damage eot
-          DealDamage(1, Player, Foe)
+          DealDamage(1*(2**Quality), Player, Foe)
 
       if Name == "RubyRing":  #Gain 2 attack and take 3 damage
           for nn in range(0, Player.RingTrigger):
-              Player.Attack = Player.Attack + 2
-              SelfArmorLose(Player, Foe, 3)
+              Player.Attack = Player.Attack + 2*(2**Quality)
+              SelfArmorLose(Player, Foe, 3*(2**Quality))
           # if SelfArmorLose(Player):
           #     Player.CurrentHP = min(Player.CurrentHP, Player.CurrentHP + Player.Armor - 3) #Updates hp of foe if foe's armor reached 0
           #     if Player.Armor > 0:
@@ -2520,13 +2593,15 @@
           #     DealDamage(3, Foe, Player)
 
       if Name == "RustyRing": #Give the foe 1 acid
-          StatusInterp("Acid", Foe, Player, 1)
+          for nn in range(0, Player.RingTrigger):
+              StatusInterp("Acid", Foe, Player, 1*(2**Quality))
           #GainAcid(Foe, Player, 1)
 
       if Name == "SaffronFeather": #Convert 1 speed to 2 hp even if cannot heal?
           if Player.Speed > 0:
-              Player.Speed = Player.Speed - 1
-              HealingCalc(Player, Foe, 2)
+              Amount = min(1*(2**Quality), Player.Speed)
+              Player.Speed = Player.Speed - Amount
+              HealingCalc(Player, Foe, 2*Amount)
 
       if Name == "SanguineTome":  #CD 6: Full heal
           if (Player.Cooldown + Player.CooldownReduction < np.ceil(6*Player.CooldownMult) and Player.SanguineTome) or Player.GrandTomeRetriggers:
@@ -2535,20 +2610,20 @@
                   Cooldowned(Player, Foe)
               Player.SanguineTome = False
 
-
       if Name == "SapphireEarring": #Gain 1 armor eot
           #Player.Armor = Player.Armor + 1
-          ArmorGain(Player, Foe, 1)
+          ArmorGain(Player, Foe, 1*(2**Quality))
 
       if Name == "SapphireRing": #Steal 2 armor from foe (if possible)
           for nn in range(0, Player.RingTrigger):
               if Foe.Armor > 0: #and no towershield triggers?
-                  Foe.Armor = Foe.Armor - min(Foe.Armor, 2)
-                  Foe.DeltaArmor = min(Foe.Armor, 2)
+                  Amount = min(Foe.Armor, 2*(2**Quality))
+                  Foe.Armor = Foe.Armor - Amount
+                  Foe.DeltaArmor = Amount
                   ArmorLose(Foe, Player) #Armor loss for foe
                   Foe.DeltaArmor = 0
                   #Player.Armor = Player.Armor + min(Foe.Armor, 2)
-                  ArmorGain(Player, Foe, min(Foe.Armor, 2))
+                  ArmorGain(Player, Foe, Amount)
 
       if Name == "SerpentLyre": #Give the foe 3 poison
           StatusInterp("Poison", Foe, Player, 3)
@@ -2560,40 +2635,40 @@
           #GainPoison(Foe, Player, 3)
 
       if Name == "SilverscaleFish":  #Give the foe 1 riptide
-          StatusInterp("Riptide", Foe, Player, 1)
+          StatusInterp("Riptide", Foe, Player, 1*(2**Quality))
           #GainRiptide(Foe, Player, 1)
 
       if Name == "SilverscaleTome": #CD 3: Give the foe 2 riptide
           if (Player.Cooldown + Player.CooldownReduction < np.ceil(3*Player.CooldownMult) and Player.SilverscaleTome) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.TomeTriggers):
-                  StatusInterp("Riptide", Foe, Player, 2)
+                  StatusInterp("Riptide", Foe, Player, 2*(2**Quality))
                   #GainRiptide(Player, Foe, 2)
                   Cooldowned(Player, Foe)
               Player.SilverscaleTome = False
 
       if Name == "SlimeArmor": #Gain 1 acid
-          StatusInterp("Acid", Player, Foe, 1)
+          StatusInterp("Acid", Player, Foe, 1*(2**Quality))
           #GainAcid(Player, Foe, 1)
 
       if Name == "SourLemon": #Gain 1 acid
-          StatusInterp("Acid", Player, Foe, 1)
+          StatusInterp("Acid", Player, Foe, 1*(2**Quality))
           #GainAcid(Player, Foe, 1)
 
       if Name == "SpinyChestnut": #Gain 3 thorns
-          StatusInterp("Thorns", Player, Foe, 3)
+          StatusInterp("Thorns", Player, Foe, 3*(2**Quality))
           #GainThorns(Player, Foe, 3)
 
       if Name == "StormcloudTome": #CD 4: Stun foe 1 turn
           if (Player.Cooldown + Player.CooldownReduction < np.ceil(4*Player.CooldownMult) and Player.StormcloudTome) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.TomeTriggers):
-                  StatusInterp("Stun", Foe, Player, 1)
+                  StatusInterp("Stun", Foe, Player, 1*(2**Quality))
                   #Stun(1, Player, Foe)
                   Cooldowned(Player, Foe)
               Player.StormcloudTome = False
 
       if Name == "SwiftstrikeBelt": #Take 3 damage gain 1 strike on next turn
-          GainStrikes(Player, Foe, 1)
-          SelfArmorLose(Player, Foe, 3)
+          GainStrikes(Player, Foe, 1*(2**Quality))
+          SelfArmorLose(Player, Foe, 3*(2**Quality))
           
           # if SelfArmorLose(Player):
           #     Player.CurrentHP = min(Player.CurrentHP, Player.CurrentHP + Player.Armor - 3)
@@ -2607,15 +2682,15 @@
           Player.Armor = Player.Armor
 
       if Name == "VampireWine":
-          Sanguine(Player, Foe, 4)
+          Sanguine(Player, Foe, 4*(2**Quality))
 
       if Name == "VenomousFang":  #First Turn: Give foe 2 poison OH
-          StatusInterp("Poison", Foe, Player, 2)
+          StatusInterp("Poison", Foe, Player, 2*(2**Quality))
           #GainPoison(Foe, Player, 2)
 
       if Name == "WeaverShield":  #If you have 0 base armor, gain 4 armor
           if Player.BaseArmor == 0:
-              ArmorGain(Player, Foe, 4)
+              ArmorGain(Player, Foe, 4*(2**Quality))
 
       if Name == "WetEgg":  #Does Nothing
           Player.Armor = Player.Armor
@@ -2759,6 +2834,7 @@
       if Name == "CrimsonFang":  #If your hp is full, lose 5 hp and gain 2 strikes
           if Player.MaxHP == Player.CurrentHP:
               Player.CurrentHP = Player.CurrentHP - 5
+              Death(Player)
               HP1Check(Player, Foe)
               GainStrikes(Player, Foe, 2)
               TakeDamage(Player, Foe)
@@ -2923,6 +2999,7 @@
 
       if Name == "MarshlightLantern": #Lose 3 hp and gain 8 armor
           Player.CurrentHP = Player.CurrentHP - 3
+          Death(Player)
           HP1Check(Player, Foe)
           ArmorGain(Player, Foe, 8)
           TakeDamage(Player, Foe)
@@ -3121,6 +3198,7 @@
       if Name == "SunlightCrest":  #If you're above 50% hp, lose 3 hp and gain 1 attack
           if Player.CurrentHP/Player.MaxHP > 0.5:
               Player.CurrentHP = Player.CurrentHP - 3
+              Death(Player)
               HP1Check(Player, Foe)
               Player.Attack = Player.Attack + 1
               TakeDamage(Player, Foe)
@@ -3136,12 +3214,12 @@
               Player.DeltaSpeed = Player.BaseArmor
               GainSpeed(Player, Foe, Player.BaseArmor)
 
-      if Name == "ThornRing": #Take 1 damage and gain thorns equal to missing hp
+      if Name == "ThornRing": #Take 5 damage and gain 10 thorns
           #DealDamage(1, Foe, Player)
           for nn in range(0, Player.RingTrigger):
-              SelfArmorLose(Player, Foe, 1) #Trigger SelfArmorLosecheck and then damage
+              SelfArmorLose(Player, Foe, 5) #Trigger SelfArmorLosecheck and then damage
               if Player.MaxHP - Player.CurrentHP > 0:
-                  StatusInterp("Thorns", Player, Foe, Player.MaxHP - Player.CurrentHP)
+                  StatusInterp("Thorns", Player, Foe, 10)
                   #GainThorns(Player, Foe, Player.MaxHP - Player.CurrentHP)
 
       if Name == "ToxicAlgae": #Give the foe 5 poison
@@ -3210,6 +3288,7 @@
               if "SelfArmorLose" in Player.Items:
                   if Player.Armor >= 1:
                       Player.CurrentHP = min(Player.CurrentHP, Player.CurrentHP + Player.Armor - 1) 
+                      Death(Player)
                       HP1Check(Player, Foe)
                       Player.DeltaArmor = 1
                       ArmorLose(Player, Foe)
@@ -3221,6 +3300,7 @@
                       Player.Search("TakeDamageS", Foe) #Adds TakeDamage check
                   else:
                       Player.CurrentHP = min(Player.CurrentHP, Player.CurrentHP + Player.Armor - 1) 
+                      Death(Player)
                       HP1Check(Player, Foe)
                       Player.Armor = max(0, Player.Armor - 1)
                       Player.Wounded(Foe) #have you been wounded?
@@ -3229,6 +3309,7 @@
 
               else:
                   Player.CurrentHP = min(Player.CurrentHP, Player.CurrentHP + Player.Armor - 1) 
+                  Death(Player)
                   HP1Check(Player, Foe)
                   if Player.Armor >= 1:
                       Player.DeltaArmor = 1
@@ -3259,6 +3340,8 @@
       if Name == "CrimsonCloak": #Restore 1 HP
           Sanguine(Player, Foe, 1)
 
+      #if Name == "DruidsCloak" : {"Unique", "HPLose", "CantHeal"}, #Whenever you lose hp, gain that much armor. Cannot restore hp
+
       if Name == "ExplosiveArrow":  #If foe doesnt have armor, deal 2 damage
           if Foe.Armor == 0:
               BombDamage(2, Player, Foe)
@@ -3274,6 +3357,7 @@
               
       if Name == "IronTransfusion": #Gain 2 armor lose 1 hp
           Player.CurrentHP = Player.CurrentHP - 1
+          Death(Player)
           HP1Check(Player, Foe)
           #Player.Armor = Player.Armor + 2
           ArmorGain(Player, Foe, 2)
@@ -3450,6 +3534,7 @@
 
       if Name == "SwordTalisman": #deal 1 more damage
           Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - 1) #Updates hp of foe if foe's armor reached 0
+          Death(Foe)
           HP1Check(Foe, Player)
           if Foe.Armor > 0:
               Foe.DeltaArmor = max(min(Foe.Armor, 1), 0)
@@ -3982,10 +4067,11 @@
           Player.StrikeMult = 1
 
       if Name == "GraniteAxe":  #Lose 3 hp and gain 3 armor
-          Player.CurrentHP = Player.CurrentHP - 3
+          Player.CurrentHP = Player.CurrentHP - 2
+          Death(Player)
           HP1Check(Player, Foe)
-          #Player.Armor = Player.Armor + 3
-          ArmorGain(Player, Foe, 3)
+          #Player.Armor = Player.Armor + 4
+          ArmorGain(Player, Foe, 4)
           TakeDamage(Player, Foe)
 
       if Name == "IcicleSpear": #Give the enemy 1 freeze for each equipped water item
@@ -4026,6 +4112,7 @@
 
       if Name == "BloodlordsAxe":  #Foe loses 5 hp, you restore 5 hp
           Foe.CurrentHP = Foe.CurrentHP - 5
+          Death(Foe)
           HP1Check(Foe, Player)
           TakeDamage(Foe, Player)
           Sanguine(Player, Foe, 5)
@@ -4142,6 +4229,10 @@
           Player.TempAttack = 0
           Player.FreezeMult = 1
           Player.Attack = max(0, Player.MaxHP  - Player.CurrentHP) #Shouldnt need max/min aslong as hps work correctly
+
+      if Name == "DashmastersDagger":  #Gain additional strikes equal to speed
+          if Player.Speed > 0:
+              GainStrikes(Player, Foe, Player.Speed)
 
       if Name == "MountainCleaver":  #Attack = Base Armor
           Player.Attack = Player.BaseArmor
@@ -4585,23 +4676,24 @@
       HealingCalc(Player, Foe, Player.SanguineMult*Value)
 
   def HealingCalc(Player, Foe, Value):
-      if Player.CurrentHP/Player.MaxHP < 0.5:
-          Value = Player.TwilightCrestMult*Value
-      if Player.Stun > 0:
-          Value = Value*Player.VampireCloak    
-      Value = Value*Player.SanguineScepterMult
-      x = Player.CurrentHP - Player.MaxHP + Value
-      if Healable(Player):
-          z = min(Player.MaxHP, Player.CurrentHP + Value) - Player.CurrentHP
-          Player.CurrentHP = min(Player.MaxHP, Player.CurrentHP + Value)
-          if Player.FirstHealToggle == True:
-              FirstHPRestore(Player, Foe, min(Value, Value - x))
-          if  z >= 3:
-              Player.Search("HP3Restore")
-              
-          HPRestored(Player, Foe)
-      if "HPOverHeal" in Player.Items and x > 0:
-          DealDamage(x, Player, Foe)
+      if not Player.HealingDisabled:
+        if Player.CurrentHP/Player.MaxHP < 0.5:
+            Value = Player.TwilightCrestMult*Value
+        if Player.Stun > 0:
+            Value = Value*Player.VampireCloak    
+        Value = Value*Player.SanguineScepterMult
+        x = Player.CurrentHP - Player.MaxHP + Value
+        if Healable(Player):
+            z = min(Player.MaxHP, Player.CurrentHP + Value) - Player.CurrentHP
+            Player.CurrentHP = min(Player.MaxHP, Player.CurrentHP + Value)
+            if Player.FirstHealToggle == True:
+                FirstHPRestore(Player, Foe, min(Value, Value - x))
+            if  z >= 3:
+                Player.Search("HP3Restore")
+                
+            HPRestored(Player, Foe)
+        if "HPOverHeal" in Player.Items and x > 0:
+            DealDamage(x, Player, Foe)
 
   def ArmorGain(Player, Foe, NewArmor):
       if NewArmor > 0:
@@ -4683,7 +4775,7 @@
           RanNumber = random.randint(0, len(List))
           slot = int(List(RanNumber))
           Choice = Player.Items[slot].append("S")
-          [Player, Foe] = ItemsEffect("Symphony", "".join(Choice), Player, Foe)
+          [Player, Foe] = ItemsEffect("Symphony", self.Quality[slot], "".join(Choice), Player, Foe)
 
   def TurnCount(Player, Foe, TurnNum):
       Player.TurnCounter = Player.TurnCounter + 1
@@ -4734,6 +4826,7 @@
           DealDamage(DamageValue, Player, Foe)
       elif any("SelfArmorLose" in ItemTags[item] for item in Player.Items): #"SelfArmorLose" in ItemTags[Player.Items]:
           Player.CurrentHP = min(Player.CurrentHP, Player.CurrentHP + Player.Armor - DamageValue)
+          Death(Player)
           HP1Check(Player, Foe)
           if Player.Armor > 0:
               Player.DeltaArmor = min(Player.Armor, DamageValue)
@@ -4869,6 +4962,9 @@
       Player.Search("EndTurn", Foe)
       #Also do other stuff like reduce freezecount activate turn end items
 
+  def Death(Player): #Will prevent a player who drops to 0 or less hp to not heal
+    if Player.CurrentHP <= 0:
+        Player.HealingDisabled = True
       
   #Write a version without output and MAYBE check each time someone loses hp?
   #Then have one at the end that displays the ending turns results
@@ -4890,18 +4986,18 @@
 
 def MainFight(Left, Right, EnemyType):
       if max(Left[4], Right[4]) == Left[4]:
-          #P1 = Player(LCurrentHP, LMaxHP, LAttack, LArmor, LSpeed, LItems, LLevel, LGold, "First")
+          #P1 = Player(LCurrentHP, LMaxHP, LAttack, LArmor, LSpeed, LItems, LLevel, LGold, LQuality, "First")
           P1 = Player(Left, "First")
-          #P2 = Player(RCurrentHP, RMaxHP, RAttack, RArmor, RSpeed, RItems, RLevel, RGold, "Second")
+          #P2 = Player(RCurrentHP, RMaxHP, RAttack, RArmor, RSpeed, RItems, RLevel, RGold, RQuality, "Second")
           P2 = Player(Right, "Second")
           if EnemyType == "RightPlayer":
             Players = ["Left", "Right"]
           else:
             Players = ["Left", EnemyType]
       else:
-          #P2 = Player(LCurrentHP, LMaxHP, LAttack, LArmor, LSpeed, LItems, LLevel, LGold, "Second")
+          #P2 = Player(LCurrentHP, LMaxHP, LAttack, LArmor, LSpeed, LItems, LLevel, LGold, LQuality, "Second")
           P2 = Player(Left, "Second")
-          #P1 = Player(RCurrentHP, RMaxHP, RAttack, RArmor, RSpeed, RItems, RLevel, RGold, "First")
+          #P1 = Player(RCurrentHP, RMaxHP, RAttack, RArmor, RSpeed, RItems, RLevel, RGold, RQuality, "First")
           P1 = Player(Right, "First")
           if EnemyType == "RightPlayer":
             Players = ["Right", "Left"]
@@ -5037,9 +5133,22 @@ def saveSelections(event):
         except ValueError:
             ItemsLeft.append([""])
 
+    if int(Level) > 2:
+        try:
+            QualityLeft = [document.getElementById("quality_0").value, document.getElementById("quality_1").value]
+        except ValueError:
+            QualityLeft = [1, 1]
+    else:
+          QualityLeft = [1, 1]
+
+    for ii in  range(2, int(Level)):
+        try:
+            QualityLeft.append(document.getElementById(f"quality_{ii}").value)
+        except ValueError:
+            QualityLeft.append([1])
 
     LeftItems = [LeftWeapons, LeftEdge] + ItemsLeft
-    LeftPlayer = [LeftCurrentHP, LeftMaxHP, LeftAttack, LeftArmor, LeftSpeed, LeftItems, int(Level)/2 - 1, LeftGold]
+    LeftPlayer = [LeftCurrentHP, LeftMaxHP, LeftAttack, LeftArmor, LeftSpeed, LeftItems, int(Level)/2 - 1, LeftGold, QualityLeft]
     document.getElementById("resultDisplay").innerText = str(LeftPlayer)
 
     if int(PlayOrEn) < 1:
@@ -5097,9 +5206,23 @@ def saveSelections(event):
             ItemsRight.append(document.getElementById(f"itemslotRight_{ii}").value) #ItemsRight = ItemsRight + ", " + document.getElementById(f"itemslotRight_{ii}").value
         except ValueError:
             ItemsRight.append([])
-            
+
+      if int(Level) > 2:
+        try:
+            QualityRight = [document.getElementById("qualityRight_0").value, document.getElementById("qualityRight_1").value]
+        except ValueError:
+            QualityRight = [1, 1]
+      else:
+          QualityRight = [1, 1]
+
+      for ii in  range(2, int(Level)):
+        try:
+            QualityRight.append(document.getElementById(f"qualityRight_{ii}").value)
+        except ValueError:
+            QualityRight.append([1])
+
       RightItems = [RightWeapons, RightEdge] + ItemsRight
-      RightPlayer = [RightCurrentHP, RightMaxHP, RightAttack, RightArmor, RightSpeed, RightItems, int(Level)/2 - 1, RightGold]
+      RightPlayer = [RightCurrentHP, RightMaxHP, RightAttack, RightArmor, RightSpeed, RightItems, int(Level)/2 - 1, RightGold, QualityRight]
 
     elif int(PlayOrEn) > 0:
       #For Enemies
@@ -5109,17 +5232,12 @@ def saveSelections(event):
       else:
           LevelX = np.copy(Level)
       RightEnemy = Enemies(RightEnemyName, min(int(LevelX)/2 - 1, 3))
+      RightEnemy = RightEnemy.append([1, 1]) #Might need more quality?
 
     if int(PlayOrEn) < 1:
         MainFight(LeftPlayer, RightPlayer, "RightPlayer")
     elif int(PlayOrEn) > 0:
         MainFight(LeftPlayer, RightEnemy, str(RightEnemyName))
-
-
-  #RunFight = document.getElementById("RunFight")
-  #if RunFight is not None:
-    #RunFight.addEventListener("click", saveSelections)
-  #document.getElementById("RunFight").addEventListener("click", saveSelections)
     
 </py-script>
 <!-- <button id="RunFight">Submit</button> -->
