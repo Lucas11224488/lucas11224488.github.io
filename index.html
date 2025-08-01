@@ -1683,7 +1683,7 @@
               "Slime" : {"BattleStart"}, # Battle Start: Give the player 4/6/8 acid
               "Snake" : {"FirstTurnStrike"}, #Gives 2 + Lvl poison on first turn hit
               "Spider" : {"BattleStart"}, #If Spider is faster, then it deals 3+Lvl damage BattleStart
-              "Turtle": {"TakeDamage"}, #lose all armor
+              "Turtle": {"TakeDamage", "TakeDamageS"}, #lose all armor
               "Wolf" : {"PreStrike"}, #If Foe.CurrentHP <=5 temp attack is set to +2+Lvl
 
 
@@ -4572,7 +4572,42 @@
               Player.TempAttack = Player.TempAttack + 5
 
       if Name == "BrittlebarkBeast": #Whenever you take damage take 3 more
-          SelfArmorLose(Player, Foe, 3)
+        if "SelfArmorLose" in Player.Items:
+            if Player.Armor >= 1:
+                Player.CurrentHP = min(Player.CurrentHP, Player.CurrentHP + Player.Armor - 3) 
+                Player.AliveCheck(Foe)
+                Death(Player)
+                HP1Check(Player, Foe)
+                Player.DeltaArmor = min(3, Player.Armor)
+                ArmorLose(Player, Foe)
+                #Player.DeltaArmor = 0
+                ArmorGain(Player, Foe, Player.DeltaArmor)
+                Player.DeltaArmor = 0
+                Player.Wounded(Foe) #have you been wounded?
+                Player.Exposed(Foe)
+                Player.Search("TakeDamageS", Foe) #Adds TakeDamage check
+            else:
+                Player.CurrentHP = min(Player.CurrentHP, Player.CurrentHP + Player.Armor - 3) 
+                Player.AliveCheck(Foe)
+                Death(Player)
+                HP1Check(Player, Foe)
+                Player.Armor = max(0, Player.Armor - 1)
+                Player.Wounded(Foe) #have you been wounded?
+                Player.Exposed(Foe)
+                Player.Search("TakeDamageS", Foe) #Adds TakeDamage check
+        else:
+            Player.CurrentHP = min(Player.CurrentHP, Player.CurrentHP + Player.Armor - 1) 
+            Player.AliveCheck(Foe)
+            Death(Player)
+            HP1Check(Player, Foe)
+            if Player.Armor >= 1:
+                Player.DeltaArmor = 1
+                ArmorLose(Player, Foe)
+                Player.DeltaArmor = 0
+            Player.Armor = max(0, Player.Armor - 1)
+            Player.Wounded(Foe) #have you been wounded?
+            Player.Exposed(Foe)
+            Player.Search("TakeDamageS", Foe) #Adds TakeDamage check
 
       if Name == "IronstoneGolem": #When exposed lose 3 attack
           Player.Attack = Player.Attack - 3
@@ -4585,8 +4620,8 @@
 
       if Name == "CarnivorousSlime": #Gives 3 acid and converts all player's hp except 1 into armor
           StatusInterp("Acid", Foe, Player, 3)
-          ArmorGain(Player, Foe, Player.CurrentHP - 1)
-          DealDamage(Player.CurrentHP - 1, Player, Foe) #Deal damage to player to set hp to 1
+          ArmorGain(Foe, Player, Foe.CurrentHP - 1)
+          DealDamage(Foe.CurrentHP - 1, Player, Foe) #Deal damage to player to set hp to 1
 
       if Name == "FungalGiant":
           x = 0
@@ -4621,7 +4656,8 @@
           StatusInterp("Acid", Player, Foe, 5) #Gains 5 acid
 
       if Name == "StormcloudDruid":
-          StatusInterp("Stun", Foe, Player, 1) #Stun the player for 1 turn every other strike
+          if Player.StrikeCounter % 2 == 0:
+            StatusInterp("Stun", Foe, Player, 1) #Stun the player for 1 turn every other strike
 
       if Name == "SwampsongSiren": #Gives the Player -2 attack
           Foe.Attack = Foe.Attack - 2
