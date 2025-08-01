@@ -65,7 +65,7 @@
 <div class="container">
     <!-- Left Side -->
   <div class="left-column">
-    <label for="NightCount">What Night?</label>
+    <label for="NightCount">What Week?</label>
     <select id="NightCount">
       <option disabled selected hidden value="2">--Choose--</option>
       <option value="4">1</option>
@@ -520,34 +520,54 @@
 
 <!-- Creates all the boxes for left Player's items -->
     <script>
+      let PrevCount = 0;
       const countSelector = document.getElementById("NightCount");
       countSelector.addEventListener("change", () => {
         const count = parseInt(countSelector.value);
         const ItemSlots = document.getElementById("ItemSlots");
         const Quality = document.getElementById("QualitySlider");
         const container = document.getElementById("dropdownContainer");
-        container.innerHTML = ""; // Clear existing dropdowns
+        if (count < PrevCount) { //Removes dropdowns if the Night is decreased
+          for (let i = count; i < PrevCount; i++) {
+            document.getElementById(`itemslots_${i}`).remove();
+            document.querySelector(`label[for=itemslots_${i}]`).remove();
+            document.getElementById(`quality_${i}`).remove();
+            document.querySelector(`label[for=quality_${i}]`).remove();
+            const lastBr = container.querySelector('br:last-of-type');
+            if (lastBr) {
+            lastBr.remove();
+            }
+            const lastBr1 = container.querySelector('br:last-of-type');
+            if (lastBr1) {
+            lastBr1.remove();
+            }
+          }
+          PrevCount = count;
+        }
+        else if (count > PrevCount) {
+          // Add new dropdowns if Night is increased
+          for (let i = PrevCount; i < count; i++) {
+            const content = ItemSlots.content.cloneNode(true);
+            const labelIS = content.querySelector("label");
+            const selectIS = content.querySelector("select");
 
-        for (let i = 0; i < count; i++) {
-          const content = ItemSlots.content.cloneNode(true)
-          const labelIS = content.querySelector("label");
-          const selectIS = content.querySelector("select");
+            const IS = `itemslots_${i}`;
+            selectIS.id = IS;
+            selectIS.name = IS;
+            labelIS.setAttribute("for", IS);
+            container.appendChild(content);
 
-          const IS = `itemslots_${i}`;
-          selectIS.id = IS;
-          selectIS.name = IS;
-          labelIS.setAttribute("for", IS);
-          container.appendChild(content);
+            const contentQ = Quality.content.cloneNode(true);
+            const labelQ = contentQ.querySelector("label");
+            const selectQ= contentQ.querySelector("input");
 
-          const contentQ = Quality.content.cloneNode(true)
-          const labelQ = contentQ.querySelector("label");
-          const selectQ= contentQ.querySelector("input");
-
-          const Q = `quality_${i}`;
-          selectQ.id = Q;
-          selectQ.name = Q;
-          labelQ.setAttribute("for", Q);
-          container.appendChild(contentQ);
+            const Q = `quality_${i}`;
+            selectQ.id = Q;
+            selectQ.name = Q;
+            labelQ.setAttribute("for", Q);
+            container.appendChild(contentQ);
+          }
+          PrevCount = count;
         }
       });
     </script>
@@ -1093,43 +1113,90 @@
         containerright.innerHTML += Stats2
         containerright.innerHTML += Weapons2
         containerright.innerHTML += Edges2
-
+        let PrevCountRight = 0;
         countSelector.addEventListener("change", () => {
             const Type = parseInt(Foe2.value);
-            containerright2.innerHTML = ""; // Clear existing dropdowns
+            //containerright2.innerHTML = ""; // Clear existing dropdowns
             if (Type == 0) {
                 const count = parseInt(countSelector.value);
                 const ItemSlots = document.getElementById("ItemSlots");
                 const Quality = document.getElementById("QualitySlider");
-
-                for (let i = 0; i < count; i++) {
-                const content = ItemSlots.content.cloneNode(true)
-                const labelIS = content.querySelector("label");
-                const selectIS = content.querySelector("select");
-
-                const IS = `itemslotRight_${i}`;
-                selectIS.id = IS;
-                selectIS.name = IS;
-                labelIS.setAttribute("for", IS);
-                containerright2.appendChild(content);
-
-                const contentQ = Quality.content.cloneNode(true)
-                const labelQ = contentQ.querySelector("label");
-                const selectQ= contentQ.querySelector("input");
-
-                const Q = `qualityRight_${i}`;
-                selectQ.id = Q;
-                selectQ.name = Q;
-                labelQ.setAttribute("for", Q);
-                containerright2.appendChild(contentQ);
+                if (count < PrevCountRight) { //Removes dropdowns if the Night is decreased
+                    for (let i = count; i < PrevCountRight; i++) {
+                        document.getElementById(`itemslotRight_${i}`).remove();
+                        document.querySelector(`label[for=itemslotRight_${i}]`).remove();
+                        document.getElementById(`qualityRight_${i}`).remove();
+                        document.querySelector(`label[for=qualityRight_${i}]`).remove();
+                        const lastBr = containerright2.querySelector('br:last-of-type');
+                        if (lastBr) {
+                        lastBr.remove();
+                        }
+                        const lastBr1 = containerright2.querySelector('br:last-of-type');
+                        if (lastBr1) {
+                        lastBr1.remove();
+                        }
+                    }
+                    PrevCountRight = count;
                 }
+                else if (count > PrevCountRight) {
+                // Add new dropdowns if Night is increased
+                for (let i = PrevCountRight; i < count; i++) {
+                    const content = ItemSlots.content.cloneNode(true);
+                    const labelIS = content.querySelector("label");
+                    const selectIS = content.querySelector("select");
+
+                    const IS = `itemslotRight_${i}`;
+                    selectIS.id = IS;
+                    selectIS.name = IS;
+                    labelIS.setAttribute("for", IS);
+                    containerright2.appendChild(content);
+
+                    const contentQ = Quality.content.cloneNode(true);
+                    const labelQ = contentQ.querySelector("label");
+                    const selectQ= contentQ.querySelector("input");
+
+                    const Q = `qualityRight_${i}`;
+                    selectQ.id = Q;
+                    selectQ.name = Q;
+                    labelQ.setAttribute("for", Q);
+                    containerright2.appendChild(contentQ);
+                }
+                PrevCountRight = count;
+                }
+                // const count = parseInt(countSelector.value);
+                // const ItemSlots = document.getElementById("ItemSlots");
+                // const Quality = document.getElementById("QualitySlider");
+
+                // for (let i = 0; i < count; i++) {
+                // const content = ItemSlots.content.cloneNode(true)
+                // const labelIS = content.querySelector("label");
+                // const selectIS = content.querySelector("select");
+
+                // const IS = `itemslotRight_${i}`;
+                // selectIS.id = IS;
+                // selectIS.name = IS;
+                // labelIS.setAttribute("for", IS);
+                // containerright2.appendChild(content);
+
+                // const contentQ = Quality.content.cloneNode(true)
+                // const labelQ = contentQ.querySelector("label");
+                // const selectQ= contentQ.querySelector("input");
+
+                // const Q = `qualityRight_${i}`;
+                // selectQ.id = Q;
+                // selectQ.name = Q;
+                // labelQ.setAttribute("for", Q);
+                // containerright2.appendChild(contentQ);
+                // }
             }
-        else if (Type > 0) {
-            containerright.innerHTML = ""; 
-            containerright2.innerHTML = ""; 
-            containerright.innerHTML = EnemyList;
-        }
-            });
+            else if (Type > 0) {
+                const count = parseInt(countSelector.value);
+                containerright.innerHTML = ""; 
+                containerright2.innerHTML = ""; 
+                containerright.innerHTML = EnemyList;
+                PrevCountRight = count;
+            }
+        });
 
         Foe2.addEventListener("change", () => {
                 const Type = parseInt(Foe2.value);
