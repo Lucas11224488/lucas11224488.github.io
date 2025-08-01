@@ -1894,87 +1894,115 @@
   def ItemSets(self):
     if "BasiliskFang" in self.Items and "BasiliskScale" in self.Items:
         self.Items.append("BasilisksGaze") #Your foe is stunned for 2 turns
+        self.Quality.append(0)
 
     if "BloodmoonDagger" in self.Items and "SwiftstrikeGauntlet" in self.Items:
         self.Items.append("BloodmoonStrike") #On your next turn restore hp = to damage done by strikes
+        self.Quality.append(0)
 
     if "AssaultGreaves" in self.Items and "JaggedEdge" in self.Items:
         self.Items.append("BriarGreaves") #On take damage, gain 1 thorn
+        self.Quality.append(0)
 
     if "BrittlebarkBow" in self.Items and "BrittlebarkArmor" in self.Items and "BrittlebarkBuckler" in self.Items:
         self.Items.append("BrittlebarkBlessing") #Brittlebark items do not have a downside
-    
+        self.Quality.append(0)
+
     if "ChampionsArmor" in self.Items and "ChampionsBlade" in self.Items:
         self.Items.append("ChampionsGreaves") #Just Stats
+        self.Quality.append(0)
 
     if "MarbleMirror" in self.Items and "SinfulMirror" in self.Items:
         self.Items.append("CrystalMirror") #Whenever you gain a status effect, give it to the foe
+        self.Quality.append(0)
 
     if "NervePotion" in self.Items and "ViperExtract" in self.Items:
         self.Items.append("DeadlyToxin") #The first time the foe gains poison, give 2 acid
+        self.Quality.append(0)
 
     if "ElderwoodStaff" in self.Items and "ElderwoodNecklace" in self.Items:
         self.Items.append("ElderwoodMask") #Double all base attack, armor, speed
+        self.Quality.append(0)
 
     if "SwordOfTheHero" in self.Items and "BootsOfTheHero" in self.Items and "ShieldOfTheHero" in self.Items:
         self.Items.append("HerosReturn") #Base Stats
+        self.Quality.append(0)
 
-    if Count(self.Items, "Ring") >= 3:
+    if Count(self, "Ring") >= 3:
         self.Items.append("Highborn") #Retrigger all rings
+        self.Quality.append(0)
 
     if "HolyShield" in self.Items and "HolyTome" in self.Items:
         self.Items.append("HolyCrucifix") #Just changes base stats
+        self.Quality.append(0)
 
     if "PineconeBreastplate" in self.Items and "StoneSteak" in self.Items:
         self.Items.append("IronbarkShield") #If Hp is full, gain 1 armor at turn start
+        self.Quality.append(0)
 
     if "ChainmailSword" in self.Items and "ChainmailArmor" in self.Items:
         self.Items.append("IronChain") #Gain 5 armor
+        self.Quality.append(0)
 
     if "IronstoneSpear" in self.Items and "IronstoneSandals" in self.Items:
         self.Items.append("IronstoneArrowhead") #Gain 1 armor on hit
+        self.Quality.append(0)
 
     if "ForgeHammer" in self.Items and "ForgeGauntlet" in self.Items:
         self.Items.append("IronstoneCrest") #TS: Steal 2 armor from foe
+        self.Quality.append(0)
 
     if "IronstoneBracelet" in self.Items and "PetrifiedStatue" in self.Items:
         self.Items.append("IronstoneOre") #Gain armor = negative speed
+        self.Quality.append(0)
 
     if "IronTransfusion" in self.Items and "LifebloodArmor" in self.Items:
         self.Items.append("LifebloodTransfusion") #Restore 10 HP after battle. Kinda just not useful to include?
+        self.Quality.append(0)
 
     if "MarbleSword" in self.Items and "SerpentLyre" in self.Items:
         self.Items.append("MarbleAnvil") #BS: Trigger exposed
+        self.Quality.append(0)
 
     if "MarshlightLantern" in self.Items and "RiverflowViolin" in self.Items:
         self.Items.append("MarshlightAria") #When exposed: Trigger symphony twice
+        self.Quality.append(0)
 
     if "LeatherBoots" in self.Items and "LeatherGlove" in self.Items and "LeatherVest" in self.Items:
         self.Items.append("RawHide") #Gain 1 attack every other turn
+        self.Quality.append(0)
 
     if "RedwoodRod" in self.Items and "RedwoodCloak" in self.Items and "RedwoodHelmet" in self.Items:
         self.Items.append("RedwoodCrown") #Restore HP to Full on Wounded
+        self.Quality.append(0)
 
     if "FeatherweightBlade" in self.Items and "SaffronFeather" in self.Items:
         self.Items.append("SaffronTalon") #Gain 1 speed on hit
+        self.Quality.append(0)
 
     if "SanguineScepter" in self.Items and "RubyGemstone" in self.Items:
         self.Items.append("SanguineGemstone") #If your attack == 1, restore 1 hp on hit
+        self.Quality.append(0)
 
     if "ClearspringWatermelon" in self.Items and "SilverscaleFish" in self.Items and "SourLemon" in self.Items:
         self.Items.append("SeafoodHotpot") #Gain 2 armor per speed
-
+        self.Quality.append(0)
+              
     if "SpearshieldLance" in self.Items and "BrambleBuckler" in self.Items:
         self.Items.append("SteelplatedThorns") #Turn Start: If you have less than 10 thorns, double your thorns.
+        self.Quality.append(0)
 
     if "MoonlightCrest" in self.Items and "SunlightCrest" in self.Items:
         self.Items.append("TwilightCrest") #As long as you are below 50% hp, all healing is doubled
+        self.Quality.append(0)
 
     if "SanguineMorphosis" in self.Items and "VampiricStasis" in self.Items:
         self.Items.append("VampireCloak") #TS: If you are stunned, double all healing this turn
+        self.Quality.append(0)
 
     if "WeaverArmor" in self.Items and "WeaverShield" in self.Items:
         self.Items.append("WeaverMedallion") #5 base hp
+        self.Quality.append(0)
 
   #need to add equipments (Including enemy and bosses effects as equipment) and blacksmith effects
   class Player:
@@ -1990,7 +2018,7 @@
           self.Gold = Stats[7]
           self.Quality = Stats[8]
           self.Order = Order
-
+          ItemSets(self)
           self.WoundTriggers = 0
           #Determines if you start above wounded threshhold
           if self.CurrentHP/self.MaxHP > 0.5: 
