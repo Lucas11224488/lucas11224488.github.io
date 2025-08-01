@@ -4546,7 +4546,7 @@
               Foe.Gold = 0
 
       if Name == "Slime": # Battle Start: Give the player 4/6/8 acid
-          StatusInterp("Acid", Foe, Player, 2+2*Lvl)
+          StatusInterp("Acid", Foe, Player, 2+2*Player.Level)
 
       if Name == "Snake": #Gives 2 + Lvl poison on first turn hit
           StatusInterp("Poison", Foe, Player, 1 + Player.Level)
@@ -4838,6 +4838,9 @@
 
   def TurnCount(Player, Foe, TurnNum):
       Player.TurnCounter = Player.TurnCounter + 1
+      #Fatigue?
+      if TurnNum > 25:
+          DealDamage(TurnNum-25, Foe, Player)
       #I think CD go first before turnstart? *Might* be end of turn
       Player.Cooldown = Player.Cooldown + 1
       Player.Search("Cooldown", Foe)
@@ -4982,9 +4985,6 @@
       Player.Search("CooldownTrigger", Foe)
 
   def EndTurn(Player, Foe, TurnNum):
-      #Fatigue?
-      if TurnNum > 40:
-          DealDamage(TurnNum-40, Foe, Player)
       RipTriggs = Count(Player, "RiptideTriggers") + Count(Foe, "RiptideTriggers")
       if TurnNum == 0:
           Player.FirstTurn = False
