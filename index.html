@@ -3,7 +3,6 @@
 <head>
   <title>He is Coming Battle Simulation</title>
   <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABTSURBVChTY1QVlvrPQCJggtIkAco1nZCUA2NkgE0MrglZAsbGJgYCOJ2HbjoygGuyeP4IysIOkOVRbMKlEV0cw3noCrAZhNVPMIW4bB7UKYKBAQCE3Bu6c2arcgAAAABJRU5ErkJggg==" type="image/png">
-    <meta charset="UTF-8">
     <title>Dropdown Alignment</title>
     <style>
         html{
@@ -41,16 +40,10 @@
       input {
         background: #25131A;
         color: #daece5;
-        /* height: 20px; */
+        /* border-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABbSURBVEhLY7j15ul/VWGp//SmGYhRRAt6wHzMCCK23jzN4K1uykBrALMHRDOCXADj0NPyUR/TFIz6eNTHNAWjPh71MU3AqI9HfUxTMOrjkePjkdeTGCAfP/0PAPRSsDkNjSoDAAAAAElFTkSuQmCC") 300 round; */
         font-size: normal;
+        width: 50px;
       }
-
-      /* img {
-      width: 22px; 
-      height: auto;    
-      position: relative; 
-      top: 5px; 
-    } */
 
     label {
       color: #daece5;
@@ -141,7 +134,7 @@
     <br>
     <label for="quantity">Attack:</label>
     <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/a/aa/Icon_attack.png" alt="Attack:"> -->
-    <input type="number" id="LeftAttack" name="LeftAttack" min="0" max="99999" value="1">
+    <input type="number" id="LeftAttack" name="LeftAttack" min="-99999" max="99999" value="1">
     <br>
     <label for="quantity">Armor:</label>
     <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/a/a9/Icon_armor.png" alt="Armor:"> -->
@@ -149,7 +142,7 @@
     <br>
     <label for="quantity">Speed:</label>
     <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/9/9f/Icon_speed.png" alt="Speed:"> -->
-    <input type="number" id="LeftSpeed" name="LeftSpeed" min="0" max="99999" value="0">
+    <input type="number" id="LeftSpeed" name="LeftSpeed" min="-99999" max="99999" value="0">
     <br>
     <label for="quantity">Gold:</label>
     <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/e/e2/Treasury_16x.png" alt="Gold:"> -->
@@ -751,7 +744,7 @@
       <br>
       <label for="quantity">Attack:</label>
       <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/a/aa/Icon_attack.png" alt="Attack:"> -->
-      <input type="number" id="RightAttack" name="RightAttack" min="0" max="99999" value="1">
+      <input type="number" id="RightAttack" name="RightAttack" min="-99999" max="99999" value="1">
       <br>
       <label for="quantity">Armor:</label>
       <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/a/a9/Icon_armor.png" alt="Armor:"> -->
@@ -759,7 +752,7 @@
       <br>
       <label for="quantity">Speed:</label>
       <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/9/9f/Icon_speed.png" alt="Speed:"> -->
-      <input type="number" id="RightSpeed" name="RightSpeed" min="0" max="99999" value="0">
+      <input type="number" id="RightSpeed" name="RightSpeed" min="-99999" max="99999" value="0">
       <br>
       <label for="quantity">Gold:</label>
       <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/e/e2/Treasury_16x.png" alt="Gold:"> -->
@@ -1857,6 +1850,7 @@
           # if "IronstoneBracelet" in self.Items:
           #     self.ArmorShielding = 1
 
+          
           self.FirstFoeStrikeMult = 1
           if "FrostbiteArmor" in self.Items:
               self.FirstFoeStrikeMult = 2
@@ -1866,6 +1860,7 @@
           self.FirstTurnStrike = True
           self.FirstTurnPostStrike = True
           self.TempAttack = 0
+          self.StrikeReduction = 0
           self.ThornsTriggers = 0
           self.StrikeMult = 1
           if "PetrifiedEdge" in self.Items:
@@ -1963,7 +1958,7 @@
             self.HealingDisabled = True
           self.Alive = True
           #self.RHeal = 0 Prob not using
-
+      #I need freezemult damage reduction to occur then the -tempattack from the ironstone armor/ironstone bracelet
       #That is search weapons (Blacksmithing is added after the base effects) then items.
       #Hit damage, on hit, blacksmith edge, foes reaction to being hit (thorns from foe, brittlebark armor etc.)
       #Player.Items = ["Weapon", "Edge", "Inv"]
@@ -1994,15 +1989,18 @@
           elif Count(self, "IgnoreFoeArmor") > 0 or Count(Foe, "IgnoreSelfArmor") > 0: #{"IgnoreArmor"}, #Attacks ignore armor"
               for i in range(0, SC): #Check if death occurs before each strike/after?
                   self.TempAttack = 0
+                  Foe.StrikeReduction = 0
                   self.StrikeCounter = self.StrikeCounter + 1
                   PreStrikeAttackBonus(self, Foe)
                   PreStrikeL(self, Foe) #Need to set self.TempAttack = 0 since these weapons set attack not gain?
                   self.StrikeCalcIgnoreArmor(Foe) #Might need to add multistrikes here
-                  if np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)*Foe.FirstFoeStrikeMult > 0:   #Might need to go in the above for loop????
+                  if np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult > 0:   #Might need to go in the above for loop????
                       TakeDamage(Foe, self) #TakeDamage check for items
                   self.StrikeMult = 1
                   self.ThornsDamage(Foe) #Adds thorns activation
                   Foe.FirstFoeStrikeMult = 1
+                  self.TempAttack = 0
+                  Foe.StrikeReduction = 0
               self.StrikesCount = self.BaseStrikesCount
               self.CheckThornsLose(Foe)
 
@@ -2017,13 +2015,14 @@
               self.FreezeMult = self.BaseFreezeMult
           for i in range(0, SC): #Check if death occurs before each strike/after?
               self.TempAttack = 0
+              Foe.StrikeReduction = 0
               if self.FirstTurnStrike == True:
                   self.Search("FirstTurnStrike", Foe)
               self.StrikeCounter = self.StrikeCounter + 1
               PreStrikeAttackBonus(self, Foe)
               PreStrikeL(self, Foe) #Need to set self.TempAttack = 0 since these weapons set attack not gain?
               self.StrikeCalc(Foe) #Might need to add multistrikes here
-              if np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)*Foe.FirstFoeStrikeMult > 0:   #Might need to go in the above for loop????
+              if np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult > 0:   #Might need to go in the above for loop????
                   TakeDamage(Foe, self) #TakeDamage check for items
               self.StrikeMult = 1
               if self.FirstStrike:
@@ -2031,6 +2030,7 @@
                   self.FirstStrike = False
               self.ThornsDamage(Foe) #Adds thorns activation
               Foe.FirstFoeStrikeMult = 1
+              Foe.StrikeReduction = 0
               self.TempAttack = 0
           self.StrikesCount = self.BaseStrikesCount
           
@@ -2041,19 +2041,20 @@
             if self.Freeze > 0:
                 self.FreezeMult = self.BaseFreezeMult
             StrikeMult(self, Foe)
-            if np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)*Foe.FirstFoeStrikeMult > 0:
-                Foe.DamageFromFoeStrike = np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)
+            if np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult > 0:
+                Foe.DamageFromFoeStrike = np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult
                 if self.FirstTurnPostStrike == True:
                   self.Search("FirstTurnPostStrike", Foe)
-                Foe.HPloseFromFoeStrike = max(0, np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)- Foe.Armor)
-                Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult))
+                Foe.HPloseFromFoeStrike = max(0, np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult- Foe.Armor)
+                Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult)
                 self.AliveCheck(Foe)
                 Death(Foe)
                 HP1Check(Foe, self)
-                Foe.DeltaArmor = min(Foe.Armor, np.floor((self.StrikeMult*(self.Attack + self.TempAttack))))
+                Foe.DeltaArmor = min(Foe.Armor, np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult)
                 ArmorLose(Foe, self)
                 Foe.DeltaArmor = 0
-                Foe.Armor = max(0, Foe.Armor - np.floor((self.StrikeMult*(self.Attack + self.TempAttack))))
+                Foe.Armor = max(0, Foe.Armor - np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult)
+                Foe.StrikeReduction = 0
 
             #Might need to go into the strike function in its own seperate for loop??????????
             OnHit(self, Foe) #Checks for On hit effects including weapons and blacksmithed and include dealdamage
@@ -2064,12 +2065,13 @@
             if self.Freeze > 0:
                 self.FreezeMult = self.BaseFreezeMult
             StrikeMult(self, Foe)
-            if np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)*Foe.FirstFoeStrikeMult > 0:
-                Foe.DamageFromFoeStrike = np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)
+            if np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult > 0:
+                Foe.DamageFromFoeStrike = np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult
                 if self.FirstTurnPostStrike == True:
                   self.Search("FirstTurnPostStrike", Foe)
-                Foe.HPloseFromFoeStrike = max(0, np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult)) #Idk why its -Foe.Armor here?
-                Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - np.floor((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult))
+                Foe.HPloseFromFoeStrike = max(0, np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult) #Idk why its -Foe.Armor here?
+                Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP - np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult)
+                Foe.StrikeReduction = 0
                 self.AliveCheck(Foe)
                 Death(Foe)
                 HP1Check(Foe, self)
@@ -2377,9 +2379,9 @@
 
       if Name == "IronstoneBracelet": #Foe strikes deal 1 less damage if you have armor, else +1
           if Player.Armor > 0:
-              Foe.TempAttack = Foe.TempAttack - 1
+              Player.StrikeReduction = Player.StrikeReduction + 1
           else:
-              Foe.TempAttack = Foe.TempAttack + 1
+              Player.StrikeReduction = Player.StrikeReduction - 1
 
       if Name == "LifebloodHelmet": #On First turn restore hp = damage from strikes
           HealingCalc(Player, Foe, Foe.DamageFromFoeStrike)
@@ -3260,7 +3262,7 @@
 
       if Name == "IronstoneArmor":  #Enemy strikes deal 2 less damage while you have armor
           if Player.Armor > 0:
-              Foe.TempAttack = Foe.TempAttack - 2
+              Player.StrikeReduction = Player.StrikeReduction + 2
 
       if Name == "LifeZap": #Lose all your hp except 1 and stun the foe for 2 turns
           if Player.CurrentHP > 1:
@@ -3770,8 +3772,8 @@
           #GainPoison(Player, Foe, 1)
           BombDamage(1, Player, Foe)
 
-      if Name == "TrailMix":  #Deal 1 damage and gain 1 thorn 3 times
-          for ll in range(0, 3):
+      if Name == "TrailMix":  #Deal 1 damage and gain 1 thorn 4 times
+          for ll in range(0, 4):
               BombDamage(1, Player, Foe)
               StatusInterp("Thorns", Player, Foe, 1)
               #GainThorns(Player, Foe, 1)
