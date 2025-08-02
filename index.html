@@ -14,7 +14,7 @@
         .container {
         display: flex;
         justify-content: space-around;
-        padding: 20%;
+        padding: 10%;
         padding-top: 20px;
         padding-bottom: 20px;
         background: #25131A
@@ -23,9 +23,9 @@
       .left-column,
         
       .right-column {
-        display: flexbox;
+        display: box;
         flex-direction: column;
-        row-gap: normal;
+        row-gap: 50%;
           .right-align {
             text-align: center;
           }
@@ -35,11 +35,14 @@
       width: 50%;
       background: #25131A;
       color: #daece5;
+      font-size: normal;
       }
 
       input {
         background: #25131A;
         color: #daece5;
+        /* height: 20px; */
+        font-size: normal;
       }
 
       /* img {
@@ -51,7 +54,7 @@
 
     label {
       color: #daece5;
-      font-size: 14px;
+      font-size: large;
     }
 
     legend {
@@ -60,6 +63,7 @@
 
     fieldset {
         color: #daece5;
+        font-size: x-large;
     }
 
     div {
@@ -71,7 +75,7 @@
       height: 40px;
       background: #25131A;
       color: #daece5;
-      font-size: 20px;
+      font-size: large;
       }
       #RunFight {
         display: none;
@@ -95,16 +99,16 @@
      .slider-container::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 5px;
-      height: 15px;
+      width: 10px;
+      height: 20px;
       background-color: #daece5;
       border-radius: 50%;
       cursor: pointer;
     }
 
     .slider-container::-moz-range-thumb {
-      width: 5px;
-      height: 15px;
+      width: 10px;
+      height: 20px;
       background-color: #daece5;
       border-radius: 50%;
       cursor: pointer;
@@ -133,26 +137,25 @@
     <legend>Left Player Base Stats:</legend>
     <label for="quantity">Current HP/Max HP:</label>
     <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/3/37/Icon_health.png" alt="CurrentHP/MaxHP:"> -->
-    <input type="number" id="LeftCurrentHP" name="LeftCurrentHP" min="1" max="99999" value="10"> / <input type="number" id="LeftMaxHP" name="LeftMaxHP" min="1" max="99999" value="10">
-    <br><br>
+    <input type="number" id="LeftCurrentHP" name="LeftCurrentHP" min="1" max="99999" value="10"><small style="position: relative; top: 5px;"> / </small><input type="number" id="LeftMaxHP" name="LeftMaxHP" min="1" max="99999" value="10">
+    <br>
     <label for="quantity">Attack:</label>
     <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/a/aa/Icon_attack.png" alt="Attack:"> -->
     <input type="number" id="LeftAttack" name="LeftAttack" min="0" max="99999" value="1">
-    <br><br>
+    <br>
     <label for="quantity">Armor:</label>
     <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/a/a9/Icon_armor.png" alt="Armor:"> -->
     <input type="number" id="LeftArmor" name="LeftArmor" min="0" max="99999" value="0">
-    <br><br>
+    <br>
     <label for="quantity">Speed:</label>
     <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/9/9f/Icon_speed.png" alt="Speed:"> -->
     <input type="number" id="LeftSpeed" name="LeftSpeed" min="0" max="99999" value="0">
-    <br><br>
+    <br>
     <label for="quantity">Gold:</label>
     <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/e/e2/Treasury_16x.png" alt="Gold:"> -->
     <input type="number" id="LeftGold" name="LeftGold" min="0" max="99999" value="0">
     </fieldset>
 
-    <br>
     <br>
     <label for="LeftWeapons">Left Weapon:</label>
     <select name="LeftWeapons" id="LeftWeapons">
@@ -246,9 +249,9 @@
     </select>
 
     <br>
-    <br>
+
     <label for="LeftEdges">Left Edge:</label>
-    <select name="LeftEdges" id="LeftEdges">
+    <select name="LeftEdges" id="LeftEdges" style="margin-bottom: 5px; margin-top: 15px">
       <option value="">None</option>
       <option value="AgileEdge">Agile Edge</option>
       <option value="BleedingEdge">Bleeding Edge</option>
@@ -270,13 +273,12 @@
       <!-- <option value="ThievingEdge">Thieving Edge</option> -->
     </select>
     <br>
-    <br>
-
+ 
     <div id="dropdownContainer"></div>
 
     <template id="ItemSlots">
         <label>Item Slot:</label>
-        <select>
+        <select style="margin-top: 10px; margin-bottom: 5px;">
             <option value="">None</option>
             <option value="AcidMutation">Acid Mutation</option>
             <option value="AcidicWitherleaf">Acidic Witherleaf</option>
@@ -569,7 +571,7 @@
     <template id="QualitySlider">
       <label hidden="True">Item Slot:</label> 
       <input type="range" min="0" max="2" value="0" class="slider-container"></input>
-      <br><br>
+      <br>
     </template>
     
 
@@ -736,7 +738,6 @@
         <option value="WoodcuttersAxe">Woodcutter's Axe</option>
       </select>
       </div>
-      <br>
     </template>
 
 
@@ -746,26 +747,26 @@
       <div class="right-column">    
       <label for="quantity">Current HP/Max HP:</label>
       <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/3/37/Icon_health.png" alt="CurrentHP/MaxHP:"> -->
-      <input type="number" id="RightCurrentHP" name="RightCurrentHP" min="1" max="99999" value="10"> /<input type="number" id="RightMaxHP" name="RightMaxHP" min="1" max="99999" value="10">
-      <br><br>
+      <input type="number" id="RightCurrentHP" name="RightCurrentHP" min="1" max="99999" value="10"><small style="position: relative; top: 5px;"> / </small><input type="number" id="RightMaxHP" name="RightMaxHP" min="1" max="99999" value="10">
+      <br>
       <label for="quantity">Attack:</label>
       <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/a/aa/Icon_attack.png" alt="Attack:"> -->
       <input type="number" id="RightAttack" name="RightAttack" min="0" max="99999" value="1">
-      <br><br>
+      <br>
       <label for="quantity">Armor:</label>
       <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/a/a9/Icon_armor.png" alt="Armor:"> -->
       <input type="number" id="RightArmor" name="RightArmor" min="0" max="99999" value="0">
-      <br><br>
+      <br>
       <label for="quantity">Speed:</label>
       <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/9/9f/Icon_speed.png" alt="Speed:"> -->
       <input type="number" id="RightSpeed" name="RightSpeed" min="0" max="99999" value="0">
-      <br><br>
+      <br>
       <label for="quantity">Gold:</label>
       <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/e/e2/Treasury_16x.png" alt="Gold:"> -->
       <input type="number" id="RightGold" name="RightGold" min="0" max="99999" value="0">
       </div>
       </fieldset>
-      <br><br>
+      <br>
     </template>
 
 
@@ -773,7 +774,7 @@
     <template id="RightEdges">
       <div class="right-column">
       <label for="BlacksmithEdges">Right Edge:</label>
-      <select name="RightEdges" id="RightEdges">
+      <select name="RightEdges" id="RightEdges" style="margin-bottom: 5px; margin-top: 15px">
             <option value="">None</option>
             <option value="AgileEdge">Agile Edge</option>
             <option value="BleedingEdge">Bleeding Edge</option>
@@ -794,7 +795,6 @@
             <option value="WhirlpoolEdge">Whirlpool Edge</option>
       </select>
       </div>
-      <br>
     </template>
 
     <template id="EnemiesType">
@@ -5191,9 +5191,9 @@ def saveSelections(event):
       }, 2000);
     };
   </script>
-<div class="left-column" style="padding: 20%; padding-top: 0px; padding-bottom: 0px;">
-<fieldset style="margin-bottom: 10px; padding-top: 10px;">
-<div id="resultDisplay">Waiting On A Submission (Don't Forget To Select The Week)</div>
+<div class="left-column" style="padding: 10%; padding-top: 0px; padding-bottom: 0px;">
+<fieldset style="font-size: large; margin-bottom: 10px; padding-top: 10px;">
+<div id="resultDisplay">Waiting On A Submission<br>(Don't Forget To Select The Week)</div>
 <!-- <div id="debugBox">You shouldn't see this message</div> -->
 </fieldset>
 <button id="RunFight" py-click="saveSelections" type ="button">Submit</button>
