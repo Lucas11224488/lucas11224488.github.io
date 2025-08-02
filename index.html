@@ -14,7 +14,9 @@
         .container {
         display: flex;
         justify-content: space-around;
-        padding: 20px;
+        padding: 20%;
+        padding-top: 20px;
+        padding-bottom: 20px;
         background: #25131A
     }
   
@@ -30,7 +32,7 @@
       }
 
       select {
-      width: 160px;
+      width: 50%;
       background: #25131A;
       color: #daece5;
       }
@@ -40,12 +42,12 @@
         color: #daece5;
       }
 
-      img {
+      /* img {
       width: 22px; 
       height: auto;    
       position: relative; 
       top: 5px; 
-    }
+    } */
 
     label {
       color: #daece5;
@@ -65,10 +67,14 @@
     }
 
     button {
-      width: 80px;
-      height: 20px;
+      width: 120px;
+      height: 40px;
       background: #25131A;
       color: #daece5;
+      font-size: 20px;
+      }
+      #RunFight {
+        display: none;
       }
     </style>
     <!-- Includes PyScript -->
@@ -5177,13 +5183,20 @@ def saveSelections(event):
     
 </py-script>
 <!-- <button id="RunFight">Submit</button> -->
- <div class="left-column" style="padding-left:15%; padding-right:15%;">
-<button id="RunFight" py-click="saveSelections" type ="button">Submit</button>
-<br><br>
-<fieldset>
+   <script>
+    window.onload = function() {
+      const button = document.getElementById('RunFight');
+      setTimeout(() => {
+        button.style.display = 'block';
+      }, 2000);
+    };
+  </script>
+<div class="left-column" style="padding: 20%; padding-top: 0px; padding-bottom: 0px;">
+<fieldset style="margin-bottom: 10px; padding-top: 10px;">
 <div id="resultDisplay">Waiting On A Submission (Don't Forget To Select The Week)</div>
 <!-- <div id="debugBox">You shouldn't see this message</div> -->
 </fieldset>
+<button id="RunFight" py-click="saveSelections" type ="button">Submit</button>
 </div>
 </body>
 </html>
