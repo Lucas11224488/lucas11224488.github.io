@@ -2,16 +2,24 @@
 <html>
 <head>
   <title>He is Coming Battle Simulation</title>
+  <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAANSURBVBhXY1AVlvoPAAIFAVKabphMAAAAAElFTkSuQmCC" type="image/png">
     <meta charset="UTF-8">
     <title>Dropdown Alignment</title>
     <style>
-      .container {
+        html{
+            background: #25131A;
+            color: #daece5;
+        }
+
+        .container {
         display: flex;
         justify-content: space-around;
         padding: 20px;
+        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAANSURBVBhXY1AVlvoPAAIFAVKabphMAAAAAElFTkSuQmCC");
       }
   
       .left-column,
+        
       .right-column {
         display: flexbox;
         flex-direction: column;
@@ -23,9 +31,47 @@
 
       select {
       width: 160px;
+      background: #25131A;
+      color: #daece5;
+      }
+
+      input {
+        background: #25131A;
+        color: #daece5;
+      }
+
+      img {
+      width: 22px; 
+      height: auto;    
+      position: relative; 
+      top: 5px; 
+    }
+
+    label {
+      color: #daece5;
+      font-size: 14px;
+    }
+
+    legend {
+        color: #daece5;
+    }
+
+    fieldset {
+        color: #daece5;
+    }
+
+    div {
+        color: #daece5;
+    }
+
+    button {
+      width: 80px;
+      height: 20px;
+      background: #25131A;
+      color: #daece5;
       }
     </style>
-    <!-- Include PyScript -->
+    <!-- Includes PyScript -->
       <link rel="stylesheet" href="https://pyscript.net/releases/2025.7.3/core.css">
       <script type="module" src="https://pyscript.net/releases/2025.7.3/core.js"></script>
 
@@ -35,7 +81,7 @@
       -webkit-appearance: none;
       width: 50px;
       height: 10px;
-      background: linear-gradient(to right, lightgrey 33%, gold 33%, gold 66%, rgb(79, 210, 228) 66%);
+      background: linear-gradient(to right, #daece5 33%, gold 33%, gold 66%, rgb(79, 210, 228) 66%);
       border-radius: 5px;
       outline: none;
       margin: 0;
@@ -45,7 +91,7 @@
       appearance: none;
       width: 5px;
       height: 15px;
-      background-color: #000;
+      background-color: #daece5;
       border-radius: 50%;
       cursor: pointer;
     }
@@ -53,7 +99,7 @@
     .slider-container::-moz-range-thumb {
       width: 5px;
       height: 15px;
-      background-color: #000;
+      background-color: #daece5;
       border-radius: 50%;
       cursor: pointer;
     }
@@ -80,18 +126,23 @@
     <fieldset>
     <legend>Left Player Base Stats:</legend>
     <label for="quantity">Current HP/Max HP:</label>
-    <input type="number" id="LeftCurrentHP" name="LeftCurrentHP" min="1" max="99999" value="10">/<input type="number" id="LeftMaxHP" name="LeftMaxHP" min="1" max="99999" value="10">
+    <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/3/37/Icon_health.png" alt="CurrentHP/MaxHP:"> -->
+    <input type="number" id="LeftCurrentHP" name="LeftCurrentHP" min="1" max="99999" value="10"> / <input type="number" id="LeftMaxHP" name="LeftMaxHP" min="1" max="99999" value="10">
     <br><br>
     <label for="quantity">Attack:</label>
+    <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/a/aa/Icon_attack.png" alt="Attack:"> -->
     <input type="number" id="LeftAttack" name="LeftAttack" min="0" max="99999" value="1">
     <br><br>
     <label for="quantity">Armor:</label>
+    <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/a/a9/Icon_armor.png" alt="Armor:"> -->
     <input type="number" id="LeftArmor" name="LeftArmor" min="0" max="99999" value="0">
     <br><br>
     <label for="quantity">Speed:</label>
+    <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/9/9f/Icon_speed.png" alt="Speed:"> -->
     <input type="number" id="LeftSpeed" name="LeftSpeed" min="0" max="99999" value="0">
     <br><br>
     <label for="quantity">Gold:</label>
+    <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/e/e2/Treasury_16x.png" alt="Gold:"> -->
     <input type="number" id="LeftGold" name="LeftGold" min="0" max="99999" value="0">
     </fieldset>
 
@@ -513,7 +564,6 @@
     <template id="QualitySlider">
       <label hidden="True">Item Slot:</label> 
       <input type="range" min="0" max="2" value="0" class="slider-container"></input>
-      <!-- </span> -->
       <br><br>
     </template>
     
@@ -587,298 +637,6 @@
 
     <div id="dropdownContainer2"></div>
     <div id="dropdownContainer2Lower"></div>
-    <!-- <template id="ItemSlots">
-      <label>Item Slot:</label>
-      <select>
-        <option value="">None</option>
-        <option value="AcidMutation">Acid Mutation</option>
-        <option value="AcidicWitherleaf">Acidic Witherleaf</option>
-        <option value="ArcaneBell">Arcane Bell</option>
-        <option value="ArcaneGauntlet">Arcane Gauntlet</option>
-        <option value="ArcaneLens">Arcane Lens</option>
-        <option value="ArcaneShield">Arcane Shield</option>
-        <option value="ArmorRegrowth">Armor Regrowth</option>
-        <option value="AssaultGreaves">Assault Greaves</option>
-        <option value="BasiliskScale">Basilisk Scale</option>
-        <option value="BeltOfGluttony">Belt of Gluttony</option>
-        <option value="BigBoom">Big Boom</option>
-        <option value="BitterMelon">Bitter Melon</option>
-        <option value="BlackbriarArmor">Blackbriar Armor</option>
-        <option value="BlackbriarGauntlet">Blackbriar Gauntlet</option>
-        <option value="BlackbriarRose">Blackbriar Rose</option>
-        <option value="BlacksmithBond">Blacksmith Bond</option>
-        <option value="BlastcapArmor">Blastcap Armor</option>
-        <option value="BloodChain">Blood Chain</option>
-        <option value="BloodOrange">Blood Orange</option>
-        <option value="BloodSausage">Blood Sausage</option>
-        <option value="BloodmoonArmor">Bloodmoon Armor</option>
-        <option value="BloodstoneRing">Bloodstone Ring</option>
-        <option value="BloodySteak">Bloody Steak</option>
-        <option value="BoiledHam">Boiled Ham</option>
-        <option value="BombBag">Bomb Bag</option>
-        <option value="BootsOfSloth">Boots of Sloth</option>
-        <option value="BootsoftheHero">Boots of the Hero</option>
-        <option value="BrambleBelt">Bramble Belt</option>
-        <option value="BrambleBuckler">Bramble Buckler</option>
-        <option value="BrambleTalisman">Bramble Talisman</option>
-        <option value="BrambleVest">Bramble Vest</option>
-        <option value="BrittlebarkArmor">Brittlebark Armor</option>
-        <option value="BrittlebarkBuckler">Brittlebark Buckler</option>
-        <option value="CactusCap">Cactus Cap</option>
-        <option value="CandiedNuts">Candied Nuts</option>
-        <option value="CausticTome">Caustic Tome</option>
-        <option value="ChainmailArmor">Chainmail Armor</option>
-        <option value="ChainmailCloak">Chainmail Cloak</option>
-        <option value="ChampionsArmor">Champions Armor</option>
-        <option value="CherryBomb">Cherry Bomb</option>
-        <option value="CherryCocktail">Cherry Cocktail</option>
-        <option value="ChestOfLust">Chest of Lust</option>
-        <option value="CitrineEarring">Citrine Earring</option>
-        <option value="CitrineGemstone">Citrine Gemstone</option>
-        <option value="CitrineRing">Citrine Ring</option>
-        <option value="ClearspringCloak">Clearspring Cloak</option>
-        <option value="ClearspringDuck">Clearspring Duck</option>
-        <option value="ClearspringFeather">Clearspring Feather</option>
-        <option value="ClearspringOpal">Clearspring Opal</option>
-        <option value="ClearspringRose">Clearspring Rose</option>
-        <option value="ClearspringWatermelon">Clearspring Watermelon</option>
-        <option value="ColdResistance">Cold Resistance</option>
-        <option value="CombustibleLemon">Combustible Lemon</option>
-        <option value="Cookbook">Cookbook</option>
-        <option value="CorrodedBone">Corroded Bone</option>
-        <option value="CrackedBouldershield">Cracked Bouldershield</option>
-        <option value="CrackedWhetstone">Cracked Whetstone</option>
-        <option value="CrimsonCloak">Crimson Cloak</option>
-        <option value="CrimsonFang">Crimson Fang</option>
-        <option value="DeepseaWine">Deepsea Wine</option>
-        <option value="DeviledEgg">Deviled Egg</option>
-        <option value="DoublePlatedArmor">Double Plated Armor</option>
-        <option value="EchoRune">Echo Rune</option>
-        <option value="ElderwoodNecklace">Elderwood Necklace</option>
-        <option value="EmeraldCrown">Emerald Crown</option>
-        <option value="EmeraldEarring">Emerald Earring</option>
-        <option value="EmeraldGemstone">Emerald Gemstone</option>
-        <option value="EmeraldRing">Emerald Ring</option>
-        <option value="EmergencyShield">Emergency Shield</option>
-        <option value="EnergyDrain">Energy Drain</option>
-        <option value="ExplosiveArrow">Explosive Arrow</option>
-        <option value="ExplosiveFish">Explosive Fish</option>
-        <option value="ExplosivePowder">Explosive Powder</option>
-        <option value="ExplosiveRoast">Explosive Roast</option>
-        <option value="ExplosiveSurprise">Explosive Surprise</option>
-        <option value="FeatherweightArmor">Featherweight Armor</option>
-        <option value="FeatherweightGauntlet">Featherweight Gauntlet</option>
-        <option value="FeatherweightGreaves">Featherweight Greaves</option>
-        <option value="FeatherweightHelmet">Featherweight Helmet</option>
-        <option value="FirecrackerBelt">Firecracker Belt</option>
-        <option value="FlameburstTome">Flameburst Tome</option>
-        <option value="ForgeGauntlet">Forge Gauntlet</option>
-        <option value="FortifiedGauntlet">Fortified Gauntlet</option>
-        <option value="FrostbiteArmor">Frostbite Armor</option>
-        <option value="FrostbiteCurse">Frostbite Curse</option>
-        <option value="FrostbiteGauntlet">Frostbite Gauntlet</option>
-        <option value="FrostbiteTrap">Frostbite Trap</option>
-        <option value="GoldRing">Gold Ring</option>
-        <option value="GrandTome">Grand Tome</option>
-        <option value="GraniteCherry">Granite Cherry</option>
-        <option value="GraniteCrown">Granite Crown</option>
-        <option value="GraniteEgg">Granite Egg</option>
-        <option value="GraniteFungi">Granite Fungi</option>
-        <option value="GraniteThorns">Granite Thorns</option>
-        <option value="GraniteTome">Granite Tome</option>
-        <option value="HeartshapedAcorn">Heartshaped Acorn</option>
-        <option value="HeartshapedElixir">Heartshaped Elixir</option>
-        <option value="HeartshapedPotion">Heartshaped Potion</option>
-        <option value="HelmetOfEny">Helmet of Eny</option>
-        <option value="HolyShield">Holy Shield</option>
-        <option value="HolyTome">Holy Tome</option>
-        <option value="HoneyCaviar">Honey Caviar</option>
-        <option value="HoneyHam">Honey Ham</option>
-        <option value="Honeycomb">Honeycomb</option>
-        <option value="HoneydewMelon">Honeydew Melon</option>
-        <option value="HoneyglazedShroom">Honeyglazed Shroom</option>
-        <option value="HornedHelmet">Horned Helmet</option>
-        <option value="HornedMelon">Horned Melon</option>
-        <option value="IceSpikes">Ice Spikes</option>
-        <option value="IceTomb">Ice Tomb</option>
-        <option value="IceblockShield">Iceblock Shield</option>
-        <option value="ImpressivePhysique">Impressive Physique</option>
-        <option value="IronRose">Iron Rose</option>
-        <option value="IronShrapnel">Iron Shrapnel</option>
-        <option value="IronTransfusion">Iron Transfusion</option>
-        <option value="IronskinElixir">Ironskin Elixir</option>
-        <option value="IronskinPotion">Ironskin Potion</option>
-        <option value="IronstoneArmor">Ironstone Armor</option>
-        <option value="IronstoneBracelet">Ironstone Bracelet</option>
-        <option value="IronstoneSandals">Ironstone Sandals</option>
-        <option value="KindlingBomb">Kindling Bomb</option>
-        <option value="KnightsArmor">Knights Armor</option>
-        <option value="LeatherBelt">Leather Belt</option>
-        <option value="LeatherBoots">Leather Boots</option>
-        <option value="LeatherGlove">Leather Glove</option>
-        <option value="LeatherVest">Leather Vest</option>
-        <option value="LeatherWaterskin">Leather Waterskin</option>
-        <option value="LemonRoast">Lemon Roast</option>
-        <option value="LemonShark">Lemon Shark</option>
-        <option value="LemonSyrup">Lemon Syrup</option>
-        <option value="LifeZap">Life Zap</option>
-        <option value="LifebloodArmor">Lifeblood Armor</option>
-        <option value="LifebloodBurst">Lifeblood Burst</option>
-        <option value="LifebloodHelmet">Lifeblood Helmet</option>
-        <option value="LiferootBeast">Liferoot Beast</option>
-        <option value="LiferootGauntlet">Liferoot Gauntlet</option>
-        <option value="LiferootLute">Liferoot Lute</option>
-        <option value="LiferootTome">Liferoot Tome</option>
-        <option value="LightningBottle">Lightning Bottle</option>
-        <option value="LightningElixir">Lightning Elixir</option>
-        <option value="LightspeedElixir">Lightspeed Elixir</option>
-        <option value="LightspeedPotion">Lightspeed Potion</option>
-        <option value="LimestoneFruit">Limestone Fruit</option>
-        <option value="LooseChange">Loose Change</option>
-        <option value="MarbleMushroom">Marble Mushroom</option>
-        <option value="MarbledStonefish">Marbled Stonefish</option>
-        <option value="MarshlightLantern">Marshlight Lantern</option>
-        <option value="MelonBomb">Melon Bomb</option>
-        <option value="MelonLemonade">Melon Lemonade</option>
-        <option value="MelonWine">Melon Wine</option>
-        <option value="MineralWater">Mineral Water</option>
-        <option value="MistArmor">Mist Armor</option>
-        <option value="MoldyMeat">Moldy Meat</option>
-        <option value="MoonlightCrest">Moonlight Crest</option>
-        <option value="MoonlightShield">Moonlight Shield</option>
-        <option value="MuscleElixir">Muscle Elixir</option>
-        <option value="MuscleGrowth">Muscle Growth</option>
-        <option value="MusclePotion">Muscle Potion</option>
-        <option value="MushroomBuckler">Mushroom Buckler</option>
-        <option value="MushroomSoup">Mushroom Soup</option>
-        <option value="NerveElixir">Nerve Elixir</option>
-        <option value="NervePoison">Nerve Poison</option>
-        <option value="NoxiousGas">Noxious Gas</option>
-        <option value="OakHeart">Oak Heart</option>
-        <option value="OreHeart">Ore Heart</option>
-        <option value="OverchargedOrb">Overcharged Orb</option>
-        <option value="PertrifiedStatue">Petrified Statue</option>
-        <option value="PetrifiedChestnut">Petrified Chestnut</option>
-        <option value="PetrifyingElixir">Petrifying Elixir</option>
-        <option value="PetrifyingFlask">Petrifying Flask</option>
-        <option value="PiercingThorns">Piercing Thorns</option>
-        <option value="PineconeBreastplate">Pinecone Breastplate</option>
-        <option value="PlatedGreaves">Plated Greaves</option>
-        <option value="PlatedHelmet">Plated Helmet</option>
-        <option value="PlatedShield">Plated Shield</option>
-        <option value="PoisonousDurian">Poisonous Durian</option>
-        <option value="PoisonousLemon">Poisonous Lemon</option>
-        <option value="PoisonousMushroom">Poisonous Mushroom</option>
-        <option value="PoisonousPufferfish">Poisonous Pufferfish</option>
-        <option value="PowderCookie">Powder Cookie</option>
-        <option value="PowderKeg">Powder Keg</option>
-        <option value="PowderPlate">Powder Plate</option>
-        <option value="PurelakeArmor">Purelake Armor</option>
-        <option value="PurelakeChalice">Purelake Chalice</option>
-        <option value="PurelakeElixir">Purelake Elixir</option>
-        <option value="PurelakeHelmet">Purelake Helmet</option>
-        <option value="PurelakePotion">Purelake Potion</option>
-        <option value="PurelakeTome">Purelake Tome</option>
-        <option value="RazorBreastplate">Razor Breastplate</option>
-        <option value="RazorScales">Razor Scales</option>
-        <option value="RazorvineTalisman">Razorvine Talisman</option>
-        <option value="RedwoodCloak">Redwood Cloak</option>
-        <option value="RedwoodHelmet">Redwood Helmet</option>
-        <option value="RedwoodRoast">Redwood Roast</option>
-        <option value="RiverflowTalisman">Riverflow Talisman</option>
-        <option value="RiverflowViolin">Riverflow Violin</option>
-        <option value="RoastedChestnut">Roasted Chestnut</option>
-        <option value="RockCandy">Rock Candy</option>
-        <option value="RockRoast">Rock Roast</option>
-        <option value="RoyalHelmet">Royal Helmet</option>
-        <option value="RoyalHorn">Royal Horn</option>
-        <option value="RoyalShield">Royal Shield</option>
-        <option value="RubyCrown">Ruby Crown</option>
-        <option value="RubyEarring">Ruby Earring</option>
-        <option value="RubyGemstone">Ruby Gemstone</option>
-        <option value="RubyRing">Ruby Ring</option>
-        <option value="RustedPlate">Rusted Plate</option>
-        <option value="RustyRing">Rusty Ring</option>
-        <option value="SaffronFeather">Saffron Feather</option>
-        <option value="SaltcrustedCrown">Saltcrusted Crown</option>
-        <option value="SanguineImp">Sanguine Imp</option>
-        <option value="SanguineMorphosis">Sanguine Morphosis</option>
-        <option value="SanguineRose">Sanguine Rose</option>
-        <option value="SanguineTome">Sanguine Tome</option>
-        <option value="SapphireCrown">Sapphire Crown</option>
-        <option value="SapphireEarring">Sapphire Earring</option>
-        <option value="SapphireGemstone">Sapphire Gemstone</option>
-        <option value="SapphireRing">Sapphire Ring</option>
-        <option value="SerpentLyre">Serpent Lyre</option>
-        <option value="SerpentMask">Serpent Mask</option>
-        <option value="SerpentScalemail">Serpent Scalemail</option>
-        <option value="SharkRoast">Shark Roast</option>
-        <option value="SheetMusic">Sheet Music</option>
-        <option value="ShieldTalisman">Shield Talisman</option>
-        <option value="ShieldoftheHero">Shield of the Hero</option>
-        <option value="SilverAnchor">Silver Anchor</option>
-        <option value="SilverscaleArmor">Silverscale Armor</option>
-        <option value="SilverscaleFish">Silverscale Fish</option>
-        <option value="SilverscaleGauntlet">Silverscale Gauntlet</option>
-        <option value="SilverscaleGreaves">Silverscale Greaves</option>
-        <option value="SilverscaleTome">Silverscale Tome</option>
-        <option value="SinfulMirror">Sinful Mirror</option>
-        <option value="SlimeArmor">Slime Armor</option>
-        <option value="SlimeBomb">Slime Bomb</option>
-        <option value="SlimeBooster">Slime Booster</option>
-        <option value="SlimeElixir">Slime Elixir</option>
-        <option value="SlimeHeart">Slime Heart</option>
-        <option value="SlimePotion">Slime Potion</option>
-        <option value="SmokeBomb">Smoke Bomb</option>
-        <option value="SourLemon">Sour Lemon</option>
-        <option value="SpikedWine">Spiked Wine</option>
-        <option value="SpinyChestnut">Spiny Chestnut</option>
-        <option value="SpinyKiwifruit">Spiny Kiwifruit</option>
-        <option value="SpinySnapper">Spiny Snapper</option>
-        <option value="SpiralShell">Spiral Shell</option>
-        <option value="SpiritualBalance">Spiritual Balance</option>
-        <option value="SquiresArmor">Squires Armor</option>
-        <option value="StillwaterPearl">Stillwater Pearl</option>
-        <option value="StoneSteak">Stone Steak</option>
-        <option value="StonebornTurtle">Stoneborn Turtle</option>
-        <option value="StormcloudArmor">Stormcloud Armor</option>
-        <option value="StormcloudCurse">Stormcloud Curse</option>
-        <option value="StormcloudDrum">Stormcloud Drum</option>
-        <option value="StormcloudTome">Stormcloud Tome</option>
-        <option value="StormtideAnchor">Stormtide Anchor</option>
-        <option value="StuddedGauntlet">Studded Gauntlet</option>
-        <option value="SugarBomb">Sugar Bomb</option>
-        <option value="SunlightCrest">Sunlight Crest</option>
-        <option value="SweetWine">Sweet Wine</option>
-        <option value="SwiftstrikeBelt">Swiftstrike Belt</option>
-        <option value="SwiftstrikeCloak">Swiftstrike Cloak</option>
-        <option value="SwiftstrikeCrown">Swiftstrike Crown</option>
-        <option value="SwiftstrikeGauntlet">Swiftstrike Gauntlet</option>
-        <option value="SwordTalisman">Sword Talisman</option>
-        <option value="TempestBreastplate">Tempest Breastplate</option>
-        <option value="ThornRing">Thorn Ring</option>
-        <option value="TimeBomb">Time Bomb</option>
-        <option value="TomeOfTheHero">Tome of the Hero</option>
-        <option value="ToxicAlgae">Toxic Algae</option>
-        <option value="ToxicCherry">Toxic Cherry</option>
-        <option value="ToxicRose">Toxic Rose</option>
-        <option value="TrailMix">Trail Mix</option>
-        <option value="TreebarkEgg">Treebark Egg</option>
-        <option value="TwinfuseKnot">Twinfuse Knot</option>
-        <option value="TwistedRoot">Twisted Root</option>
-        <option value="UnderwaterWatermelon">Underwater Watermelon</option>
-        <option value="VampireWine">Vampire Wine</option>
-        <option value="VampiresTooth">Vampire's Tooth</option>
-        <option value="VampiricStasis">Vampiric Stasis</option>
-        <option value="VenomousFang">Venomous Fang</option>
-        <option value="ViperElixir">Viper Elixir</option>
-        <option value="ViperExtract">Viper Extract</option>
-        <option value="WeaverArmor">Weaver Armor</option>
-        <option value="WeaverShield">Weaver Shield</option>
-        <option value="WetEgg">Wet Egg</option>
-            </select>
-      <br>
-    </template> -->
 
     <template id="WeaponsRight">
       <div class="right-column">
@@ -983,18 +741,23 @@
       <legend>Right Player Base Stats:</legend>
       <div class="right-column">    
       <label for="quantity">Current HP/Max HP:</label>
-      <input type="number" id="RightCurrentHP" name="RightCurrentHP" min="1" max="99999" value="10">/<input type="number" id="RightMaxHP" name="RightMaxHP" min="1" max="99999" value="10">
+      <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/3/37/Icon_health.png" alt="CurrentHP/MaxHP:"> -->
+      <input type="number" id="RightCurrentHP" name="RightCurrentHP" min="1" max="99999" value="10"> /<input type="number" id="RightMaxHP" name="RightMaxHP" min="1" max="99999" value="10">
       <br><br>
       <label for="quantity">Attack:</label>
+      <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/a/aa/Icon_attack.png" alt="Attack:"> -->
       <input type="number" id="RightAttack" name="RightAttack" min="0" max="99999" value="1">
       <br><br>
       <label for="quantity">Armor:</label>
+      <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/a/a9/Icon_armor.png" alt="Armor:"> -->
       <input type="number" id="RightArmor" name="RightArmor" min="0" max="99999" value="0">
       <br><br>
       <label for="quantity">Speed:</label>
+      <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/9/9f/Icon_speed.png" alt="Speed:"> -->
       <input type="number" id="RightSpeed" name="RightSpeed" min="0" max="99999" value="0">
       <br><br>
       <label for="quantity">Gold:</label>
+      <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/e/e2/Treasury_16x.png" alt="Gold:"> -->
       <input type="number" id="RightGold" name="RightGold" min="0" max="99999" value="0">
       </div>
       </fieldset>
@@ -1109,14 +872,13 @@
         const EnemyList = document.getElementById("EnemiesType").innerHTML;
         const Foe2 = document.getElementById("FoeType");
         const template = document.getElementById("ItemSlots");
-        containerright.innerHTML = ""; // Clear existing dropdowns
+        containerright.innerHTML = ""; 
         containerright.innerHTML += Stats2
         containerright.innerHTML += Weapons2
         containerright.innerHTML += Edges2
         let PrevCountRight = 0;
         countSelector.addEventListener("change", () => {
             const Type = parseInt(Foe2.value);
-            //containerright2.innerHTML = ""; // Clear existing dropdowns
             if (Type == 0) {
                 const count = parseInt(countSelector.value);
                 const ItemSlots = document.getElementById("ItemSlots");
@@ -1163,31 +925,6 @@
                 }
                 PrevCountRight = count;
                 }
-                // const count = parseInt(countSelector.value);
-                // const ItemSlots = document.getElementById("ItemSlots");
-                // const Quality = document.getElementById("QualitySlider");
-
-                // for (let i = 0; i < count; i++) {
-                // const content = ItemSlots.content.cloneNode(true)
-                // const labelIS = content.querySelector("label");
-                // const selectIS = content.querySelector("select");
-
-                // const IS = `itemslotRight_${i}`;
-                // selectIS.id = IS;
-                // selectIS.name = IS;
-                // labelIS.setAttribute("for", IS);
-                // containerright2.appendChild(content);
-
-                // const contentQ = Quality.content.cloneNode(true)
-                // const labelQ = contentQ.querySelector("label");
-                // const selectQ= contentQ.querySelector("input");
-
-                // const Q = `qualityRight_${i}`;
-                // selectQ.id = Q;
-                // selectQ.name = Q;
-                // labelQ.setAttribute("for", Q);
-                // containerright2.appendChild(contentQ);
-                // }
             }
             else if (Type > 0) {
                 const count = parseInt(countSelector.value);
@@ -5445,7 +5182,7 @@ def saveSelections(event):
 <button id="RunFight" py-click="saveSelections" type ="button">Submit</button>
 <br><br>
 <fieldset>
-<div id="resultDisplay">Waiting on a Submission (Don't forget to select the night and Player or Enemy)</div>
+<div id="resultDisplay">Waiting On A Submission (Don't Forget To Select The Week)</div>
 <!-- <div id="debugBox">You shouldn't see this message</div> -->
 </fieldset>
 </body>
