@@ -1530,7 +1530,7 @@
               "SilverscaleShark" : {"TurnStart"}, #Gives the player 2 riptide. Gains 1 temp attack per player riptide
               "StonescaleBasilisk" : {"OnHit"}, #Gives 2 poison on hit
               #Night 3 boss
-              "Leshen" : {""}, #Currently does nothing
+              "Leshen" : {}, #Currently does nothing
               "WoodlandAbomination" : {"TurnStart"}, #Gain an attack
               #Swamp Night 3
               #"SwamplandHydra" #Is a hecking mess, basically 4 different bosses as one enemy
@@ -1681,7 +1681,7 @@
           Stats = [50, 50, 7, 0, 3, ["Leshen"], Level, 0, [0]] #Nothing?
 
       if Name == "WoodlandAbomination": #Phase 2, but you heal to full hp sooooo, its just a new fight
-          Stats = [100, 100, 0, 0, 2, ["WoodlandAbomination"], Level, 0, [0]] #Gains an attack at start of turn
+          Stats = [100, 100, 0, 0, 3, ["WoodlandAbomination"], Level, 0, [0]] #Gains an attack at start of turn
       
       #Minibosses
       if Name == "IronshellBeetle":
@@ -4996,10 +4996,10 @@ def MainFight(Left, Right, EnemyType):
 
             #First Player's Strikes
             if (P1.Stun <= 0) and (P1.Count("CantAttack") == 0):
-                for i in range(0, P1.StrikesCount):
-                    P2 = P1.Strike(P2) #Strike
-                    if checkLife(P1, P2, Players) == 1:
-                        break
+                #for i in range(0, P1.StrikesCount):
+                P2 = P1.Strike(P2) #Strike
+                if checkLife(P1, P2, Players) == 1:
+                    break
 
             #PostTurn Stuff for firstturn
             EndTurn(P1, P2, turn)
@@ -5012,10 +5012,10 @@ def MainFight(Left, Right, EnemyType):
 
             #Second Player's Strikes
             if (P2.Stun <= 0) and (P2.Count("CantAttack") == 0):
-                for i in range(0, P2.StrikesCount):
-                    P1 = P2.Strike(P1) #Strike
-                    if checkLife(P1, P2, Players) == 1:
-                        break
+                #for i in range(0, P2.StrikesCount):
+                P1 = P2.Strike(P1) #Strike
+                if checkLife(P1, P2, Players) == 1:
+                    break
 
             #PostTurn Stuff for firstturn
             EndTurn(P2, P1, turn)
