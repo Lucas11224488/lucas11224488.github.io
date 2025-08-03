@@ -4050,20 +4050,25 @@
 
       if Name == "GemstoneScepter": #Gain an on hit effect if you have emerald(+1HP), ruby(+1damage), sapphire(+1Armor), or citrine(+1spd) items
           #Might need it to check for all jewelry types simitaneously
-          for i in range(0, Count(Player, "Emerald")):
-              HealingCalc(Player, Foe, 1)
+          HealingCalc(Player, Foe, Count(Player, "Emerald"))
+          DealDamage(Count(Player, "Ruby"), Player, Foe)
+          ArmorGain(Player, Foe, Count(Player, "Sapphire"))
+          Player.DeltaSpeed = Count(Player, "Citrine")
+          GainSpeed(Player, Foe, Count(Player, "Citrine"))
+          #for i in range(0, Count(Player, "Emerald")):
+              #HealingCalc(Player, Foe, 1)
           
-          for i in range(0, Count(Player, "Ruby")):
-              DealDamage(1, Player, Foe)
-          
-          for i in range(0, Count(Player, "Sapphire")):
-              #Player.Armor = Player.Armor + 1
-              ArmorGain(Player, Foe, 1)
+          #for i in range(0, Count(Player, "Ruby")):
+              #DealDamage(1, Player, Foe)
 
-          for i in range(0, Count(Player, "Citrine")):
+          #for i in range(0, Count(Player, "Sapphire")):
+              #Player.Armor = Player.Armor + 1
+              #ArmorGain(Player, Foe, 1)
+
+          #for i in range(0, Count(Player, "Citrine")):
               #Player.Speed = Player.Speed + 1
-              Player.DeltaSpeed = 1
-              GainSpeed(Player, Foe, 1)
+              #Player.DeltaSpeed = 1
+              #GainSpeed(Player, Foe, 1)
 
       if Name == "GraniteHammer": #Convert 1 armor to 2 attack p sure this the right order to gain the attack
           if Player.Armor > 0:
