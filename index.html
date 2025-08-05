@@ -121,8 +121,8 @@
 <div class="container">
     <!-- Left Side -->
   <div class="left-column">
-    <label for="NightCount">What Week?</label>
-    <select id="NightCount">
+    <label for="WeekCount">What Week?</label>
+    <select id="WeekCount">
       <option disabled selected hidden value="2">--Choose--</option>
       <option value="4">1</option>
       <option value="6">2</option>
@@ -580,13 +580,13 @@
 <!-- Creates all the boxes for left Player's items -->
     <script>
       let PrevCount = 0;
-      const countSelector = document.getElementById("NightCount");
+      const countSelector = document.getElementById("WeekCount");
       countSelector.addEventListener("change", () => {
         const count = parseInt(countSelector.value);
         const ItemSlots = document.getElementById("ItemSlots");
         const Quality = document.getElementById("QualitySlider");
         const container = document.getElementById("dropdownContainer");
-        if (count < PrevCount) { //Removes dropdowns if the Night is decreased
+        if (count < PrevCount) { //Removes dropdowns if the Week is decreased
           for (let i = count; i < PrevCount; i++) {
             document.getElementById(`itemslots_${i}`).remove();
             document.querySelector(`label[for=itemslots_${i}]`).remove();
@@ -604,7 +604,7 @@
           PrevCount = count;
         }
         else if (count > PrevCount) {
-          // Add new dropdowns if Night is increased
+          // Add new dropdowns if Week is increased
           for (let i = PrevCount; i < count; i++) {
             const content = ItemSlots.content.cloneNode(true);
             const labelIS = content.querySelector("label");
@@ -818,8 +818,8 @@
       <option value="Turtle">Turtle</option>
       <option value="Wolf">Wolf</option>
 
-      <!-- Night 1 Bosses -->
-      <option disabled>~~Night 1 Bosses~~</option>
+      <!-- Week 1 Bosses -->
+      <option disabled>~~Week 1 Bosses~~</option>
       <option value="BlackKnight">Black Knight</option>
       <option value="BloodmoonWerewolf">Bloodmoon Werewolf</option>
       <option value="BrittlebarkBeast">Brittlebark Beast</option>
@@ -827,7 +827,7 @@
       <option value="RazorclawGrizzly">Razorclaw Grizzly</option>
       <option value="RazortuskHog">Razortusk Hog</option>
 
-      <option disabled>~~Night 1 Swampland Bosses~~</option>
+      <option disabled>~~Week 1 Swampland Bosses~~</option>
       <option value="CarnivorousSlime">Carnivorous Slime</option>
       <option value="FungalGiant">Fungal Giant</option>
       <option value="IronshellSnail">Ironshell Snail</option>
@@ -835,8 +835,8 @@
       <option value="SwampsongSiren">Swampsong Siren</option>
       <option value="ToxicMiretoad">Toxic Miretoad</option>
 
-      <!-- Night 2 Bosses -->
-      <option disabled>~~Night 2 Bosses~~</option>
+      <!-- Week 2 Bosses -->
+      <option disabled>~~Week 2 Bosses~~</option>
       <option value="BlackbriarKing">Blackbriar King</option>
       <option value="FrostbiteDruid">Frostbite Druid</option>
       <option value="GoldwingMonarch">Goldwing Monarch</option>
@@ -844,7 +844,7 @@
       <option value="RedwoodTreant">Redwood Treant</option>
       <option value="SwiftstrikeStag">Swiftstrike Stag</option>
 
-      <option disabled>~~Night 2 Swampland Bosses~~</option>
+      <option disabled>~~Week 2 Swampland Bosses~~</option>
       <option value="ClearspringSpirit">Clearspring Spirit</option>
       <option value="GraniteGriffin">Granite Griffin</option>
       <option value="LiferootExperiment">Liferoot Experiment</option>
@@ -852,8 +852,8 @@
       <option value="SilverscaleShark">Silverscale Shark</option>
       <option value="StonescaleBasilisk">Stonescale Basilisk</option>
 
-      <!-- Night 3 Boss -->
-      <option disabled>~~Night 3 Bosses~~</option>
+      <!-- Week 3 Boss -->
+      <option disabled>~~Week 3 Bosses~~</option>
       <option value="Leshen">Leshen</option>
       <option value="WoodlandAbomination">Woodland Abomination</option>
 
@@ -889,7 +889,7 @@
                 const count = parseInt(countSelector.value);
                 const ItemSlots = document.getElementById("ItemSlots");
                 const Quality = document.getElementById("QualitySlider");
-                if (count < PrevCountRight) { //Removes dropdowns if the Night is decreased
+                if (count < PrevCountRight) { //Removes dropdowns if the Week is decreased
                     for (let i = count; i < PrevCountRight; i++) {
                         document.getElementById(`itemslotRight_${i}`).remove();
                         document.querySelector(`label[for=itemslotRight_${i}]`).remove();
@@ -907,7 +907,7 @@
                     PrevCountRight = count;
                 }
                 else if (count > PrevCountRight) {
-                // Add new dropdowns if Night is increased
+                // Add new dropdowns if Week is increased
                 for (let i = PrevCountRight; i < count; i++) {
                     const content = ItemSlots.content.cloneNode(true);
                     const labelIS = content.querySelector("label");
@@ -944,7 +944,7 @@
         Foe2.addEventListener("change", () => {
                 const Type = parseInt(Foe2.value);
                 if (Type < 1) {
-                const countSelector = document.getElementById("NightCount");
+                const countSelector = document.getElementById("WeekCount");
                 const count = parseInt(countSelector.value);
                 containerright.innerHTML = ""; 
                 containerright2.innerHTML = "";
@@ -1501,38 +1501,38 @@
               "Wolf" : {"PreStrike"}, #If Foe.CurrentHP <=5 temp attack is set to +2+Lvl
 
 
-              #Night 1 Bosses
+              #Week 1 Bosses
               "BlackKnight" : {"BattleStart"}, # Gain attack = Foe.Attack + 2 Might be prebattle but p sure its a battlestart speed, might be slower tho
               "BloodmoonWerewolf" : {"PreStrike"}, #When player is below 50% HP, gains 5 attack
               "BrittlebarkBeast" : {"TakeDamage"}, #Whenever it takes damage take 3 more
               "IronstoneGolem" : {"Exposed"}, #When exposed lose 3 attack
               "RazorclawGrizzly" : {"IgnoreFoeArmor"}, #Attacks ignore armor
               "RazortuskHog" : {"FirstTurnStrike"},#If Razortusk Hog has more speed, first strike does 10 extra damage
-              #Swamp Night 1
+              #Swamp Week 1
               "CarnivorousSlime" : {"BattleStart"}, #Gives 3 acid and converts all player's hp except 1 into armor
               "FungalGiant" : {"BattleStart"}, #Gains 1 poison for each status effect the player has
               "IronshellSnail" : {"BattleStart"}, #Gains 5 acid
               "StormcloudDruid" : {"OnHit"}, #Stun the player for 1 turn every other strike
               "SwampsongSiren" : {"BattleStart"}, #Gives the Player -2 attack
               "ToxicMiretoad" : {"BattleStart"}, #Steals all the player's armor and gives 3 poison
-              #Night 2 Bosses
-              "BlackbriarKing" : {}, #CANNOT ATTACK, instead gains 2 thorns every turn. 4 if wounded(Below 50% hp)
+              #Week 2 Bosses
+              "BlackbriarKing" : {"TurnStart"}, #CANNOT ATTACK, instead gains 2 thorns every turn. 4 if wounded(Below 50% hp)
               "FrostbiteDruid" : {"OnHit"}, #Gives the player 1 freeze
               "GoldwingMonarch" : {"Wounded"}, #Steals all the players gold and heals for 2*Gold
               "MountainTroll" : {""}, #Only strikes every other turn
               "RedwoodTreant" : {"PreStrike"}, #Temp gains 3 attack if player has no armor
               "SwiftstrikeStag" : {"BattleStart"}, #Strikes 3 times
-              #Swamp Night 2
+              #Swamp Week 2
               "ClearspringSpirit" : {"BattleStart", "OnHit"}, #Gains 10 Purity. On Hit randomly decrease a self or player status
               "GraniteGriffin" : {"Wounded"}, #Gains 40 armor and 4 stun
               "LiferootExperiment" : {"BattleStart"}, #Gains 10 regen
               "RockshellTortoise" : {"PreFoeStrike"}, #Whenever it is struck, gains 4 armor
               "SilverscaleShark" : {"TurnStart"}, #Gives the player 2 riptide. Gains 1 temp attack per player riptide
               "StonescaleBasilisk" : {"OnHit"}, #Gives 2 poison on hit
-              #Night 3 boss
+              #Week 3 boss
               "Leshen" : {}, #Currently does nothing
               "WoodlandAbomination" : {"TurnStart"}, #Gain an attack
-              #Swamp Night 3
+              #Swamp Week 3
               #"SwamplandHydra" #Is a hecking mess, basically 4 different bosses as one enemy
               #MiniBosses
               "IronshellBeetle" : {"OnHit"}, #Lose 1 attack on hit (Up to 0)
@@ -1549,7 +1549,7 @@
 
   #100% Missing a lot of stats
   def Enemies(Name, Level):
-      #Assuming level = 0 on night 1
+      #Assuming level = 0 on Week 1
       Lvl = Level - 1
       if Name == "Bat":
           #Correct
@@ -1600,7 +1600,7 @@
           #Attack maxes to 2 at lvl 3
           Stats = [3+3*Lvl, 3+3*Lvl, 1+min(1, Lvl), 0, 1+Lvl, ["Wolf"], Level, 0, [0]] #If Foe.CurrentHP <=5 temp attack is set to +2+Lvl
 
-      #Bosses-Night 1
+      #Bosses-Week 1
       if Name == "BlackKnight":
           Stats = [10, 10, 0, 5, 0, ["BlackKnight"], Level, 0, [0]] #Gain attack = Foe.Attack + 2
 
@@ -1619,7 +1619,7 @@
       if Name == "RazortuskHog":
           Stats = [5, 5, 4, 0, 4, ["RazortuskHog"], Level, 0, [0]] #If Razortusk Hog has more speed, first strike does 10 extra damage
 
-      #Swamp Night 1
+      #Swamp Week 1
       if Name == "CarnivorousSlime":
           Stats = [20, 20, 1, 5, 5, ["CarnivorousSlime"], Level, 0, [0]] #Gives 3 acid and converts all player's hp except 1 into armor
 
@@ -1638,7 +1638,7 @@
       if Name == "ToxicMiretoad":
           Stats = [20, 20, 2, 0, 3, ["ToxicMiretoad"], Level, 0, [0]] #Steals all the player's armor and gives 3 poison
 
-      #Bosses-Night 2
+      #Bosses-Week 2
       if Name == "BlackbriarKing":
           Stats = [50, 50, 0, 0, 0, ["BlackbriarKing"], Level, 0, [0]] #CANNOT ATTACK, instead gains 2 thorns every turn. 4 if wounded(Below 50% hp)
 
@@ -1657,7 +1657,7 @@
       if Name == "SwiftstrikeStag":
           Stats = [10, 10, 3, 5, 5, ["SwiftstrikeStag"], Level, 0, [0]] #3 Strikes per turn
 
-      #Swamp Night 2
+      #Swamp Week 2
       if Name == "ClearspringSpirit":
           Stats = [30, 30, 3, 0, 2, ["ClearspringSpirit"], Level, 0, [0]] #BS: Gains 10 Purity. On Hit randomly decrease a self or player status 
 
@@ -1676,7 +1676,7 @@
       if Name == "StonescaleBasilisk": #Gives 2 poison on hit
           Stats = [10, 10, 4, 20, 2, ["StonescaleBasilisk"], Level, 0, [0]] 
 
-      #Bosses-Night 3
+      #Bosses-Week 3
       if Name == "Leshen":
           Stats = [50, 50, 7, 0, 3, ["Leshen"], Level, 0, [0]] #Nothing?
 
@@ -2011,6 +2011,9 @@
                       TakeDamage(Foe, self) #TakeDamage check for items
                   self.StrikeMult = 1
                   self.ThornsDamage(Foe) #Adds thorns activation
+                  self.AliveCheck(Foe)
+                  Death(Foe)
+                  HP1Check(Foe, self)
                   Foe.FirstFoeStrikeMult = 1
                   self.TempAttack = 0
                   Foe.StrikeReduction = 0
@@ -2042,6 +2045,9 @@
                   Foe.Search("AfterFoeFirstStrike", self) #Unsure what Phase this is. 
                   self.FirstStrike = False
               self.ThornsDamage(Foe) #Adds thorns activation
+              self.AliveCheck(Foe)
+              Death(Foe)
+              HP1Check(Foe, self)
               Foe.FirstFoeStrikeMult = 1
               Foe.StrikeReduction = 0
               self.TempAttack = 0
@@ -2060,8 +2066,6 @@
                   self.Search("FirstTurnPostStrike", Foe)
                 Foe.HPloseFromFoeStrike = max(0, np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult- Foe.Armor)
                 Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult)
-                self.AliveCheck(Foe)
-                Death(Foe)
                 HP1Check(Foe, self)
                 Foe.DeltaArmor = min(Foe.Armor, np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult)
                 ArmorLose(Foe, self)
@@ -2085,8 +2089,6 @@
                 Foe.HPloseFromFoeStrike = max(0, np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult) #Idk why its -Foe.Armor here?
                 Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP - np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult)
                 Foe.StrikeReduction = 0
-                self.AliveCheck(Foe)
-                Death(Foe)
                 HP1Check(Foe, self)
             #Might need to go into the strike function in its own seperate for loop??????????
             OnHit(self, Foe) #Checks for On hit effects including weapons and blacksmithed and include dealdamage
@@ -4435,7 +4437,7 @@
           if Foe.CurrentHP <= 5:
               Player.TempAttack = Player.TempAttack + 1 + Player.Level
 
-      #Night 1 Bosses
+      #Week 1 Bosses
       if Name == "BlackKnight": # Gain attack = Foe.Attack + 2 Might be prebattle but p sure its a battlestart speed, might be slower tho
           Player.Attack = Player.Attack + Foe.Attack + 2
 
@@ -4565,7 +4567,7 @@
       if Name == "SwiftstrikeStag":  #Strikes 3 times
           Player.BaseStrikesCount = 3
 
-      #Swamp Night 2
+      #Swamp Week 2
       if Name == "ClearspringSpirit": #BS: Gains 10 Purity. On Hit randomly decrease a self or player status
           if Phase == "BattleStart":
               StatusInterp("Purity", Player, Foe, 10)
@@ -5050,7 +5052,7 @@ def MainFight(Left, Right, EnemyType):
 
 def saveSelections(event):
     try:
-        Level = int(document.getElementById("NightCount").value)
+        Level = int(document.getElementById("WeekCount").value)
     except ValueError:
         Level = 2
 
