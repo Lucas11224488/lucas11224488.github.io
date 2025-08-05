@@ -1394,8 +1394,8 @@
               "LifestealScythe" : {"Weapon", "OnHit", "Sanguine"}, #Restore HP = Damage done to HP
               "MeltingIceblade" : {"OnHit", "Water"}, #Lose 1 attack
               "MoonlightCleaver" : {"PreventStatusGain"}, #If below 50% hp cannot gain status
-              "PurelakeStaff" : {"BattleStart", "Water"}, #BS: Gain 2 purity. OH: Lose 1 purity
-              "PurelakeStaffOH" : {"OnHit", "Water"}, #BS: Gain 2 purity. OH: Lose 1 purity
+              "PurelakeStaff" : {"BattleStart", "OnHit", "Water"}, #BS: Gain 2 purity. OH: Lose 1 purity
+              #"PurelakeStaffOH" : {"OnHit", "Water"}, #BS: Gain 2 purity. OH: Lose 1 purity
               "QuickgrowthSpear" : {"Weapon", "EveryOtherTurn", "Wood"}, #Gain 1 attack and restore 1 HP
               "RiverflowRapier" : {"Water", "FirstGainStatus"}, #First time you gain a new status effect, gain 1 strike
               "RoyalCrownblade" : {"Weapon", "OnHit"}, #Gain 1 Gold
@@ -2268,8 +2268,8 @@
               StatusFunctions[Status](Player, Foe, 1)
 
       elif Value < 0 and getattr(Player, Status) > 0:
-          Player.Search("LoseStatus", Foe)
           StatusFunctions[Status](Player, Foe, max(Value, -getattr(Player, Status)))
+          Player.Search("LoseStatus", Foe)
       
 
   def DealDamage(Damagevalue, Player, Foe):
@@ -4107,13 +4107,16 @@
               Player.PreventStatusGain = True
 
       if Name == "PurelakeStaff":  #BS: Gain 2 purity. OH: Lose 1 purity
-          StatusInterp("Purity", Player, Foe, 2)
-          #GainPurity(Player, Foe, 2)
-          Player.Items = [word.replace("PurelakeStaff", "PurelakeStaffOH") for word in Player.Items]
-
-      if Name == "PurelakeStaffOH":  #BS: Gain 2 purity. OH: Lose 1 purity
-          if Player.Purity > 0:
+          if Phase == "BattleStart":
+            StatusInterp("Purity", Player, Foe, 2)
+          if Player.Purity > 0 and Phase == "OnHit":
               StatusInterp("Purity", Player, Foe, -1)
+          #GainPurity(Player, Foe, 2)
+          #Player.Items = [word.replace("PurelakeStaff", "PurelakeStaffOH") for word in Player.Items]
+
+      #if Name == "PurelakeStaffOH":  #BS: Gain 2 purity. OH: Lose 1 purity
+          #if Player.Purity > 0:
+              #StatusInterp("Purity", Player, Foe, -1)
               #GainPurity(Player, Foe, -1)
 
       if Name == "QuickgrowthSpear":  #Gain 1 attack and restore 1 HP
