@@ -4394,9 +4394,9 @@
       if Name == "Beaver": #Gain 3+Lvl Regen on BattleStart
           StatusInterp("Regen", Player, Foe, 2 + Player.Level)
 
-      if Name == "CrazedHoneybear": #Gains 4+Lvl attack if foe has armor?
+      if Name == "CrazedHoneybear": #Gains 3+Lvl attack if foe has armor?
           if Foe.Armor > 0:
-              Player.TempAttack = Player.TempAttack + 3 + Player.Level 
+              Player.TempAttack = Player.TempAttack + 2 + Player.Level 
 
       if Name == "Dragonfly": #Gain attack = Speed - player speed >= 0
           if Player.Speed - Foe.Speed >= 0:
