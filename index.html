@@ -1046,9 +1046,9 @@
               "LightspeedElixir" : {"BattleStart", "Unique", "Potion"}, #BatStart gain max hp and Restore HP = Speed
               "LooseChange" : {}, #Gives money every night Way too complex to ask ppl for lol
               "MusclePotion" : {"Potion", "OnHit"}, #Every 3 strikes gain 1 attack
-              "MuscleElixir" : {"Potion", "OnHit", "Unique"}, #Every 3 strikes gain 1 attack, 1 armor, and 1 speed
+              "MuscleElixir" : {"Potion", "OnHit"}, #Every 3 strikes gain 1 attack, 1 armor, and 1 speed
               "PetrifyingFlask" : {"Wounded", "Stone", "Potion"}, #Wounded: Gain 10 armor and 2 stun
-              "PetrifyingElixir" : {"Wounded", "Stone", "Potion", "Unique"}, #Wounded: Gain 10 armor and stun everyone for 2 turns
+              "PetrifyingElixir" : {"Wounded", "Stone", "Potion"}, #Wounded: Gain 10 armor and stun everyone for 2 turns
               "PowderPlate" : {"BattleStart"}, #Give Foe 2 powder
               "PurelakeHelmet" : {"BattleStart", "Water"}, #BatStart: Gain 1 Purity
               "RedwoodCloak" : {"BattleStart", "Wood"}, #If on BatStart hp not full, restore 2
@@ -1123,7 +1123,7 @@
               "FeatherweightHelmet" : {"BattleStart"}, #Spend 2 armor and gain 3 speed and 1 attack
               "FeatherweightWings": {"BattleStart", "Unique"}, #If you have less speed than the foe, gain attack = speed
               "FirecrackerBelt" : {"Exposed", "Bomb"}, #Deal 1 damage 3 times
-              "FlameburstTome" : {"Cooldown", "Bomb", "Tome"}, #CD 4: Deal 4 and reset cooldown
+              "FlameburstTome" : {"Cooldown", "Tome"}, #CD 4: Deal 4 and reset cooldown
               "ForgeGauntlet" : {"BattleStart"}, #Give the foe 5 armor
               "FortifiedGauntlet" : {"TurnStart"}, #If you have armor, gain an armor
               "FriendshipBracelet" : {"BattleStart"}, #Battle Start: The enemy loses 1 attack
@@ -1131,7 +1131,7 @@
               "FrostbiteCurse" : {"BattleStart", "Water"}, #Give yourself and foe 5 freeze each
               "FrostbiteGreaves": {"LoseSpeed"}, #Whenever you lose speed, give the foe 1 freeze
               "GoldRing" : {"BattleStart", "Jewelry", "Ring"}, #Gain 1 gold
-              "GraniteCrown" : {"BattleStart", "Stone"}, #Gain max HP = to Base armor
+              "GraniteCrown" : {"BattleStart", "Stone", "Unique"}, #Gain max HP = to Base armor
               "GraniteFungi" : {"TurnEnd", "Stone"}, #Gain 2 armor to you and foe
               "HeartshapedAcorn" : {"BattleStart", "Unique", "Wood"}, #If you have 0 base armor set HP to MaxHP
               "HeartshapedPotion" : {"HP1","Sanguine", "Potion", "Unique"}, #When reaching exactly 1 hp first time restore HP to MaxHP (Need to add every that loses hp)
@@ -1167,7 +1167,7 @@
               "PurelakeArmor" : {"Exposed", "Water"}, #Exposed: Remove 1 purity to gain 5 armor
               "PurelakePotion" : {"BattleStart", "Unique", "Water", "Potion"}, #Remove all armor and gain 3 purity
               "PurelakeElixir" : {"BattleStart", "Unique", "Water", "Potion"}, #Lose 5 armor and gain 5 purity
-              "PurelakeTome" : {"Cooldown", "Tome"}, #CD 3: if you have purity, remove 1. Else gain 1. Reset cd
+              "PurelakeTome" : {"Cooldown", "Tome", "Water"}, #CD 3: if you have purity, remove 1. Else gain 1. Reset cd
               "RiverflowTalisman" : {"GainStatus", "Unique", "Water"}, #Whenever you gain a status, gain 1 more
               "RiverflowViolin" : {"Exposed", "Unique", "Instrument", "Water"}, #Gain 4 armor Sym
               "RiverflowViolinS" : {"Exposed", "Unique", "Instrument", "Water"}, #Gain 4 armor
@@ -1222,7 +1222,7 @@
               "GrandTome" : {"Cooldown", "Unique"}, #CD 10: Retriggers all other tomes
               "Honeycomb" : {"Unique", "Food"}, 
               "IronTransfusion" : {"TurnStart"}, #Gain 2 armor lose 1 hp
-              "IronskinPotion" : {"BattleStart", "Potion"}, #Gain armor = missing hp
+              "IronskinPotion" : {"BattleStart", "Potion", "Unique"}, #Gain armor = missing hp
               "IronskinElixir" : {"BattleStart", "Potion", "Unique"}, #Double your max hp. Gain armor = missing hp
               "IronstoneArmor" : {"Unique", "Stone", "PreFoeStrike"}, #Enemy strikes deal 2 less damage while you have armor
               "LifeZap" : {"BattleStart", "Unique"}, #Lose all your hp except 1 and stun the foe for 2 turns
@@ -1360,7 +1360,7 @@
               "SquiresBlade" : {"Weapon"}, #Stats
               "StormcloudSpear" : {"Weapon", "OnHit"}, #Every 5 Strikes, stun the enemy for 2 turns. when its divisible by 5.
               "SwordOfTheHero" : {"Weapon"}, #Stats
-              "WoodcuttersAxe" : {"Weapon"}, #Basically just stats like HD
+              "WoodcuttersAxe" : {"Weapon", "Wood"}, #Basically just stats like HD
               "WoodenStick" : {"Weapon", "Wood"}, #Default weapon
               "ArcaneWand" : {"Weapon", "CantAttack", "TurnStart", "Wood"}, #Cant Attack. TS: Deal 2 + Count(Tome) damage
               "BasiliskFang" : {"Weapon", "OnHit"}, #Decrease self poison by 2 and give it to foe.
@@ -1371,7 +1371,7 @@
               "BloodmoonSickle" : {"Weapon", "OnHit", "Sanguine"}, # 1 Self damage
               "BubblegloopStaff" : {"Weapon", "CantAttack", "TurnStart"}, #Spend 1 speed to give the foe 1 acid and 2 poison
               #I have to fix the explosive sword, its complex now :sob:
-              "ExplosiveSword" : {"Weapon", "Bomb", "BombDamage5"}, #Whenever a bomb does 5 or more explosive damage, gain 1 additional strike
+              "ExplosiveSword" : {"Weapon", "BombDamage5"}, #Whenever a bomb does 5 or more explosive damage, gain 1 additional strike
               "FrostbiteDagger" : {"Weapon", "FirstTurnOnHit"}, #Give the foe freeze = your attack on hit
               "GraniteAxe" : {"Weapon", "Unique", "Stone", "OnHit"}, #Lose 3 hp and gain 3 armor
               "IcicleSpear" : {"Weapon", "Water", "Exposed"}, #Give the enemy 1 freeze for each equipped water item
@@ -2684,10 +2684,8 @@
               for nn in range(0, Player.TomeTriggers):
                   if Foe.Armor > 0:
                       StatusInterp("Acid", Foe, Player, 3)
-                      #GainAcid(Foe, Player, 3)
                   elif Foe.Armor == 0:
-                      StatusInterp("Poison", Foe, Player, 3)
-                      #GainPoison(Foe, Player, 3)
+                      StatusInterp("Poison", Foe, Player, 5)
                   Cooldowned(Player, Foe)
               Player.CausticTome = False
 
@@ -3639,12 +3637,10 @@
           #GainRiptide(Foe, Player, 1)
           BombDamage(2*Foe.Riptide, Player, Foe)
 
-      if Name == "ExplosiveRoast": #Deal 1 damage 4 times
+      if Name == "ExplosiveRoast": #Deal 1 damage 3 times
       #Might be other order
-          for nn in range(0, 4):
+          for nn in range(0, 3):
               BombDamage(1, Player, Foe)
-              # Foe.Powder = max(0, Foe.Powder - 1)
-              # Foe.Powder = Foe.Powder + 3
 
       if Name == "GraniteCherry":  #If your hp is full, gain 2 armor and deal 2 damage 3 times
           if Player.CurrentHP == Player.MaxHP:
@@ -3881,7 +3877,7 @@
           BombDamage(1, Player, Foe)
 
       if Name == "TrailMix":  #Deal 1 damage and gain 1 thorn 4 times
-          for ll in range(0, 4):
+          for ll in range(0, 3):
               BombDamage(1, Player, Foe)
               StatusInterp("Thorns", Player, Foe, 1)
               #GainThorns(Player, Foe, 1)
@@ -4043,7 +4039,7 @@
       if Name == "BubblegloopStaff": #Spend 1 speed to give the foe 1 acid and 2 poison
           if Player.Speed > 0:
               GainSpeed(Player, Foe, -1)
-              StatusInterp("Acid", Foe, Player, 1)
+              StatusInterp("Acid", Foe, Player, 2)
               #GainAcid(Foe, Player, 1)
               #GainPoison(Foe, Player, 2)
               StatusInterp("Poison", Foe, Player, 2)
@@ -4436,8 +4432,7 @@
       if Name == "DeadlyToxin":  #First time foe gains poison, give 2 acid
           if Player.DeadlyToxin:
               Player.DeadlyToxin = False
-              StatusInterp("Acid", Foe, Player, 2)
-              #GainAcid(Foe, Player, 2)
+              StatusInterp("Acid", Foe, Player, 5)
 
       if Name == "IronstoneCrest":  #Steal 2 armor from foe
           if Foe.Armor > 0:
@@ -4881,7 +4876,7 @@
           if "FirstHPRestore" in ItemTags[Player.Items[slot]]:
               Player.Attack = Player.Attack + Value
 
-  #Currently Only Ironstonesandals use this attribute could maybe make the crackedwhetstone use it too
+  #Currently Only Ironstonesandals use this attribute could maybe make the crackedwhetstone use it too #old info
   def PreStrikeAttackBonus(Player, Foe):
       Player.Search("PreStrike", Foe)
       Foe.Search("PreFoeStrike", Player)
