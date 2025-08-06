@@ -363,7 +363,8 @@
             <option value="FirecrackerBelt">Firecracker Belt</option>
             <option value="FlameburstTome">Flameburst Tome</option>
             <option value="ForgeGauntlet">Forge Gauntlet</option>
-            <option value="FortifiedGauntlet">Fortified Gauntlet</option>
+            <option value="FortifiedGauntlet">Fortified Gauntlet</option> 
+            <option value="FriendshipBracelet">Friendship Bracelet</option>
             <option value="FrostbiteArmor">Frostbite Armor</option>
             <option value="FrostbiteCurse">Frostbite Curse</option>
             <option value="FrostbiteGauntlet">Frostbite Gauntlet</option>
@@ -1123,6 +1124,7 @@
               "FlameburstTome" : {"Cooldown", "Bomb", "Tome"}, #CD 4: Deal 4 and reset cooldown
               "ForgeGauntlet" : {"BattleStart"}, #Give the foe 5 armor
               "FortifiedGauntlet" : {"TurnStart"}, #If you have armor, gain an armor
+              "FriendshipBracelet" : {"BattleStart"}, #Battle Start: The enemy loses 1 attack
               "FrostbiteArmor" : {"Water", "AfterFoeFirstStrike"}, #Enemy's first strike does 2x, then give them 4 freeze
               "FrostbiteCurse" : {"BattleStart", "Water"}, #Give yourself and foe 5 freeze each
               "FrostbiteGreaves": {"LoseSpeed"}, #Whenever you lose speed, give the foe 1 freeze
@@ -2827,6 +2829,9 @@
           if Player.Armor > 0:
               #Player.Armor = Player.Armor + 1
               ArmorGain(Player, Foe, 1)
+
+      if Name == "FriendshipBracelet" : #Battle Start: The enemy loses 1 attack
+          Foe.Attack = Foe.Attack - 1
 
       if Name == "FrostbiteArmor":  #Enemy's first strike does 2x, then give them 4 freeze
           StatusInterp("Freeze", Foe, Player, 4)
