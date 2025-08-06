@@ -3477,7 +3477,7 @@
           DealDamage(1, Player, Foe)
 
       if Name == "SwiftstrikeCloak": #If you have more speed than foe, gain an additional strike
-          if Player.Speed > Player.Foe:
+          if Player.Speed > Foe.Speed:
               GainStrikes(Player, Foe, 1)
 
       if Name == "SwiftstrikeGauntlet": #Gain 2 additional strikes next turn
@@ -3695,7 +3695,7 @@
           Amount = 1
           if Phase == "Exposed":
             Amount = Player.ExposedMultiTrigger
-          for nn in range(0, Amount):
+          for nn in range(0, Amount): #Probably shouldnt decrease thorns
               [Status, Stacks1] = Player.RandomStatus(Foe, -1, True) #This automagically changes a random self status effect
               [Status, Stacks2] = Player.RandomStatus(Foe, -1, True) #This automagically changes a random self status effect
               if Stacks1 + Stacks2 > 0:
