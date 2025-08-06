@@ -430,6 +430,7 @@
             <option value="LooseChange">Loose Change</option>
             <option value="MarbleMushroom">Marble Mushroom</option>
             <option value="MarbledStonefish">Marbled Stonefish</option>
+            <option value="MarbleMirror">Marble Mirror</option>
             <option value="MarshlightLantern">Marshlight Lantern</option>
             <option value="MelonBomb">Melon Bomb</option>
             <option value="MelonLemonade">Melon Lemonade</option>
@@ -1147,6 +1148,7 @@
               "LeatherWaterskin" : {"Exposed", "Unique"}, #Gain 2 purity, repeat for each equipped water item
               "LightningBottle" : {"BattleStart", "Potion"}, #Stun yourself for 1 turn
               "LightningElixir" : {"BattleStart", "Unique", "Potion"}, #Stun yourself for 2 turns
+              "MarbleMirror" : {"BattleStart", "Stone"}, #Gain armor = foes current armor
               "MarshlightLantern" : {"Exposed"}, #Lose 3 hp and gain 8 armor
               "MoonlightCrest" : {"TurnStart", "Unique"}, #If you are below 50% hp, gain 1 regen
               "MuscleGrowth" : {"PreStrike", "Wood"}, #While you have regen, temp gain 3 attack
@@ -2936,6 +2938,9 @@
       if Name == "LightningElixir":  #Stun yourself for 2 turns
           StatusInterp("Stun", Player, Foe, 2)
           #Stun(2, Foe, Player)
+
+      if Name == "MarbleMirror": #Gain armor = foes current armor
+          ArmorGain(Player, Foe, Foe.Armor)
 
       if Name == "MarshlightLantern": #Lose 3 hp and gain 8 armor
           for nn in range(0, Player.ExposedMultiTrigger):
