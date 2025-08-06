@@ -1842,6 +1842,10 @@
           if "BlacksmithBond" in self.Items:
               self.ExposedTriggers = 2
 
+          self.ExposedMultiTrigger = 1
+          if "IronRune" in self.Items:
+              self.ExposedMultiTrigger = 2
+
           self.GainedArmor = False
           if self.Armor > 0:
               self.GainedArmor = True
