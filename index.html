@@ -1262,7 +1262,7 @@
               "PrimordialSoup" : {"Unique"}, #Acid removes hp as well
               "RazorScales" : {"ArmorLose", "Unique"}, #If you lose armor, deal damage = to lost armor
               "SerpentScalemail" : {"Unique", "ArmorLose"}, #Give the foe 2 poison
-              "StormtideAnchor" : {"Unique", "RiptideTriggers"}, #Stun foe 1 whenever riptide triggers
+              "StormtideAnchor" : {"Unique", "RiptideDamage"}, #Stun foe 1 whenever riptide triggers
               "TwinfuseKnot" : {"BombTrigger", "Unique"}, #Bomb items trigger twice
               "BitterMelon" : {"TurnStart", "Food"}, #Convert 1 stack of another status effect to 1 poison
               "BloodOrange" : {"BattleStart", "Wounded", "Food", "Sanguine"}, #Gain 3 acid
@@ -1273,8 +1273,8 @@
               "CandiedNuts" : {"BattleStart", "Food", "ThornMult"}, #Gain 3 thorns, thorns do 2x
               "CherryCocktail" : {"BattleStart", "Wounded", "Sanguine", "Bomb", "Food"}, #Deal 3 damage and restore 3 hp
               "CombustibleLemon" : {"TurnStart", "Bomb", "Food"}, #Spend 1 speed to deal 2 bomb damage
-              "DeepseaWine" : {"Wounded", "Food", "RiptideTriggers"}, #Give foe 1 riptide. Whenever a riptide triggers restore 3 hp
-              #"DeepseaWineR" : {"RiptideTriggers", "Food"}, #Give foe 1 riptide. Whenever a riptide triggers restore 3 hp
+              "DeepseaWine" : {"Wounded", "Food", "RiptideDamage"}, #Give foe 1 riptide. Whenever a riptide triggers restore 3 hp
+              #"DeepseaWineR" : {"RiptideDamage", "Food"}, #Give foe 1 riptide. Whenever a riptide triggers restore 3 hp
               "ExplosiveFish" : {"BattleStart", "Food", "Bomb"}, #Give foe 1 riptide and deal 2xfoe.riptide bombdamage
               "ExplosiveRoast" : {"BattleStart", "Bomb", "Food"}, #Deal 1 damage 4 times
               "GraniteCherry" : {"BattleStart", "Stone", "Bomb", "Food"}, #If your hp is full, gain 2 armor and deal 2 damage 3 times
@@ -1308,7 +1308,7 @@
               "SharkRoast" : {"Exposed", "Food"}, #Give foe 2 riptide
               "SpikedWine" : {"Wounded", "Food"}, #Gain 5 thorns and restore 5 hp
               "SpinyKiwifruit" : {"BattleStart", "Food"}, #Gain 3 acid and gain thorns = acid
-              "SpinySnapper" : {"BattleStart", "RiptideTriggers", "Food"}, #Give foe 1 riptide. Whenever riptide triggers, gain 3 thorns
+              "SpinySnapper" : {"BattleStart", "RiptideDamage", "Food"}, #Give foe 1 riptide. Whenever riptide triggers, gain 3 thorns
               "SugarBomb" : {"TurnStart", "Bomb", "Food"}, #Deal 1 damage 3 times
               'SweetWine' : {"Wounded", "Food"}, #Wounded restore 30 hp
               "ToxicCherry" : {"TurnStart", "Food"}, #Gain 1  poison and deal 1 damage to foe
@@ -3620,7 +3620,7 @@
       if Name == "DeepseaWine":  #Give foe 1 riptide. Whenever a riptide triggers restore 3 hp
           if Phase == "Wounded":
               StatusInterp("Riptide", Foe, Player, 1)
-          if Phase == "RiptideTriggers":
+          if Phase == "RiptideDamage":
               HealingCalc(Player, Foe, 3)
 
       if Name == "ExplosiveFish": #Give foe 1 riptide and deal 2xfoe.riptide bombdamage
@@ -3853,7 +3853,7 @@
       if Name == "SpinySnapper":  #Give foe 1 riptide. Whenever riptide triggers, gain 3 thorns
           if Phase == "BattleStart":
               StatusInterp("Riptide", Foe, Player, 1)
-          if Phase == "RiptideTriggers":
+          if Phase == "RiptideDamage":
               StatusInterp("Thorns", Player, Foe, 3)
 
       if Name == "SugarBomb":  #Deal 1 damage 3 times
