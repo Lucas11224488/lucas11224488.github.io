@@ -1113,7 +1113,7 @@
               #"DoubleplatedVest" : {"SecondTakeDamage", "Unique"}, #2nd time you take damage each turn, gain 2 armor
               "EnergyDrain" : {"BattleStart", "Unique"}, # steal all foe's speed
               "ExplosivePowder" : {"BombBonus"}, #All bomb items deal 1 more damage
-              "ExplosiveSurprise" : {"Explosed", "Bomb"}, #Deal 6 damage
+              "ExplosiveSurprise" : {"Exposed", "Bomb"}, #Deal 6 damage
               "FeatherweightArmor" : {"GainSpeed"}, #Gain 1 armor for every gained speed
               "FeatherweightGauntlet" : {"FirstTurn"}, #Spend 2 speed to gain 4 attack temp
               "FeatherweightGreaves" : {"TurnStart"}, #If you have 0 speed, gain 2 speed
@@ -2774,7 +2774,7 @@
           Player.BombBonus = Player.BombBonus + 1
 
       if Name == "ExplosiveSurprise": #Deal 6 damage
-          for nn in range(1, Player.Bombtrigger):
+          for nn in range(1, Player.BombTrigger):
               BombDamage(6, Player, Foe)
               # DealDamage(6 + Foe.Powder, Player, Foe)
               # Foe.Powder = max(0, Foe.Powder - 1)
@@ -4898,6 +4898,8 @@
               ArmorLose(Player, Foe)
               ArmorGain(Player, Foe, Player.DeltaArmor)
               Player.DeltaArmor = 0
+          elif Player.Armor <= 0:
+            Player.Exposed(Foe)
           TakeDamage(Player, Foe)
           #Idk why below was here removing it might break smth
       else:
@@ -4910,6 +4912,8 @@
                   ArmorLose(Player, Foe)
                   Player.DeltaArmor = 0
                   Player.Armor = max(0, Player.Armor - DamageValue)
+              elif Player.Armor <= 0:
+                  Player.Exposed(Foe)
               TakeDamage(Player, Foe)
 
   def StrikeMult(Player, Foe):
