@@ -396,6 +396,7 @@
             <option value="IceblockShield">Iceblock Shield</option>
             <option value="ImpressivePhysique">Impressive Physique</option>
             <option value="IronRose">Iron Rose</option>
+            <option value="IronRune">Iron Rune</option>
             <option value="IronShrapnel">Iron Shrapnel</option>
             <option value="IronTransfusion">Iron Transfusion</option>
             <option value="IronskinElixir">Ironskin Elixir</option>
@@ -2175,11 +2176,11 @@
             for slot in range(0, len(P.Items)):
                 # Check if any tag in Tag is in the item's tags
                 if any(t in ItemTags[P.Items[slot]] for t in Tag):
-                    List = List.append(slot)
+                    List.append(slot)
             #This *probably* works Idk
             if List != []:
-                RanNumber = random.randint(0, len(List))
-                slot = int(List(RanNumber))
+                RanNumber = random.randint(0, len(List) - 1)
+                slot = int(List[RanNumber])
                 [P, Foe] = ItemsEffect(Tag, self.Quality[slot], self.Items[slot], P, Foe)
 
       def MultiSearch(self, TagP, Foe, TagF): #Seperate multisearch REQUIRES Speed order check (Outside when used)??
