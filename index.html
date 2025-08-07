@@ -319,6 +319,7 @@
             <option value="CactusCap">Cactus Cap</option>
             <option value="CandiedNuts">Candied Nuts</option>
             <option value="CausticTome">Caustic Tome</option>
+            <option value="ChainlinkMedallion">Chainlink Medallion</option>
             <option value="ChainmailArmor">Chainmail Armor</option>
             <option value="ChainmailCloak">Chainmail Cloak</option>
             <option value="ChampionsArmor">Champion's Armor</option>
@@ -385,7 +386,8 @@
             <option value="HeartshapedAcorn">Heartshaped Acorn</option>
             <option value="HeartshapedElixir">Heartshaped Elixir</option>
             <option value="HeartshapedPotion">Heartshaped Potion</option>
-            <option value="HelmetOfEny">Helmet of Eny</option>
+            <option value="HelmetOfEnvy">Helmet of Envy</option>
+            <option value="HerosCrossguard">Hero's Crossguard</option>
             <option value="HolyShield">Holy Shield</option>
             <option value="HolyTome">Holy Tome</option>
             <option value="HoneyCaviar">Honey Caviar</option>
@@ -867,6 +869,12 @@
       <option value="Leshen">Leshen</option>
       <option value="WoodlandAbomination">Woodland Abomination</option>
 
+      <option disabled>~~Swampland Hydra~~</option>
+      <option value="SwamplandHydraWOAcid">Cut the Acid Hydra Head</option>
+      <option value="SwamplandHydraWORiptide">Cut the Riptide Hydra Head</option>
+      <option value="SwamplandHydraWOPoison">Cut the Poison Hydra Head</option>
+      <option value="SwamplandHydraWOStun">Cut the Stun Hydra Head</option>
+
       <!-- MiniBosses -->
       <option disabled>~~MiniBosses~~</option>
       <option value="IronshellBeetle">Ironshell Beetle</option>
@@ -1143,7 +1151,7 @@
               "HeartshapedAcorn" : {"BattleStart", "Unique", "Wood"}, #If you have 0 base armor set HP to MaxHP
               "HeartshapedPotion" : {"HP1","Sanguine", "Potion", "Unique"}, #When reaching exactly 1 hp first time restore HP to MaxHP (Need to add every that loses hp)
               "HeartshapedElixir" : {"HP5","Sanguine", "Potion", "Unique"}, #When reaching below 5 hp first time restore HP to MaxHP (Need to add every that loses hp)
-              #"HerosCrossguard" : {"FirstTurnStrike", "Unique"}, #FT: On Hit trigger twice??
+              "HerosCrossguard" : {"Unique", "OnHitTriggerFT"}, #FT: On Hit trigger twice??
               "IceSpikes" : {"TurnStart", "Water"}, #If you have freeze, gain 5 thorns
               "IceTomb" : {"TurnStart", "Water"}, #If you have armor, gain 3 armor and 1 freeze.
               "ImpressivePhysique" : {"Exposed"}, #Exposed: Stun the foe for 1 turn
@@ -1267,6 +1275,7 @@
               "WeaverArmor" : {"BattleStart", "Unique"}, #If you have 0 base armor, gain armor = current hp
               #"ArcaneCloak" : {"Unique"}, #Reset Cooldowns after they trigger
               "BloodmoonArmor" : {"SelfDamage", "Unique"}, #If youd take damage from your own items, deal it to the foes
+              "ChainlinkMedallion" : {"OnHitTrigger"}, #On Hit trigger twice
               "ColdResistance" : {"Unique"}, #Freeze doubles your attack instead of halving
               #"GrandCrescendo" : {"Unique"}, #Symphony triggers all other instruments
               "GraniteThorns" : {"Unique", "Stone", "BattleStart"}, #Needs a counter to not remove thorns
@@ -1334,7 +1343,7 @@
               "BeltOfGluttony" : {"Unique"}, #Just Stats*
               "BootsOfSloth" : {"Unique"}, #Just Stats*
               "ChestOfLust" : {"Unique"}, #Just Stats*
-              "HelmetOfEny" : {"BattleStart", "Unique"}, #Double foe's Attack
+              "HelmetOfEnvy" : {"BattleStart", "Unique"}, #Double foe's Attack
 
 
               #Need to write an effects thing for every weapon even if its just stats because that is when the strike calc should happen in the weapon effects
@@ -1544,7 +1553,10 @@
               "Leshen" : {}, #Currently does nothing
               "WoodlandAbomination" : {"TurnStart"}, #Gain an attack
               #Swamp Week 3
-              #"SwamplandHydra" #Is a hecking mess, basically 4 different bosses as one enemy
+              "AcidHead" : {"OnHit"}, #On Hit: Give 1 acid
+              "RiptideHead" : {"OnHit"}, #On Hit: Give 1 riptide
+              "PoisonHead" : {"OnHit"}, #On Hit: Give 2 poison
+              "StunHead" : {"TurnStartFoe", "TurnEnd"}, #Battle Start: Give 3 stun (The battle start is tech mid battle)
               #MiniBosses
               "IronshellBeetle" : {"OnHit"}, #Lose 1 attack on hit (Up to 0)
               "LifebloodCount" : {"OnHit"}, #Restores 3 hp
@@ -1693,6 +1705,25 @@
 
       if Name == "WoodlandAbomination": #Phase 2, but you heal to full hp sooooo, its just a new fight
           Stats = [100, 100, 0, 0, 3, ["WoodlandAbomination"], Level, 0, [0]] #Gains an attack at start of turn
+      
+      #Swamp-Week 3
+      if Name == "AcidHead": 
+          Stats = [10, 10, 3, 30, 4, ["AcidHead"], Level, 0, [0]] #On Hit: Gives 1 acid
+      if Name == "RiptideHead": 
+          Stats = [30, 30, 5, 0, -1, ["RiptideHead"], Level, 0, [0]] #On Hit: Gives 1 riptide
+      if Name == "PoisonHead": 
+          Stats = [50, 50, 2, 0, 2, ["PoisonHead"], Level, 0, [0]] #On Hit: Gives 2 poison
+      if Name == "StunHead": 
+          Stats = [20, 20, 5, 30, 5, ["StunHead"], Level, 0, [0]] #Battle Start: Gives 3 stun
+
+      if Name == "SwamplandHydraWOAcid": #Is a hecking mess, basically 4 different bosses as one enemy
+          Stats = [30, 30, 5, 0, -1, ["RiptideHead"], Level, 0, [0]] #On Hit: Gives 1 riptide
+      if Name == "SwamplandHydraWORiptide": #Is a hecking mess, basically 4 different bosses as one enemy
+          Stats = [10, 10, 3, 30, 4, ["AcidHead"], Level, 0, [1]] #On Hit: Gives 1 acid
+      if Name == "SwamplandHydraWOPoison": #Is a hecking mess, basically 4 different bosses as one enemy
+          Stats = [10, 10, 3, 30, 4, ["AcidHead"], Level, 0, [2]] #On Hit: Gives 1 acid
+      if Name == "SwamplandHydraWOStun": #Is a hecking mess, basically 4 different bosses as one enemy
+          Stats = [10, 10, 3, 30, 4, ["AcidHead"], Level, 0, [3]] #On Hit: Gives 1 acid
       
       #Minibosses
       if Name == "IronshellBeetle":
@@ -1894,6 +1925,8 @@
           if "PetrifiedEdge" in self.Items:
               self.StrikeMult = 2
 
+          self.OnHitTrigger = 1 + Count(self, "OnHitTrigger")
+          self.OnHitTriggerFT = Count(self, "OnHitTriggerFT")
           self.StrikeCounter = 0 #Only Used for Weapons
           self.TurnCounter = 0
           self.Cooldown = 0 #need to increment every turn and from other items
@@ -1987,6 +2020,7 @@
             self.HealingDisabled = True
           self.Alive = True
           #self.RHeal = 0 Prob not using
+          self.StunHead = True
       #I need freezemult damage reduction to occur then the -tempattack from the ironstone armor/ironstone bracelet
       #That is search weapons (Blacksmithing is added after the base effects) then items.
       #Hit damage, on hit, blacksmith edge, foes reaction to being hit (thorns from foe, brittlebark armor etc.)
@@ -2219,11 +2253,13 @@
                             [P, Foe] = ItemsEffect(TagP, self.Quality[slot], self.Items[slot], P, Foe)
 
       def AliveCheck(self, Foe): #Checks which player, if any, died
+            #Check if you are the swampland hydra if you die change to the next hydra head instead of dying
+            HydraCheck(self)
+            HydraCheck(Foe)
             if self.CurrentHP <= 0:
                 self.Alive = False
             if Foe.CurrentHP <= 0:
                 Foe.Alive = False
-
 
       def RandomStatus(self, Foe, Value, Has): #Look at Player/ Foe? / Both? (Might add more functionality) and selects a status effect they currently have.
           Statuses = ["Thorns", "Freeze", "Regen", "Poison", "Stun", "Riptide", "Acid", "Purity"] #list(StatusFunctions.keys())
@@ -3912,7 +3948,7 @@
       if Name == "ChestOfLust":  #Just Stats*
           Player.Armor = Player.Armor
       
-      if Name == "HelmetOfEny": #Double foe's Attack
+      if Name == "HelmetOfEnvy": #Double foe's Attack
           Foe.Attack = 2*Foe.Attack
 
       if Name == "BattleAxe":  #Deal 2x if foe is armored. Maybe add "Strike" tag
@@ -4704,7 +4740,22 @@
       if Name == "WoodlandAbomination":  #Gain an attack
           Player.Attack = Player.Attack + 1
 
+      if Name == "AcidHead": #On Hit: Gives 1 acid
+          StatusInterp("Acid", Foe, Player, 1)
+
+      if Name == "RiptideHead": #On Hit: Gives 1 riptide
+          StatusInterp("Riptide", Foe, Player, 1)
+
+      if Name == "PoisonHead": #On Hit: Gives 2 poison
+          StatusInterp("Poison", Foe, Player, 2)
+
+      if Name == "StunHead": #Battle Start: Gives 3 stun
+          if Player.StunHead:
+            StatusInterp("Stun", Foe, Player, 3)
+            Player.StunHead = False
+
       if Name == "IronshellBeetle":  #Lose 1 attack on hit (Up to 0)
+
           if Player.Attack > 0:
               Player.Attack = Player.Attack - 1
     
@@ -4791,10 +4842,11 @@
 
   def OnHit(Player, Foe):
       #document.getElementById("debugBox").innerText = str(Player.FirstTurn) + str(Foe.FirstTurn)
-      if Player.FirstTurn:
-          Player.Search(["OnHit", "FirstTurnOnHit"], Foe)
-      else:
-          Player.Search("OnHit", Foe)
+      for ii in range(0, Player.OnHitTriggerFT + Player.OnHitTrigger):
+        if Player.FirstTurn:
+            Player.Search(["OnHit", "FirstTurnOnHit"], Foe)
+        else:
+            Player.Search("OnHit", Foe)
 
 
   def GainSpeed(Player, Foe, SpeedChange):
@@ -4867,12 +4919,15 @@
       Player.Search("Cooldown", Foe)
 
       if TurnNum == 0:
+          Foe.Search("TurnStartFoe", Player)
           Player.Search(["TurnStart", "EveryOtherTurn", "FirstTurn"], Foe)
 
       elif TurnNum % 2 == 0:
+          Foe.Search("TurnStartFoe", Player)
           Player.Search(["TurnStart", "EveryOtherTurn"], Foe)
 
       else:
+          Foe.Search("TurnStartFoe", Player)
           Player.Search(["TurnStart", "OddEveryOtherTurn"], Foe)
 
       if "PrimordialSoup" in Player.Items: #This does break Rusted Plate
@@ -5064,7 +5119,41 @@
   def Death(Player): #Will prevent a player who drops to 0 or less hp to not heal
     if Player.CurrentHP <= 0:
         Player.HealingDisabled = True
-      
+
+  def HydraCheck(Player):
+    if "AcidHead" in Player.Items or "RiptideHead" in Player.Items or "PoisonHead" in Player.Items or "StunHead" in Player.Items:
+        if Player.CurrentHP <= 0:
+          LoadNextHydra(Player)
+
+  def LoadNextHydra(Player):
+    if "AcidHead" in Player.Items:
+          NewEnemy = Enemies("RiptideHead", 3)
+          if Player.Quality == [1]:
+            NewEnemy = Enemies("PoisonHead", 3)
+
+    elif "RiptideHead" in Player.Items:
+          NewEnemy = Enemies("PoisonHead", 3)
+          if Player.Quality == [2]:
+            NewEnemy = Enemies("StunHead", 3)
+
+    elif "PoisonHead" in Player.Items:
+        if not Player.Quality == [3]:
+          NewEnemy = Enemies("StunHead", 3)
+
+    elif "StunHead" in Player.Items:
+        Player.Armor = Player.Armor
+
+    if not "StunHead" in Player.Items and not Player.Quality == [3]:
+          Player.CurrentHP = NewEnemy[0]
+          Player.MaxHP = NewEnemy[1]
+          Player.Attack = NewEnemy[2]
+          Player.Armor = NewEnemy[3]
+          Player.Speed = NewEnemy[4]
+          Player.Items = NewEnemy[5]
+          #Technically I should reset all the starting triggers but I dont think they matter
+          #Player.Order = Order #I dont think who is attacking next changes on hydra death
+          #Foe.Order = Order 
+
   #Write a version without output and MAYBE check each time someone loses hp?
   #Then have one at the end that displays the ending turns results
   def checkLife(U1, U2, P): #Checks which player died and displays the values
@@ -5159,6 +5248,8 @@ def MainFight(Left, Right, EnemyType):
           print("Player", Players[0], "has died first")
           print("Player", Players[1], "has won:", P2.CurrentHP,"/", P2.MaxHP, "HP", P2.Armor, "Armor", P2.Attack, "Attack", P2.Gold, "Gold")
           Result = f"Player {Players[0]} has died first. \nPlayer {Players[1]} has won: {P2.CurrentHP} / {P2.MaxHP} HP {P2.Armor} Armor {P2.Attack} Attack {P2.Gold} Gold"
+          if "SwamplandHydraWO" in Players[1]:
+            Result = f"Player {Players[0]} has died first. \nPlayer {P2.Items[0]} has won: {P2.CurrentHP} / {P2.MaxHP} HP {P2.Armor} Armor {P2.Attack} Attack {P2.Gold} Gold"
 
       if P2.CurrentHP <= 0:
           EndBattleHeal(P1, P2)
@@ -5166,7 +5257,10 @@ def MainFight(Left, Right, EnemyType):
           print("Player", Players[1], "has died first")
           print("Player", Players[0], "has won:", int(P1.CurrentHP),"/", int(P1.MaxHP), "HP", int(P1.Armor), "Armor", int(P1.Attack), "Attack", P1.Gold, "Gold")
           Result = f"Player {Players[1]} has died first. \nPlayer {Players[0]} has won: {P1.CurrentHP} / {P1.MaxHP} HP {P1.Armor} Armor {P1.Attack} Attack {P1.Gold} Gold"
-      
+          if "SwamplandHydraWO" in Players[0]:
+            Result = f"Player {Players[1]} has died first. \nPlayer {P1.Items[0]} has won: {P1.CurrentHP} / {P1.MaxHP} HP {P1.Armor} Armor {P1.Attack} Attack {P1.Gold} Gold"
+
+
       
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       #Below this line is not updated from the main python code file
