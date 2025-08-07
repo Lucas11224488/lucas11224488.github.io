@@ -164,6 +164,7 @@
         <option value="BasiliskFang">Basilisk Fang</option>
         <option value="BattleAxe">Battle Axe</option>
         <option value="BearclawBlade">Bearclaw Blade</option>
+        <option value="BeeStinger">Bee Stinger</option>
         <option value="BejeweledBlade">Bejeweled Blade</option>
         <option value="BlackbriarBlade">Blackbriar Blade</option>
         <option value="BlackbriarBow">Blackbriar Bow</option>
@@ -203,9 +204,11 @@
         <option value="IronstoneSpear">Ironstone Spear</option>
         <option value="KingsBlade">King's Blade</option>
         <option value="KnightsBlade">Knight's Blade</option>
+        <option value="LakebedSword">Lakebed Sword</option>
         <option value="LeatherWhip">Leather Whip</option>
         <option value="LemontreeBranch">Lemontree Branch</option>
         <option value="LifebloodSpear">Lifeblood Spear</option>
+        <option value="LiferootHammer">Liferoot Hammer</option>
         <option value="LiferootStaff">Liferoot Staff</option>
         <option value="LifestealScythe">Lifesteal Scythe</option>
         <option value="LightningRod">Lightning Rod</option>
@@ -341,7 +344,8 @@
             <option value="CrimsonFang">Crimson Fang</option>
             <option value="DeepseaWine">Deepsea Wine</option>
             <option value="DeviledEgg">Deviled Egg</option>
-            <option value="DoublePlatedArmor">Double-plated Armor</option>
+            <option value="DoubleplatedArmor">Double-plated Armor</option> 
+            <option value="DoubleplatedVest">Double-plated Vest</option>
             <option value="EchoRune">Echo Rune</option>
             <option value="ElderwoodNecklace">Elderwood Necklace</option>
             <option value="EmeraldCrown">Emerald Crown</option>
@@ -659,6 +663,7 @@
         <option value="BasiliskFang">Basilisk Fang</option>
         <option value="BattleAxe">Battle Axe</option>
         <option value="BearclawBlade">Bearclaw Blade</option>
+        <option value="BeeStinger">Bee Stinger</option>
         <option value="BejeweledBlade">Bejeweled Blade</option>
         <option value="BlackbriarBlade">Blackbriar Blade</option>
         <option value="BlackbriarBow">Blackbriar Bow</option>
@@ -698,9 +703,11 @@
         <option value="IronstoneSpear">Ironstone Spear</option>
         <option value="KingsBlade">King's Blade</option>
         <option value="KnightsBlade">Knight's Blade</option>
+        <option value="LakebedSword">Lakebed Sword</option>
         <option value="LeatherWhip">Leather Whip</option>
         <option value="LemontreeBranch">Lemontree Branch</option>
         <option value="LifebloodSpear">Lifeblood Spear</option>
+        <option value="LiferootHammer">Liferoot Hammer</option>
         <option value="LiferootStaff">Liferoot Staff</option>
         <option value="LifestealScythe">Lifesteal Scythe</option>
         <option value="LightningRod">Lightning Rod</option>
@@ -1021,7 +1028,7 @@
               "ClearspringWatermelon" : {"BattleStart", "Exposed", "Wounded"}, #Decrease a random status effect by 1
               "CrackedWhetstone" : {"FirstTurnStrike", "Stone"}, #Gain 2 attack for the first turn only
               "DeviledEgg" : {"Unique", "Sanguine"}, #Does Nothing
-              "DoublePlatedArmor" : {"Exposed"}, #Gain 3 armor
+              "DoubleplatedArmor" : {"Exposed"}, #Gain 3 armor
               "EmeraldCrown" : {"Jewelry", "Emerald"},
               "EmeraldEarring" : {"EveryOtherTurn", "Jewelry", "Emerald"}, #Restore 1 hp
               "EmeraldRing" : {"BattleStart", "Jewelry", "Ring", "Emerald"}, #Restore 3 hp
@@ -1113,7 +1120,7 @@
               "CrimsonFang" : {"BattleStart", "Sanguine"}, #If your hp is full, lose 5 hp and gain 2 strikes
               #"DoubleExplosion" : {"SecondNonWeapon"}, #The 2nd time you deal nonweapon damage a turn, deal 3 damage.
               #Maybe can run the "TakeDamage" tag and then add a toggle if its the second trigger. Then reset toggle at end of turn.
-              #"DoubleplatedVest" : {"SecondTakeDamage", "Unique"}, #2nd time you take damage each turn, gain 2 armor
+              "DoubleplatedVest" : {"SecondTakeDamage", "Unique"}, #2nd time you take damage each turn, gain 2 armor
               "EnergyDrain" : {"BattleStart", "Unique"}, # steal all foe's speed
               "ExplosivePowder" : {"BombBonus"}, #All bomb items deal 1 more damage
               "ExplosiveSurprise" : {"Exposed", "Bomb"}, #Deal 6 damage
@@ -1370,14 +1377,13 @@
               "BloodmoonDagger" : {"Weapon", "Wounded", "Sanguine"}, # Gain 5 attack and take 2 self damage
               "BloodmoonSickle" : {"Weapon", "OnHit", "Sanguine"}, # 1 Self damage
               "BubblegloopStaff" : {"Weapon", "CantAttack", "TurnStart"}, #Spend 1 speed to give the foe 1 acid and 2 poison
-              #I have to fix the explosive sword, its complex now :sob:
               "ExplosiveSword" : {"Weapon", "BombDamage5"}, #Whenever a bomb does 5 or more explosive damage, gain 1 additional strike
               "FrostbiteDagger" : {"Weapon", "FirstTurnOnHit"}, #Give the foe freeze = your attack on hit
               "GraniteAxe" : {"Weapon", "Unique", "Stone", "OnHit"}, #Lose 3 hp and gain 3 armor
               "IcicleSpear" : {"Weapon", "Water", "Exposed"}, #Give the enemy 1 freeze for each equipped water item
               "IronstoneBow" : {"Weapon", "OnHit", "Stone"}, #On hit lose 1 speed. If Speed is 0 or less only attack every other turn (Idk if it attacks everytime the first turn you are at 0 or less speed)
               "LifebloodSpear" : {"Weapon", "HP3Restore"}, #Whenever you heal for 3 or more, gain 1 attack
-              #"LiferootHammer" : {"Weapon"}, #Regen that triggers overheal increases max hp. I assume this is before the Overheal gem
+              "LiferootHammer" : {"Weapon", "Wood"}, #Regen that triggers overheal increases max hp. I assume this is before the Overheal gem
               "LightningRod" : {"Weapon", "Unique", "TurnStart"}, #If stunned, gain 1 attack
               "LightningWhip" : {"Weapon", "Unique", "TurnStart"}, #If foe is stunned, gain 1 strike
               "RingBlades" : {"Weapon", "BattleStart"}, #Steal 1 attack from foe
@@ -1413,14 +1419,14 @@
               #"AncientWarhammer" : {"Weapon", "OnHit"}, #OH: Remove all of the foe's armor
               "BearclawBlade" : {"Weapon", "PreStrikeL"}, #Attack = Missing HP
               "DashmastersDagger" : {"Weapon", "BattleStart"}, #Gain additional strikes equal to speed
-              #"LakebedSword" : {"Weapon"}, #Doubles the effects from Purity
+              "LakebedSword" : {"Weapon"}, #Doubles the effects from Purity
               "MountainCleaver" : {"Weapon", "BattleStart", "Stone"}, #Attack = Base Armor
               "SpikyClub" : {"Weapon"},  #Maybe GainThorns tag? or add it to everything that adds thorns. GainThorns becomes GainAttack
               "TempestBlade" : {"Weapon", "PreStrikeL"}, #Attack = Speed
               #"CleaverOfWrath" : {"Weapon"}, #Your max hp is always 1 (Disables all max hp changes)
               #"ScepterOfGreed" : {"Weapon"}, #Cant gain gold. (Disables all gold gain)
               "SwordOfPride" : {"Weapon", "BattleStart"}, #If the foe has more attack, armor, or speed, take 3 damage
-              #"BeeStinger" : {"Weapon", "FirstTurnStrike", "Food"}, #Give the foe 4 poison, 3 acid, and 2 stun on hit
+              "BeeStinger" : {"Weapon", "FirstTurnStrike", "Food"}, #Give the foe 4 poison, 3 acid, and 2 stun on hit
               "BlackbriarBow" : {"Weapon", "CantAttack", "TurnStart"}, #Turn Start gain thorns = to your attack
               #"BrokenWineglass" : {"Weapon", "Wounded"}, #When wounded, on your next turn keep striking until the foe is wounded
               "CherryBlade" : {"Weapon", "BattleStart", "Exposed", "Food", "Bomb"}, #Deal 4 damage on batstart and exposed
@@ -1925,6 +1931,7 @@
           self.Purity = 0
           self.Regen = 0
           self.FirstThornLose = True
+          self.SecondTakeDamage = True
 
           self.SanguineMult = 1
           if "VampiresTooth" in self.Items:
@@ -2354,7 +2361,7 @@
       if Name == "DeviledEgg":  #Does Nothing
           Player.Armor = Player.Armor
 
-      if Name == "DoublePlatedArmor":
+      if Name == "DoubleplatedArmor":
           #Player.Armor = Player.Armor + 3
           #Player.GainedArmor = True
           #Runs check for gained armor items
@@ -2765,6 +2772,9 @@
               HP1Check(Player, Foe)
               GainStrikes(Player, Foe, 2)
               TakeDamage(Player, Foe)
+
+      if Name == "DoubleplatedVest":  #2nd time you take damage each turn, gain 2 armor
+          ArmorGain(Player, Foe, 2)
 
       if Name == "EnergyDrain": #steal all foe's speed
           if Foe.Speed > 0: #Player.Speed == 0 and 
@@ -4083,6 +4093,9 @@
       if Name == "LifebloodSpear":  #Gains attack = first hp restored sounds hard
           Player.Attack = Player.Attack + 1
 
+      #if Name == "LiferootHammer":  #Regen that triggers overheal increases max hp. I assume this is before the Overheal gem
+
+
       if Name == "LightningRod":  #If stunned, gain 1 attack
           if Player.Stun > 0:
               Player.Attack = Player.Attack + 1
@@ -4263,6 +4276,11 @@
               SelfArmorLose(Player, Foe, 3)
           if Player.Speed < Foe.Speed:
               SelfArmorLose(Player, Foe, 3)
+
+      if Name == "BeeStinger":  #Give the foe 4 poison, 3 acid, and 2 stun on hit
+          StatusInterp("Poison", Foe, Player, 4)
+          StatusInterp("Acid", Foe, Player, 3)
+          StatusInterp("Stun", Foe, Player, 2)
 
       if Name == "BlackbriarBow":  #Turn Start gain thorns = to your attack
           StatusInterp("Thorns", Player, Foe, Player.Attack)
@@ -4767,6 +4785,9 @@
       Player.Wounded(Foe) #Might need to run all three at the same time
       Player.Exposed(Foe)
       Player.Search("TakeDamage", Foe)
+      if Player.SecondTakeDamage:
+          Player.Search("SecondTakeDamage", Foe)
+          Player.SecondTakeDamage = False
 
   def OnHit(Player, Foe):
       #document.getElementById("debugBox").innerText = str(Player.FirstTurn) + str(Foe.FirstTurn)
@@ -4956,27 +4977,20 @@
 
   def GainPoison(Player, Foe, PoisonStacks):
       Player.Poison = Player.Poison + PoisonStacks
-      #if PoisonStacks > 0:
-      #StatusGain()
-      #if PoisonStacks < 0:
-      #StatusLose
 
   def GainRiptide(Player, Foe, RiptideStacks):
       Player.Riptide = Player.Riptide + RiptideStacks
-      #StatusGain()
 
   def GainAcid(Player, Foe, AcidStacks):
       Player.Acid = Player.Acid + AcidStacks
-      #StatusGain()
 
   def GainRegen(Player, Foe, RegenStacks):
       Player.Regen = Player.Regen + RegenStacks
-      #if RegenStacks > 0:
-      #StatusGain()
-      #if RegenStacks < 0:
-      #StatusLose
 
   def GainPurity(Player, Foe, PurityStacks):
+      PurityMult = 1
+      if "LakebedSword" in Player.Items:
+          PurityMult = 2
       if PurityStacks > 0:
           Player.Purity = Player.Purity + PurityStacks
       elif Player.Purity >= -PurityStacks and PurityStacks < 0:
@@ -4984,11 +4998,9 @@
       elif Player.Purity < -PurityStacks and PurityStacks < 0:
           PurityStacks = -Player.Purity
           Player.Purity = 0
-      #if PurityStacks > 0:
-          #StatusGain()
       if PurityStacks < 0:
-          Player.Attack = Player.Attack - PurityStacks
-          HealingCalc(Player, Foe, -3*PurityStacks) #I think its 3*Purity lost. and not just 3 hp everytime its lost
+          Player.Attack = Player.Attack - PurityStacks*PurityMult
+          HealingCalc(Player, Foe, -3*PurityStacks*PurityMult) #I think its 3*Purity lost. and not just 3 hp everytime its lost
       #StatusLose
 
   def Cooldowned(Player, Foe):
@@ -5011,6 +5023,18 @@
               ArmorGain(Player, Foe, Player.Regen)
               StatusInterp("Regen", Player, Foe, -1)
               #GainRegen(Player, Foe, -1)
+          elif "LiferootHammer" in Player.Items:
+              Value = 1
+              if not Player.HealingDisabled:
+                if Player.CurrentHP/Player.MaxHP < 0.5:
+                    Value = Player.TwilightCrestMult*Value
+                if Player.Stun > 0:
+                    Value = Value*Player.VampireCloak    
+                Value = Value*Player.SanguineScepterMult
+                if Player.MaxHP - Player.CurrentHP < Player.Regen*Value:
+                    Player.MaxHP = Player.MaxHP + Player.Regen*Value
+              HealingCalc(Player, Foe, Player.Regen)
+              StatusInterp("Regen", Player, Foe, -1)
           else:
               HealingCalc(Player, Foe, Player.Regen)
               StatusInterp("Regen", Player, Foe, -1)
@@ -5034,6 +5058,7 @@
               DealDamage(5, Foe, Player)
 
       Player.Search("EndTurn", Foe)
+      Player.SecondTakeDamage = True
       #Also do other stuff like reduce freezecount activate turn end items
 
   def Death(Player): #Will prevent a player who drops to 0 or less hp to not heal
@@ -5132,15 +5157,15 @@ def MainFight(Left, Right, EnemyType):
           EndBattleHeal(P2, P1)
           print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
           print("Player", Players[0], "has died first")
-          print("Player", Players[1], "has won:", P2.CurrentHP,"/", P2.MaxHP, "HP", P2.Armor, "Armor", P2.Attack, "Attack")
-          Result = f"Player {Players[0]} has died first. \nPlayer {Players[1]} has won: {P2.CurrentHP} / {P2.MaxHP} HP {P2.Armor} Armor {P2.Attack} Attack"
+          print("Player", Players[1], "has won:", P2.CurrentHP,"/", P2.MaxHP, "HP", P2.Armor, "Armor", P2.Attack, "Attack", P2.Gold, "Gold")
+          Result = f"Player {Players[0]} has died first. \nPlayer {Players[1]} has won: {P2.CurrentHP} / {P2.MaxHP} HP {P2.Armor} Armor {P2.Attack} Attack {P2.Gold} Gold"
 
       if P2.CurrentHP <= 0:
           EndBattleHeal(P1, P2)
           print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
           print("Player", Players[1], "has died first")
-          print("Player", Players[0], "has won:", int(P1.CurrentHP),"/", int(P1.MaxHP), "HP", int(P1.Armor), "Armor", int(P1.Attack), "Attack")
-          Result = f"Player {Players[1]} has died first. \nPlayer {Players[0]} has won: {P1.CurrentHP} / {P1.MaxHP} HP {P1.Armor} Armor {P1.Attack} Attack"
+          print("Player", Players[0], "has won:", int(P1.CurrentHP),"/", int(P1.MaxHP), "HP", int(P1.Armor), "Armor", int(P1.Attack), "Attack", P1.Gold, "Gold")
+          Result = f"Player {Players[1]} has died first. \nPlayer {Players[0]} has won: {P1.CurrentHP} / {P1.MaxHP} HP {P1.Armor} Armor {P1.Attack} Attack {P1.Gold} Gold"
       
       
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
