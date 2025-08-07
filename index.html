@@ -2428,14 +2428,14 @@
           Player.Armor = Player.Armor
 
       if Name == "GraniteTome":  #CD 4: Gain 6 armor
-          if (Player.Cooldown + Player.CooldownReduction < np.ceil(4*Player.CooldownMult) and Player.GraniteTome) or Player.GrandTomeRetriggers:
+          if (Player.Cooldown + Player.CooldownReduction > np.ceil(4*Player.CooldownMult) and Player.GraniteTome) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.TomeTriggers):
                   ArmorGain(Player, Foe, 6*(2**Quality))
                   Cooldowned(Player, Foe)
               Player.GraniteTome = False
 
       if Name == "HolyTome":  #CD 4: Gain 3 attack
-          if (Player.Cooldown + Player.CooldownReduction < np.ceil(4*Player.CooldownMult) and Player.HolyTome) or Player.GrandTomeRetriggers:
+          if (Player.Cooldown + Player.CooldownReduction > np.ceil(4*Player.CooldownMult) and Player.HolyTome) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.TomeTriggers):
                   Player.Attack = Player.Attack + 3*(2**Quality)
                   Cooldowned(Player, Foe)
@@ -2463,7 +2463,7 @@
           #GainRegen(Player, Foe, 1)
 
       if Name == "LiferootTome":  #CD 4: Gain 3 regen
-          if (Player.Cooldown + Player.CooldownReduction < np.ceil(4*Player.CooldownMult) and Player.LiferootTome) or Player.GrandTomeRetriggers:
+          if (Player.Cooldown + Player.CooldownReduction > np.ceil(4*Player.CooldownMult) and Player.LiferootTome) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.TomeTriggers):
                   StatusInterp("Regen", Player, Foe, 3*(2**Quality))
                   #GainRegen(Player, Foe, 3)
@@ -2556,7 +2556,7 @@
               HealingCalc(Player, Foe, 2*Amount)
 
       if Name == "SanguineTome":  #CD 6: Full heal
-          if (Player.Cooldown + Player.CooldownReduction < np.ceil(6*Player.CooldownMult) and Player.SanguineTome) or Player.GrandTomeRetriggers:
+          if (Player.Cooldown + Player.CooldownReduction > np.ceil(6*Player.CooldownMult) and Player.SanguineTome) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.TomeTriggers):
                   Sanguine(Player, Foe, Player.MaxHP - Player.CurrentHP)
                   Cooldowned(Player, Foe)
@@ -2593,7 +2593,7 @@
           #GainRiptide(Foe, Player, 1)
 
       if Name == "SilverscaleTome": #CD 3: Give the foe 2 riptide
-          if (Player.Cooldown + Player.CooldownReduction < np.ceil(3*Player.CooldownMult) and Player.SilverscaleTome) or Player.GrandTomeRetriggers:
+          if (Player.Cooldown + Player.CooldownReduction > np.ceil(3*Player.CooldownMult) and Player.SilverscaleTome) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.TomeTriggers):
                   StatusInterp("Riptide", Foe, Player, 2*(2**Quality))
                   #GainRiptide(Player, Foe, 2)
@@ -2619,7 +2619,7 @@
           #GainThorns(Player, Foe, 3)
 
       if Name == "StormcloudTome": #CD 4: Stun foe 1 turn
-          if (Player.Cooldown + Player.CooldownReduction < np.ceil(4*Player.CooldownMult) and Player.StormcloudTome) or Player.GrandTomeRetriggers:
+          if (Player.Cooldown + Player.CooldownReduction > np.ceil(4*Player.CooldownMult) and Player.StormcloudTome) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.TomeTriggers):
                   StatusInterp("Stun", Foe, Player, 1*(2**Quality))
                   #Stun(1, Player, Foe)
@@ -2723,7 +2723,7 @@
                   SelfArmorLose(Player, Foe, Player.Armor)
 
       if Name == "CausticTome":  #CD 3: Give the foe 3 acid, unless they have no armor, then give 3 poison
-          if (Player.Cooldown + Player.CooldownReduction < np.ceil(3*Player.CooldownMult) and Player.CausticTome) or Player.GrandTomeRetriggers:
+          if (Player.Cooldown + Player.CooldownReduction > np.ceil(3*Player.CooldownMult) and Player.CausticTome) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.TomeTriggers):
                   if Foe.Armor > 0:
                       StatusInterp("Acid", Foe, Player, 3)
@@ -3352,7 +3352,7 @@
               BombDamage(2, Player, Foe)
 
       if Name == "GrandTome":  #CD 10: Retriggers all other tomes
-          if (Player.Cooldown + Player.CooldownReduction < np.ceil(10*Player.CooldownMult) and Player.GrandTome):
+          if (Player.Cooldown + Player.CooldownReduction > np.ceil(10*Player.CooldownMult) and Player.GrandTome):
               for nn in range(0, Player.TomeTriggers):
                   Player.GrandTome = False
                   Player.GrandTomeRetriggers = True
@@ -3497,7 +3497,7 @@
           #GainPoison(Foe, Player, Player.Attack + Player.TempAttack)
 
       if Name == "SheetMusic":  #CD 6: Trigger Symphony 3 times
-          if (Player.Cooldown + Player.CooldownReduction < np.ceil(6*Player.CooldownMult) and Player.SheetMusic) or Player.GrandTomeRetriggers:
+          if (Player.Cooldown + Player.CooldownReduction > np.ceil(6*Player.CooldownMult) and Player.SheetMusic) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.SheetMusic):
                   for mm in range(0, 3):
                       Symphony(Player, Foe, "")
@@ -3555,7 +3555,7 @@
             BombDamage(1 + 2*Player.TurnCounter, Player, Foe)
 
       if Name == "TomeOfTheHero": #CD 8: Gain 4 attack, 4 armor, and 4 speed
-          if (Player.Cooldown + Player.CooldownReduction < np.ceil(8*Player.CooldownMult) and Player.TomeOfTheHero) or Player.GrandTomeRetriggers:
+          if (Player.Cooldown + Player.CooldownReduction > np.ceil(8*Player.CooldownMult) and Player.TomeOfTheHero) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.TomeOfTheHero):
                   Player.Attack = Player.Attack + 4
                   ArmorGain(Player, Foe, 4)
@@ -4901,7 +4901,9 @@
       for slot in range(0, len(Player.Items)): #max(len(P.Items), len(Foe.Items))):
           if not RemovedOnce and Instrument == Player.Items[slot]:
                 RemovedOnce = True
-                ListInstruments.remove(slot)
+                if slot in ListInstruments:
+                    ListInstruments.remove(slot)
+
       #This *probably* works Idk
       if ListInstruments != [] and Player.Alive and Foe.Alive:
           RanNumber = random.randint(0, len(ListInstruments) - 1)
