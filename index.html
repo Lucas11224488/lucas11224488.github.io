@@ -2329,7 +2329,7 @@
           Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - Damagevalue) #Updates hp of foe if foe's armor reached 0
           Player.AliveCheck(Foe)
           Death(Foe)
-          Player.TempBombBonus = 0
+          #Player.TempBombBonus = 0
           Player.BombMult = 1
           HP1Check(Foe, Player)
           if Foe.Armor > 0:
@@ -2855,17 +2855,18 @@
             Player.Attack = Player.Attack + Player.Speed
 
       if Name == "FirecrackerBelt": #Deal 1 damage 4 times
+          Bonus = np.copy(Player.TempBombBonus)
+          Player.TempBombBonus = 0
           for nn in range(0, Player.ExposedMultiTrigger):
-            for nn in range(1, Player.Bombtrigger):
-                for i in range(0, 4):
-                    BombDamage(1, Player, Foe)
-                    # DealDamage(1 + Foe.Powder, Player, Foe)
-                    # Foe.Powder = max(0, Foe.Powder - 1)
+            for i in range(0, 4):
+                BombDamage(1 + Bonus, Player, Foe)
+                # DealDamage(1 + Foe.Powder, Player, Foe)
+                # Foe.Powder = max(0, Foe.Powder - 1)
 
       if Name == "FlameburstTome":  #CD 4: Deal 4 and reset cooldown
           if (Player.Cooldown%(np.ceil(4*Player.CooldownMult) - Player.CooldownReduction) == 0) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.TomeTriggers):
-                  BombDamage(4, Player, Foe)
+                  DealDamage(4, Player, Foe)
                   Cooldowned(Player, Foe)
 
 
@@ -5018,6 +5019,7 @@
           DealDamage(Player.BombMult*(Damage + Player.BombBonus + Player.TempBombBonus), Player, Foe)
           if Player.BombMult*(Damage + Player.BombBonus + Player.TempBombBonus) >= 5:
               Player.Search("BombDamage5", Foe)
+      Player.TempBombBonus = 0
 
   def SelfBombDamage(Damage, Player, Foe):
       #Add check to see if you do more damage/Retrigger
@@ -5025,6 +5027,7 @@
           DealDamage(Player.BombMult*(Damage + Player.BombBonus + Player.TempBombBonus), Foe, Player)
           if Player.BombMult*(Damage + Player.BombBonus + Player.TempBombBonus) >= 5:
               Player.Search("BombDamage5", Foe)
+      Player.TempBombBonus = 0
 
   def GainFreeze(Player, Foe, FreezeCount):
       Player.Freeze = Player.Freeze + FreezeCount
