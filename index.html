@@ -4220,7 +4220,7 @@
       if Name == "KingsBlade":  #Wounded and Exposed trigger at battle start
           Player.WoundTriggers = Player.WoundTriggers - 1
           Player.ExposedTriggers = Player.ExposedTriggers - 1
-          if "BloodChain" in Foe.Items:
+          if "BloodChain" in Foe.Items: #I think this doesn't activate items that have battle start, exposed, and wounded 3 times.
               Player.MultiSearch(["Wounded", "Exposed"], Foe, ["Wounded", "FoeExposed"]) #It might activate all the faster persons items first instead of a slot by slot check
           else:
               Player.MultiSearch(["Wounded", "Exposed"], Foe, "FoeExposed")
@@ -5131,6 +5131,7 @@
           LoadNextHydra(Player)
 
   def LoadNextHydra(Player):
+    NewEnemy = []
     if "AcidHead" in Player.Items:
           NewEnemy = Enemies("RiptideHead", 3)
           if Player.Quality == [1]:
@@ -5148,7 +5149,7 @@
     elif "StunHead" in Player.Items:
         Player.Armor = Player.Armor
 
-    if not "StunHead" in Player.Items and not Player.Quality == [3]:
+    if not "StunHead" in Player.Items and not NewEnemy == []: #and not Player.Quality == [3]:
           Player.CurrentHP = NewEnemy[0]
           Player.MaxHP = NewEnemy[1]
           Player.Attack = NewEnemy[2]
