@@ -5254,8 +5254,10 @@ def MainFight(Left, Right, EnemyType):
           print("Player", Players[0], "has died first")
           print("Player", Players[1], "has won:", P2.CurrentHP,"/", P2.MaxHP, "HP", P2.Armor, "Armor", P2.Attack, "Attack", P2.Gold, "Gold")
           Result = f"Player {Players[0]} has died first. \nPlayer {Players[1]} has won: {P2.CurrentHP} / {P2.MaxHP} HP {P2.Armor} Armor {P2.Attack} Attack {P2.Gold} Gold"
-          if "SwamplandHydraWO" in Players[1]:
-            Result = f"Player {Players[0]} has died first. \nPlayer {P2.Items[0]} has won: {P2.CurrentHP} / {P2.MaxHP} HP {P2.Armor} Armor {P2.Attack} Attack {P2.Gold} Gold"
+          if not "Right" in Players and Players[0] == "Left":
+            Result = f"Player {Players[0]} has died first. \n{P2.Items[0]} has won: {P2.CurrentHP} / {P2.MaxHP} HP {P2.Armor} Armor {P2.Attack} Attack {P2.Gold} Gold"
+          if not "Right" in Players and Players[1] == "Left":
+            Result = f"{P1.Items[0]} has died first. \nPlayer {Players[1]} has won: {P2.CurrentHP} / {P2.MaxHP} HP {P2.Armor} Armor {P2.Attack} Attack {P2.Gold} Gold"
 
       if P2.CurrentHP <= 0:
           EndBattleHeal(P1, P2)
@@ -5263,8 +5265,10 @@ def MainFight(Left, Right, EnemyType):
           print("Player", Players[1], "has died first")
           print("Player", Players[0], "has won:", int(P1.CurrentHP),"/", int(P1.MaxHP), "HP", int(P1.Armor), "Armor", int(P1.Attack), "Attack", P1.Gold, "Gold")
           Result = f"Player {Players[1]} has died first. \nPlayer {Players[0]} has won: {P1.CurrentHP} / {P1.MaxHP} HP {P1.Armor} Armor {P1.Attack} Attack {P1.Gold} Gold"
-          if "SwamplandHydraWO" in Players[0]:
-            Result = f"Player {Players[1]} has died first. \nPlayer {P1.Items[0]} has won: {P1.CurrentHP} / {P1.MaxHP} HP {P1.Armor} Armor {P1.Attack} Attack {P1.Gold} Gold"
+          if not "Right" in Players and Players[1] == "Left":
+            Result = f"Player {Players[1]} has died first. \n{P1.Items[0]} has won: {P1.CurrentHP} / {P1.MaxHP} HP {P1.Armor} Armor {P1.Attack} Attack {P1.Gold} Gold"
+          if not "Right" in Players and Players[0] == "Left":
+            Result = f"{P2.Items[0]} has died first. \nPlayer {Players[0]} has won: {P1.CurrentHP} / {P1.MaxHP} HP {P1.Armor} Armor {P1.Attack} Attack {P1.Gold} Gold"
 
 
       
