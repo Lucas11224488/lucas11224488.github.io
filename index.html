@@ -1126,7 +1126,7 @@
               "CorrodedBone" : {"BattleStart"}, #Convert 50% of Enemies hp into Armor. Rounded down?
               "CrackedBouldershield" : {"Exposed"}, #Gain 7 armor
               "CrimsonFang" : {"BattleStart", "Sanguine"}, #If your hp is full, lose 5 hp and gain 2 strikes
-              #"DoubleExplosion" : {"SecondNonWeapon"}, #The 2nd time you deal nonweapon damage a turn, deal 3 damage.
+              "DoubleExplosion" : {"SecondNonWeapon"}, #The 2nd time you deal nonweapon damage a turn, deal 3 damage.
               #Maybe can run the "TakeDamage" tag and then add a toggle if its the second trigger. Then reset toggle at end of turn.
               "DoubleplatedVest" : {"SecondTakeDamage", "Unique"}, #2nd time you take damage each turn, gain 2 armor
               "EnergyDrain" : {"BattleStart", "Unique"}, # steal all foe's speed
@@ -1965,6 +1965,7 @@
           self.Regen = 0
           self.FirstThornLose = True
           self.SecondTakeDamage = True
+          self.SecondNonWeapon = 0
 
           self.SanguineMult = 1
           if "VampiresTooth" in self.Items:
@@ -2808,6 +2809,10 @@
               HP1Check(Player, Foe)
               GainStrikes(Player, Foe, 2)
               TakeDamage(Player, Foe)
+
+      if Name == "DoubleExplosion":  #The 2nd time you deal nonweapon damage a turn, deal 3 damage.
+        if Player.SecondNonWeapon == 2:
+            BombDamage(3, Player, Foe)
 
       if Name == "DoubleplatedVest":  #2nd time you take damage each turn, gain 2 armor
           ArmorGain(Player, Foe, 2)
@@ -4877,15 +4882,15 @@
       Player.ThornsDecrease = 0
       Player.FirstThornLose = False
 
-
   def ArmorLose(Player, Foe): #This needs the Deltaarmor value for razorscales and sapphire gemstone
       Player.Search("ArmorLose", Foe)
       Player.DeltaArmor = 0 #I think thats the right spot
 
   def Nonweapon(Player, Foe):
+      Player.SecondNonWeapon = Player.SecondNonWeapon + 1
       Player.Search("Nonweapon", Foe)
-
-
+      Player.Search("SecondNonweapon", Foe)
+      
   def Count(Player, Tag):
       c = Player.Count(Tag)
       return c
@@ -4913,6 +4918,7 @@
           [Player, Foe] = ItemsEffect("Symphony", Player.Quality[slot], Choice, Player, Foe)
 
   def TurnCount(Player, Foe, TurnNum):
+      Player.SecondNonWeapon = 0
       Player.TurnCounter = Player.TurnCounter + 1
       #Fatigue?
       if TurnNum > 25:
