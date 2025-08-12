@@ -151,13 +151,13 @@
     <input type="checkbox" id="LeftArmorOil" name="LeftArmorOil" value="1" style="visibility: hidden;">
     <label for="LeftArmorOil">Armor Oil</label>
     <br>
-    <label for="quantity">Speed:</label>
+    <label for="quantity" style="padding-right:4px;">Speed:</label>
     <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/9/9f/Icon_speed.png" alt="Speed:"> -->
     <input type="number" id="LeftSpeed" name="LeftSpeed" min="-99999" max="99999" value="0">
     <input type="checkbox" id="LeftSpeedOil" name="LeftSpeedOil" value="1" style="visibility: hidden;">
     <label for="LeftSpeedOil">Speed Oil</label>
     <br>
-    <label for="quantity">Gold:</label>
+    <label for="quantity" style="padding-right:12px;">Gold:</label>
     <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/e/e2/Treasury_16x.png" alt="Gold:"> -->
     <input type="number" id="LeftGold" name="LeftGold" min="0" max="99999" value="0">
     </fieldset>
@@ -184,6 +184,7 @@
         <option value="ChainmailSword">Chainmail Sword</option>
         <option value="ChampionsBlade">Champion's Blade</option>
         <option value="CherryBlade">Cherry Blade</option>
+        <option value="CleaverOfWrath">Cleaver of Wrath</option>
         <option value="DashmastersDagger">Dashmaster's Dagger</option>
         <option value="DeathcapBow">Deathcap Bow</option>
         <option value="ElderwoodStaff">Elderwood Staff</option>
@@ -691,6 +692,7 @@
         <option value="ChainmailSword">Chainmail Sword</option>
         <option value="ChampionsBlade">Champion's Blade</option>
         <option value="CherryBlade">Cherry Blade</option>
+        <option value="CleaverOfWrath">Cleaver of Wrath</option>
         <option value="DashmastersDagger">Dashmaster's Dagger</option>
         <option value="DeathcapBow">Deathcap Bow</option>
         <option value="ElderwoodStaff">Elderwood Staff</option>
@@ -787,13 +789,13 @@
       <input type="checkbox" id="RightArmorOil" name="RightArmorOil" value="1" style="visibility: hidden;">
       <label for="RightArmorOil">Armor Oil</label>
       <br>
-      <label for="quantity">Speed:</label>
+      <label for="quantity" style="padding-right:4px;">Speed:</label>
       <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/9/9f/Icon_speed.png" alt="Speed:"> -->
       <input type="number" id="RightSpeed" name="RightSpeed" min="-99999" max="99999" value="0">
       <input type="checkbox" id="RightSpeedOil" name="RightSpeedOil" value="1" style="visibility: hidden;">
       <label for="RightSpeedOil">Speed Oil</label>
       <br>
-      <label for="quantity">Gold:</label>
+      <label for="quantity" style="padding-right:12px;">Gold:</label>
       <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/e/e2/Treasury_16x.png" alt="Gold:"> -->
       <input type="number" id="RightGold" name="RightGold" min="0" max="99999" value="0">
       </div>
@@ -1319,15 +1321,13 @@
               "TwinfuseKnot" : {"BombTrigger", "Unique"}, #Bomb items trigger twice
               "BitterMelon" : {"TurnStart", "Food"}, #Convert 1 stack of another status effect to 1 poison
               "BloodOrange" : {"BattleStart", "Wounded", "Food", "Sanguine"}, #Gain 3 acid
-              #"BloodOrangeW": {"Wounded", "Food", "Sanguine"}, #Convert all acid to regen
               "BloodSausage" : {"Wounded", "Food", "Sanguine"}, #Restore 1 hp 5 times
-              "BloodySteak" : {"Wounded", "Saguine", "Food"}, #Restore 10 hp and 5 armor
+              "BloodySteak" : {"Wounded", "Sanguine", "Food"}, #Restore 10 hp and 5 armor
               "BoiledHam" : {"BattleStart", "Exposed", "Wounded", "Food", "Water"}, #Decrease all status effects by 1
               "CandiedNuts" : {"BattleStart", "Food", "ThornMult"}, #Gain 3 thorns, thorns do 2x
               "CherryCocktail" : {"BattleStart", "Wounded", "Sanguine", "Bomb", "Food"}, #Deal 3 damage and restore 3 hp
               "CombustibleLemon" : {"TurnStart", "Bomb", "Food"}, #Spend 1 speed to deal 2 bomb damage
               "DeepseaWine" : {"Wounded", "Food", "RiptideDamage"}, #Give foe 1 riptide. Whenever a riptide triggers restore 3 hp
-              #"DeepseaWineR" : {"RiptideDamage", "Food"}, #Give foe 1 riptide. Whenever a riptide triggers restore 3 hp
               "ExplosiveFish" : {"BattleStart", "Food", "Bomb"}, #Give foe 1 riptide and deal 2xfoe.riptide bombdamage
               "ExplosiveRoast" : {"BattleStart", "Bomb", "Food"}, #Deal 1 damage 4 times
               "GraniteCherry" : {"BattleStart", "Stone", "Bomb", "Food"}, #If your hp is full, gain 2 armor and deal 2 damage 3 times
@@ -1338,13 +1338,11 @@
               "HornedMelon" : {"BattleStart", "Exposed", "Wounded", "Food"}, #Decrease 2 random status effects by 1 and gain that many thorns
               "LemonRoast" : {"BattleStart", "Food"}, #Gain 2 acid
               "LemonShark" : {"BattleStart", "Exposed", "Food"}, #Gain 1 acid
-              #"LemonSharkE" : {"Exposed", "Food"}, #Give the foe riptide = your acid
               "LemonSyrup" : {"BattleStart", "Food"}, #Double your speed
               "LimestoneFruit" : {"BattleStart", "Stone", "Food"}, #Gain 8 armor, if hp isnt full gain 2 acid
               "MarbleMushroom" : {"BattleStart", "Stone", "Food"}, #Gain 3 poison
               "MarbledStonefish" : {"BattleStart", "Exposed", "Stone", "Food"}, #If you hp is full, gain 5 armor and give foe 1 riptide
               "MelonBomb" : {"BattleStart", "Exposed", "Wounded", "LoseStatus", "Food", "Bomb", "Water"}, #Decrease a random status effect by 1
-              #"MelonBombS" : {"LoseStatus", "Food", "Bomb", "Water"}, #Whenever a status effect is decreased, deal 1 damage to foe.
               "MelonLemonade" : {"BattleStart", "Exposed", "Wounded", "Food"}, #Remove all your acid
               "MelonWine" : {"BattleStart", "Exposed", "Wounded", "Food", "Water"}, #Decrease a random status by 1 and restore 3 hp
               "MineralWater" : {"BattleStart", "Exposed", "Food", "Water"}, #If HP is full, decrease a random status by 2 and gain 5 armor
@@ -1447,7 +1445,6 @@
               "MeltingIceblade" : {"OnHit", "Water"}, #Lose 1 attack
               "MoonlightCleaver" : {"PreventStatusGain"}, #If below 50% hp cannot gain status
               "PurelakeStaff" : {"BattleStart", "OnHit", "Water"}, #BS: Gain 2 purity. OH: Lose 1 purity
-              #"PurelakeStaffOH" : {"OnHit", "Water"}, #BS: Gain 2 purity. OH: Lose 1 purity
               "QuickgrowthSpear" : {"Weapon", "EveryOtherTurn", "Wood"}, #Gain 1 attack and restore 1 HP
               "RiverflowRapier" : {"Water", "FirstGainStatus"}, #First time you gain a new status effect, gain 1 strike
               "RoyalCrownblade" : {"Weapon", "OnHit"}, #Gain 1 Gold
@@ -1464,7 +1461,7 @@
               "MountainCleaver" : {"Weapon", "BattleStart", "Stone"}, #Attack = Base Armor
               "SpikyClub" : {"Weapon"},  #Maybe GainThorns tag? or add it to everything that adds thorns. GainThorns becomes GainAttack
               "TempestBlade" : {"Weapon", "PreStrikeL"}, #Attack = Speed
-              #"CleaverOfWrath" : {"Weapon"}, #Your max hp is always 1 (Disables all max hp changes)
+              "CleaverOfWrath" : {"Weapon"}, #Your max hp is always 1 (Disables all max hp changes)
               #"ScepterOfGreed" : {"Weapon"}, #Cant gain gold. (Disables all gold gain)
               "SwordOfPride" : {"Weapon", "BattleStart"}, #If the foe has more attack, armor, or speed, take 3 damage
               "BeeStinger" : {"Weapon", "FirstTurnStrike", "Food"}, #Give the foe 4 poison, 3 acid, and 2 stun on hit
@@ -1472,13 +1469,11 @@
               #"BrokenWineglass" : {"Weapon", "Wounded"}, #When wounded, on your next turn keep striking until the foe is wounded
               "CherryBlade" : {"Weapon", "BattleStart", "Exposed", "Food", "Bomb"}, #Deal 4 damage on batstart and exposed
               "DeathcapBow" : {"Weapon", "BattleStart", "TurnStart"}, #BS: Gain 3 Poison. TS: Gain 1 additional strike, if you are poisoned
-              #"DeathcapBowTS" : {"Weapon", "TurnStart"}, #Gain 1 additional strike, if you are poisoned
               "HamBat" : {"Weapon", "BattleStart", "Food", "Wood"}, #Gain 2 additional strikes
               "LemontreeBranch" : {"Weapon", "OnHit", "Food", "Wood"}, #Spend 2 speed to gain an additional strike
               "MelonvineWhip" : {"Weapon", "OnHit", "Food", "Water"}, #On hit remove 1 stack of a random status effect on self
               "RocksaltSword" : {"Weapon", "TurnStart"}, #if your hp is full, gain 1 additional strike
               "SilverscaleSwordfish" : {"Weapon", "BattleStart", "FirstTurn", "Food"}, #Gain 1 extra strike on battle start, #First Turn on hit give the foe 1 riptide
-              #"SilverscaleSwordfishFT" : {"Weapon", "FirstTurn", "Food"}, #First Turn on hit give the foe 1 riptide
 
               #Blade Edges (Blacksmith)
               "AgileEdge" : {"Edge", "FirstTurn"}, #Gain 1 additional strike on first turn
@@ -1508,7 +1503,6 @@
               "Highborn" : {"Set"}, #Retrigger all rings
               "IronbarkShield" : {"Set"}, #If Hp is full, gain 1 armor at turn start
               "IronbarkShieldTS": {"Set"}, #1 Armor Gain at turn start 
-              "IronChain": {"Set", "BattleStart"}, #Gain 5 armor at battle start
               "LifebloodTransfusion" : {"Set", "BattleEnd"}, #Restore 10 HP after battle. Kinda just not useful to include?
               "RawHide" : {"Set", "EveryOtherTurn"}, #Gain 1 attack
               "RedwoodCrown" : {"Set", "Wounded"}, #Restore HP to Full
@@ -1528,7 +1522,7 @@
               #Gotta redo the vamp cloak to check for stun at turn start *maybe*
               "VampireCloak" : {"Set"}, #TS: If you are stunned, double all healing this turn
               "WeaverMedallion" : {"Set", "TurnStart"}, #Spend 1 armor to gain 1 attack
-              #"IronChain" : {"Set"}, #Double your base armor
+              "IronChain": {"Set", "BattleStart"}, #Gain 5 armor at battle start
               "IronstoneArrowhead" : {"Set", "OnHit"}, #Gain 1 armor on hit
               "IronstoneOre" : {"Set", "BattleStart"}, #Gain armor = negative speed
               "SanguineGemstone" : {"Set", "OnHit"}, #If your attack == 1, restore 1 hp on hit? Idk if its sanguine
@@ -5265,10 +5259,10 @@
     if Name == "TempestBlade": #0 Attack and 2 Speed, Attack = Speed
         BaseStats = [0, 0, 0, 2]
 
-    if Name == "CleaverofWrath": #MaxHP is set to 1 and 10 Attack
+    if Name == "CleaverOfWrath": #MaxHP is set to 1 and 10 Attack
         BaseStats = [0, 10, 0, 0]
 
-    if Name == "ScepterofGreed": #6 Attack
+    if Name == "ScepterOfGreed": #6 Attack
         BaseStats = [0, 6, 0, 0]
 
     if Name == "SwordOfPride":  #3 attack, armor, and speed
@@ -5462,6 +5456,9 @@
         if Weapon == "GraniteLance":
             LeftArmor = 2*LeftArmor
 
+        if Weapon == "CleaverOfWrath":
+            LeftMaxHP = 1
+
         document.getElementById("LeftMaxHP").value = LeftMaxHP
         document.getElementById("LeftAttack").value = LeftAttack
         document.getElementById("LeftArmor").value = LeftArmor
@@ -5532,6 +5529,9 @@
 
         if Weapon == "GraniteLance":
             RightArmor = 2*RightArmor
+
+        if Weapon == "CleaverOfWrath":
+            RightMaxHP = 1
 
         document.getElementById("RightMaxHP").value = RightMaxHP
         document.getElementById("RightAttack").value = RightAttack
