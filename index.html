@@ -383,6 +383,7 @@
             <option value="FrostbiteTrap">Frostbite Trap</option>
             <option value="GoldRing">Gold Ring</option>
             <option value="GrandTome">Grand Tome</option>
+            <option value="GrandCrescendo">Grand Crescendo</option>
             <option value="GraniteCherry">Granite Cherry</option>
             <option value="GraniteCrown">Granite Crown</option>
             <option value="GraniteEgg">Granite Egg</option>
@@ -1308,7 +1309,7 @@
               "BloodmoonArmor" : {"SelfDamage", "Unique"}, #If youd take damage from your own items, deal it to the foes
               "ChainlinkMedallion" : {"OnHitTrigger"}, #On Hit trigger twice
               "ColdResistance" : {"Unique"}, #Freeze doubles your attack instead of halving
-              #"GrandCrescendo" : {"Unique"}, #Symphony triggers all other instruments
+              "GrandCrescendo" : {"Unique"}, #Symphony triggers all other instruments
               "GraniteThorns" : {"Unique", "Stone", "BattleStart"}, #Needs a counter to not remove thorns
               "PrimeForm" : {"Unique", "PreStrike"}, #Double attack while hp is full
               "PrimordialSoup" : {"Unique"}, #Acid removes hp as well
@@ -5669,20 +5670,28 @@
       RemovedOnce = False
       for slot in range(0, len(Player.Items)): #max(len(P.Items), len(Foe.Items))):
           if "Instrument" in ItemTags[Player.Items[slot]]:
-              ListInstruments.append(slot)
+            ListInstruments.append(slot)
 
       for slot in range(0, len(Player.Items)): #max(len(P.Items), len(Foe.Items))):
           if not RemovedOnce and Instrument == Player.Items[slot]:
-                RemovedOnce = True
-                if slot in ListInstruments:
-                    ListInstruments.remove(slot)
+            RemovedOnce = True
+            if slot in ListInstruments:
+              ListInstruments.remove(slot)
 
-      #This *probably* works Idk
-      if ListInstruments != [] and Player.Alive and Foe.Alive:
-          RanNumber = random.randint(0, len(ListInstruments) - 1)
-          slot = int(ListInstruments[RanNumber])
-          Choice = Player.Items[slot] + "S"
-          [Player, Foe] = ItemsEffect("Symphony", Player.Quality[slot], Choice, Player, Foe)
+      if "GrandCrescendo" in Player.Items:
+        for ii in range(0, len(ListInstruments)):
+            slot = int(ListInstruments[ii])
+            Choice = Player.Items[slot] + "S"
+            [Player, Foe] = ItemsEffect("Symphony", Player.Quality[slot], Choice, Player, Foe)
+
+      if not "GrandCrescendo" in Player.Items:
+        #This *probably* works Idk
+        if ListInstruments != [] and Player.Alive and Foe.Alive:
+            RanNumber = random.randint(0, len(ListInstruments) - 1)
+            slot = int(ListInstruments[RanNumber])
+            Choice = Player.Items[slot] + "S"
+            [Player, Foe] = ItemsEffect("Symphony", Player.Quality[slot], Choice, Player, Foe)
+
 
   def TurnCount(Player, Foe, TurnNum):
       Player.SecondNonWeapon = 0
