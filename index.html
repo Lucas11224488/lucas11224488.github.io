@@ -695,7 +695,7 @@
     <div id="dropdownContainer2"></div>
     <div id="dropdownContainer2Lower"></div>
 
-    <template id="WeaponsRight">
+    <template id="WeaponsRightTemplate">
       <div class="right-column">
         <br>
       <label for="WeaponsRight" id="WeaponsRightLabel">Right Weapon:</label>
@@ -929,7 +929,7 @@
     <script>
         const containerright = document.getElementById("dropdownContainer2");
         const containerright2 = document.getElementById("dropdownContainer2Lower");
-        const Weapons2 = document.getElementById("WeaponsRight").innerHTML;
+        const Weapons2 = document.getElementById("WeaponsRightTemplate").innerHTML;
         const Edges2 = document.getElementById("RightEdges").innerHTML;
         const Stats2 = document.getElementById("RightStatsTemplate").innerHTML;
         const EnemyList = document.getElementById("EnemiesType").innerHTML;
@@ -3692,6 +3692,7 @@
           Amount = 1
           if Phase == "Exposed":
             Amount = Player.ExposedMultiTrigger
+
           for nn in range(0, Amount):
             if Player.Thorns > 0: 
                 #Player.Thorns = Player.Thorns - 1 
@@ -4842,6 +4843,636 @@
 
       return [Player, Foe]
 
+  def ItemsBaseStats(Quality, Name):
+    # Base stats [Max Hp, Attack, Armor, Speed]
+    BaseStats = [0, 0, 0, 0]
+    QF = 2**(int(Quality))
+    if Name == "BoomStick": #2 attack
+        BaseStats[1] = 2
+
+    if Name == "BootsoftheHero":#2*Quality Speed
+        BaseStats[3] = 2*QF
+
+    if Name == "BrittlebarkBow": #4 Attack
+        BaseStats[1] = 4
+            
+    if Name == "ChampionsArmor":#6*Quality Armor
+        BaseStats[2] = 6*QF
+
+    if Name == "ChampionsBlade":# 6 attack
+        BaseStats[1] = 6
+
+    if Name == "DoubleplatedArmor": #2*Quality Armor and -2*Quality Speed
+        BaseStats = [0, 0, 2*QF, -2*QF]
+
+    if Name == "ElderwoodStaff":  #1 atk, armor, speed
+        BaseStats = [0, 1, 1, 1]
+
+    if Name == "EmeraldCrown": #8 MaxHP and -1 attack * Quality
+        BaseStats = [8*QF, -1*QF, 0, 0]
+
+    if Name == "FeatherweightBlade":  #2 Attack 2 Speed
+        BaseStats = [0, 2, 0, 2]
+
+    if Name == "ForgeHammer":  #4 Attack
+        BaseStats[1] = 4
+
+    if Name == "FungalRapier":  #3 Attack
+        BaseStats[1] = 3
+
+    if Name == "GaleStaff":  #2 attack and 6 speed
+        BaseStats = [0, 2, 0, 6]
+
+    if Name == "GrillingSkewer":  #1 Attack
+        BaseStats = [0, 1, 0, 0]
+
+    if Name == "Haymaker":  #1 Attack
+        BaseStats = [0, 1, 0, 0]
+
+    if Name == "HeartDrinker": #1 Attack
+        BaseStats = [0, 1, 0, 0]
+
+    # if Name == "HiddenDagger": #It gives more attack the more HD you have, aka just stats
+    #     #Stats Only Weapon does nothing
+    #     Player.Attack = Player.Attack
+
+    if Name == "HolyShield": # -1 Attack, 6 armor and -1 speed *QF
+        BaseStats = [0, -1*QF, 6*QF, -1*QF]
+
+    if Name == "HolyTome": # -1 Attack*QF
+        BaseStats = [0, -1*QF, 0, 0]
+
+    if Name == "HornedHelmet": #2 Armor *Q
+        BaseStats = [0, 0, 2*QF, 0]
+
+    if Name == "IceblockShield": #8 Armor
+        BaseStats = [0, 0, 8, 0]
+
+    if Name == "IronstoneBracelet": #-1 speed
+        BaseStats = [0, 0, 0, -1]
+
+    if Name == "IronstoneGreatsword": #4 Atk -2 Spd
+        BaseStats = [0, 4, 0, -2]
+
+    if Name == "IronstoneSpear":  #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "KnightsArmor":  #4 Armor *Q
+        BaseStats = [0, 0, 4*QF, 0]
+
+    if Name == "KnightsBlade":  #4 Attack
+        BaseStats = [0, 4, 0, 0]
+
+    if Name == "LeatherBelt": #3 MaxHP *Q but 2x if no base armor
+        BaseStats = [3*QF, 0, 0, 0]
+
+    if Name == "LeatherGlove": #3 MaxHP and 1 Speed *Q
+        BaseStats = [3*QF, 0, 0, 1*QF]
+
+    if Name == "LeatherVest": #2 Armor and 1 Speed *Q
+        BaseStats = [0, 0, 2*QF, 1*QF]
+
+    if Name == "LiferootGauntlet":  #3 MaxHP *Q
+        BaseStats = [3*QF, 0, 0, 0]
+
+    if Name == "LiferootStaff":  #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "LightspeedPotion":  #1 Speed
+        BaseStats = [0, 0, 0, 1]
+
+    if Name == "LightspeedElixir":  #1 Speed
+        BaseStats = [0, 0, 0, 1]
+
+    if Name == "MarbleSword":  #1 Atk and 2 Armor
+        BaseStats = [0, 1, 2, 0]
+
+    if Name == "PacifistStaff":  #0 base stats
+        BaseStats = [0, 0, 0, 0]
+
+    if Name == "PurelakeHelmet": #2 Armor *Q
+        BaseStats = [0, 0, 2*QF, 0]
+
+    if Name == "RazorthornSpear":  #Gain 2 thorns on hit
+        BaseStats = [0, 1, 0, 0]
+    
+    if Name == "RedwoodCloak": #2 MaxHp *Q
+        BaseStats = [2*QF, 0, 0, 0]
+
+    if Name == "RedwoodHelmet": #1 MaxHp  and 1 Armor *Q
+        BaseStats = [1*QF, 0, 1*QF, 0]
+
+    if Name == "RedwoodRoast": #5 MaxHp *Q
+        BaseStats = [5*QF, 0, 0, 0]
+
+    if Name == "RedwoodRod": #4 MaxHp and 2 Attack
+        BaseStats = [4, 2, 0, 0]
+
+    if Name == "RubyCrown": #1 Attack and -1 Speed *Q
+        BaseStats = [0, 1*QF, 0, -1*QF]
+
+    if Name == "SaffronFeather": #1 Speed *Q
+        BaseStats = [0, 0, 0, 1*QF]
+
+    if Name == "SapphireCrown": #-2 MaxHP and 5 Armor * Q
+        BaseStats = [-2*QF, 0, 5*QF, 0]
+
+    if Name == "ShieldoftheHero": # 3 Armor *Q
+        BaseStats = [0, 0, 3*QF, 0]
+
+    if Name == "SilverscaleDagger": #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "SlimeArmor": #5 Armor *Q
+        BaseStats = [0, 0, 5*QF, 0]
+
+    if Name == "SlimeSword": #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "SourLemon": #3 Speed *Q
+        BaseStats = [0, 0, 0, 3*QF]
+
+    if Name == "SpearshieldLance": #1 Attack and 6 armor
+        BaseStats = [0, 1, 6, 0]
+
+    if Name == "SquiresArmor": #2 Armor
+        BaseStats = [0, 0, 2, 0]
+
+    if Name == "SquiresBlade": #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "StormcloudSpear": #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "SwordOfTheHero": #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    # if Name == "WoodcuttersAxe": #1 Attack + 2*Empty Slots
+    #     #Stats Only Weapon does nothing
+    #     Player.Attack = Player.Attack
+
+    if Name == "WoodenStick": #1 Attack
+        BaseStats = [0, 1, 0, 0]
+
+    if Name == "ArcaneWand": #0 Attack
+        BaseStats = [0, 0, 0, 0]
+
+    if Name == "BasiliskFang": #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    if Name == "BejeweledBlade":  # 1+ Gains 2 attack per jewelry item in inv
+        c = Count(Player, "Jewelry")
+        BaseStats = [0, 1 + 2*c, 0, 0]
+
+    if Name == "BlackbriarBlade":  #1 Attack
+        BaseStats = [0, 1, 0, 0]
+
+    if Name == "BlastcapArmor": #8 Armor
+        BaseStats = [0, 0, 8, 0]
+
+    if Name == "BloodmoonDagger": #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "BloodmoonSickle": #5 Attack
+        BaseStats = [0, 5, 0, 0]
+
+    if Name == "BrambleBuckler": #2 Armor
+        BaseStats = [0, 0, 2, 0]
+
+    if Name == "BrambleVest": #3 MaxHP
+        BaseStats = [3, 0, 0, 0]
+
+    if Name == "BrittlebarkBuckler": #10 Armor
+        BaseStats = [0, 0, 10, 0]
+
+    if Name == "BubblegloopStaff": #0 Attack
+        BaseStats = [0, 0, 0, 0]
+
+    if Name == "ChainmailCloak": #2 Armor
+        BaseStats = [0, 0, 2, 0]
+
+    if Name == "ClearspringOpal": #2 Speed
+        BaseStats = [0, 0, 0, 2]
+
+    if Name == "ExplosiveSword":  #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    if Name == "ForgeGauntlet": #1 Attack
+        BaseStats = [0, 1, 0, 0]
+
+    if Name == "FriendshipBracelet": #-1 Attack
+        BaseStats = [0, -1, 0, 0]
+
+    if Name == "FrostbiteArmor": #2 Armor
+        BaseStats = [0, 0, 2, 0]
+
+    if Name == "FrostbiteDagger": #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "GraniteAxe":  #4 Attack
+        BaseStats = [0, 4, 0, 0]
+
+    if Name == "IcicleSpear": #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    if Name == "ImpressivePhysique": #2 Speed
+        BaseStats = [0, 0, 0, 2]
+
+    if Name == "IronstoneBow":  #6 Attack and 1 Speed
+        BaseStats = [0, 6, 0, 1]
+
+    if Name == "IronstoneSandals": #-1 Speed
+        BaseStats = [0, 0, 0, -1]
+
+    if Name == "LifebloodSpear":  #1 Attack
+        BaseStats = [0, 1, 0, 0]
+
+    if Name == "LiferootHammer":  #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    if Name == "LightningBottle": #1 Attack and 2 Speed
+        BaseStats = [0, 1, 0, 2]
+
+    if Name == "LightningElixir": #3 Attack and 4 Speed
+        BaseStats = [0, 3, 0, 4]
+
+    if Name == "LightningRod":  #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "LightningWhip":  #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    if Name == "MushroomBuckler": #3 Armor
+        BaseStats = [0, 0, 3, 0]
+
+    if Name == "OakHeart": #3 MaxHP per wood item
+        BaseStats = [3, 0, 0, 0]
+
+    if Name == "PlatedShield": #-1 Speed
+        BaseStats = [0, 0, 0, -1]
+
+    if Name == "PoisonousMushroom": #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "RingBlades": #1 Attack
+        BaseStats = [0, 1, 0, 0]
+
+    if Name == "RoyalHelmet": #1 Armor
+        BaseStats = [0, 0, 1, 0]
+
+    if Name == "RustySword":  #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "SaltcrustedCrown": #8 MaxHP
+        BaseStats = [8, 0, 0, 0]
+
+    if Name == "SanguineScepter": #1 Attack
+        BaseStats = [0, 1, 0, 0]
+
+    if Name == "SilverAnchor": #-1 Speed
+        BaseStats = [0, 0, 0, -1]
+
+    if Name == "SilverscaleGreaves": #2 Speed
+        BaseStats = [0, 0, 0, 2]
+
+    if Name == "StormcloudArmor": #3 Armor
+        BaseStats = [0, 0, 3, 0]
+
+    if Name == "SwiftstrikeBow":  #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "SwiftstrikeRapier": #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "WaveBreaker":  #-2 Attack
+        BaseStats = [0, -2, 0, 0]
+
+    if Name == "AcidicWitherleaf": #1 Speed
+        BaseStats = [0, 0, 0, 1]
+
+    if Name == "BlackbriarArmor": #-1 Attack
+        BaseStats = [0, -1, 0, 0]
+
+    if Name == "BloodlordsAxe":  #4 Attack
+        BaseStats = [0, 4, 0, 0]
+
+    if Name == "BrittlebarkArmor": #12 maxHP
+        BaseStats = [12, 0, 0, 0]
+
+    if Name == "BrittlebarkClub": #7 Attack
+        BaseStats = [0, 7, 0, 0]
+
+    if Name == "ChainmailSword":  #2 Attack and  2 Armor
+        BaseStats = [0, 2, 2, 0]
+
+    if Name == "ElderwoodNecklace": #1 Attack, armor and speed
+        BaseStats = [0, 1, 1, 1]
+
+    if Name == "FrozenIceblade":  #6 Attack
+        BaseStats = [0, 6, 0, 0]
+
+    if Name == "GemstoneScepter": #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "GraniteHammer": #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "GraniteLance":  #2 attack and 1 Armor and Stat effect 2x base armor
+        BaseStats = [0, 2, 1, 0]
+
+    if Name == "GrindstoneClub": #1 Attack
+        BaseStats = [0, 1, 0, 0]
+
+    if Name == "IronstoneArmor": #-2 speed
+        BaseStats = [0, 0, 0, -2]
+
+    if Name == "KingsBlade":  #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "LeatherWhip":  #5 max hp and 4 attack
+        BaseStats = [5, 4, 0, 0]
+
+    if Name == "LifestealScythe": #1 Attack
+        BaseStats = [0, 1, 0, 0]
+
+    if Name == "MeltingIceblade":  #8 Attack
+        BaseStats = [0, 8, 0, 0]
+
+    if Name == "MistArmor": #10 MaxHP and 2 Speed
+        BaseStats = [10, 0, 0, 2]
+
+    if Name == "MoonlightCleaver":  #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    if Name == "NoxiousGas": #6 Armor
+        BaseStats = [0, 0, 6, 0]
+
+    if Name == "PetrifiedStatue": #-2 Speed
+        BaseStats = [0, 0, 0, -2]
+
+    if Name == "PurelakeStaff":  #1 Attack
+        BaseStats = [0, 1, 0, 0]
+
+    if Name == "QuickgrowthSpear":  #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    if Name == "RazorBreastplate": #3 Armor
+        BaseStats = [0, 0, 3, 0]
+
+    if Name == "RiverflowRapier":  #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    if Name == "RoyalCrownblade":  #4 Attack
+        BaseStats = [0, 4, 0, 0]
+
+    if Name == "RoyalScepter":  #0 Attack Sets attack always equal to gold. Cannot have more than 10 gold
+        BaseStats = [0, 0, 0, 0]
+
+    if Name == "SerpentDagger": #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "SilverscaleTrident":  #0 Attack
+        BaseStats = [0, 0, 0, 0]
+
+    if Name == "StoneslabSword":  #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "SwiftstrikeCloak": #1 Speed
+        BaseStats = [0, 0, 0, 1]
+
+    if Name == "ThunderboundSabre":  #6 Attack
+        BaseStats = [0, 6, 0, 0]
+
+    if Name == "ThunderCloud": #-1 Attack
+        BaseStats = [0, -1, 0, 0]
+
+    if Name == "TwinBlade":  #1 Attack
+        BaseStats = [0, 1, 0, 0]
+
+    if Name == "WeaverArmor": #-2 Attack
+        BaseStats = [0, -2, 0, 0]
+
+    if Name == "AncientWarhammer":  #5 Attack
+        BaseStats = [0, 5, 0, 0]
+
+    if Name == "BearclawBlade":  #5 MaxHP and 0 Attack, Attack = Missing HP
+        BaseStats = [5, 0, 0, 0]
+
+    if Name == "BloodmoonArmor": #6 Armor
+        BaseStats = [0, 0, 6, 0]
+
+    if Name == "DashmastersDagger":  #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "LakebedSword": #5 Attack
+        BaseStats = [0, 5, 0, 0]
+
+    if Name == "MountainCleaver":  #0 Attack and 2 Armor, Attack = Base Armor
+        BaseStats = [0, 0, 2, 0]
+
+    if Name == "SerpentScalemail": #4 Armor
+        BaseStats = [0, 0, 4, 0]
+
+    if Name == "TempestBlade": #0 Attack and 2 Speed, Attack = Speed
+        BaseStats = [0, 0, 0, 2]
+
+    if Name == "CleaverofWrath": #MaxHP is set to 1 and 10 Attack
+        BaseStats = [0, 10, 0, 0]
+
+    if Name == "ScepterofGreed": #6 Attack
+        BaseStats = [0, 6, 0, 0]
+
+    if Name == "SwordOfPride":  #3 attack, armor, and speed
+        BaseStats = [0, 3, 3, 3]
+
+    if Name == "BeltofGluttony": #15 MaxHP
+        BaseStats = [15, 0, 0, 0]
+
+    if Name == "BootsofSloth": #10 Speed
+        BaseStats = [0, 0, 0, 10]
+
+    if Name == "ChestofLust": #8 Armor
+        BaseStats = [0, 0, 8, 0]
+
+    if Name == "HelmetofEnvy": # 3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    if Name == "BeeStinger":  #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    if Name == "BitterMelon": #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    if Name == "BlackbriarBow":  #4 Attack
+        BaseStats = [0, 4, 0, 0]
+
+    if Name == "BloodOrange": #4 Speed
+        BaseStats = [0, 0, 0, 4]
+
+    if Name == "BloodSausage": #5 MaxHP
+        BaseStats = [5, 0, 0, 0]
+
+    if Name == "BoiledHam": #5 MaxHP
+        BaseStats = [5, 0, 0, 0]
+
+    if Name == "BrokenWinebottle": # 2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "CherryBlade":  #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    if Name == "CombustibleLemon": #3 Speed
+        BaseStats = [0, 0, 0, 3]
+
+    if Name == "DeathcapBow": #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    if Name == "ExplosiveRoast": #5 MaxHP
+        BaseStats = [5, 0, 0, 0]
+
+    if Name == "HamBat":  #5 MaxHP and 3 Attack
+        BaseStats = [5, 3, 0, 0]
+
+    #if Name == "HoneyHam": #Doubles MaxHP
+        #BaseStats = [0, 0, 0, 0]
+
+    if Name == "HoneyglazedShroom": #4 Attack
+        BaseStats = [0, 4, 0, 0]
+
+    if Name == "LemonRoast": #5 MaxHP and 5 Speed
+        BaseStats = [5, 0, 0, 5]
+
+    if Name == "LemonShark": #3 Speed
+        BaseStats = [0, 0, 0, 3]
+
+    if Name == "LemonSyrup": #3 Speed
+        BaseStats = [0, 0, 0, 3]
+
+    if Name == "LemontreeBranch": #2 Attack and 4 Speed
+        BaseStats = [0, 2, 0, 4]
+
+    if Name == "LimestoneFruit": #3 Speed
+        BaseStats = [0, 0, 0, 3]
+
+    if Name == "MarbleMushroom": #4 Attack and 6 Armor
+        BaseStats = [0, 4, 6, 0]
+
+    if Name == "MelonLemonade": #3 Speed
+        BaseStats = [0, 0, 0, 3]
+
+    if Name == "MelonvineWhip":  #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    if Name == "MoldyMeat": #-5 MaxHP and 5 Attack
+        BaseStats = [-5, 5, 0, 0]
+
+    if Name == "MushroomSoup": #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "PoisonousDurian": #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    if Name == "PoisonousLemon": #3 Attack and 4 Speed
+        BaseStats = [0, 3, 0, 4]
+
+    if Name == "PoisonousPufferfish": #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    if Name == "RoastedChestnut": #5 MaxHP
+        BaseStats = [5, 0, 0, 0]
+
+    if Name == "RockRoast": #6 MaxHP and 6 Armor
+        BaseStats = [6, 0, 6, 0]
+
+    if Name == "RocksaltSword":  #2 Attack and 6 Armor
+        BaseStats = [0, 2, 6, 0]
+
+    if Name == "SharkRoast": #5 MaxHP
+        BaseStats = [5, 0, 0, 0]
+
+    if Name == "SilverscaleSwordfish":  #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
+    if Name == "SpinyKiwifruit": #3 Speed
+        BaseStats = [0, 0, 0, 3]
+
+    if Name == "ToxicCherry": #3 Attack
+        BaseStats = [0, 3, 0, 0]
+
+    return BaseStats
+
+  def LeftStatCheck(event):
+        LeftMaxHP = 10
+        LeftAttack = 0
+        LeftArmor = 0
+        LeftSpeed = 0
+        Quality = 0
+        count = int(document.getElementById("WeekCount").value)
+
+        Weapon = document.getElementById("LeftWeapons").value
+        StatsChange = ItemsBaseStats(Quality, Weapon)
+        LeftMaxHP = LeftMaxHP + StatsChange[0]
+        LeftAttack = LeftAttack + StatsChange[1]
+        LeftArmor = LeftArmor + StatsChange[2]
+        LeftSpeed = LeftSpeed + StatsChange[3]
+
+        Edge = document.getElementById("LeftEdges").value
+        StatsChange = ItemsBaseStats(Quality, Edge)
+        LeftMaxHP = LeftMaxHP + StatsChange[0]
+        LeftAttack = LeftAttack + StatsChange[1]
+        LeftArmor = LeftArmor + StatsChange[2]
+        LeftSpeed = LeftSpeed + StatsChange[3]
+
+        for i in range(0, count):
+            Item = document.getElementById(f"itemslots_{i}").value
+            Quality = document.getElementById(f"quality_{i}").value
+            StatsChange = ItemsBaseStats(Quality, Item)
+            LeftMaxHP = LeftMaxHP + StatsChange[0]
+            LeftAttack = LeftAttack + StatsChange[1]
+            LeftArmor = LeftArmor + StatsChange[2]
+            LeftSpeed = LeftSpeed + StatsChange[3]
+        
+        document.getElementById("LeftMaxHP").value = LeftMaxHP
+        document.getElementById("LeftAttack").value = LeftAttack
+        document.getElementById("LeftArmor").value = LeftArmor
+        document.getElementById("LeftSpeed").value = LeftSpeed
+
+  def RightStatCheck(event):
+        RightMaxHP = 10
+        RightAttack = 0
+        RightArmor = 0
+        RightSpeed = 0
+        Quality = 0
+        count = int(document.getElementById("WeekCount").value)
+
+        Weapon = document.getElementById("WeaponsRight").value
+        StatsChange = ItemsBaseStats(Quality, Weapon)
+        RightMaxHP = RightMaxHP + StatsChange[0]
+        RightAttack = RightAttack + StatsChange[1]
+        RightArmor = RightArmor + StatsChange[2]
+        RightSpeed = RightSpeed + StatsChange[3]
+
+        Edge = document.getElementById("RightEdges").value
+        StatsChange = ItemsBaseStats(Quality, Edge)
+        RightMaxHP = RightMaxHP + StatsChange[0]
+        RightAttack = RightAttack + StatsChange[1]
+        RightArmor = RightArmor + StatsChange[2]
+        RightSpeed = RightSpeed + StatsChange[3]
+
+        for i in range(0, count):
+            Item = document.getElementById(f"itemslotRight_{i}").value
+            Quality = document.getElementById(f"qualityRight_{i}").value
+            StatsChange = ItemsBaseStats(Quality, Item)
+            RightMaxHP = RightMaxHP + StatsChange[0]
+            RightAttack = RightAttack + StatsChange[1]
+            RightArmor = RightArmor + StatsChange[2]
+            RightSpeed = RightSpeed + StatsChange[3]
+        
+        document.getElementById("RightMaxHP").value = RightMaxHP
+        document.getElementById("RightAttack").value = RightAttack
+        document.getElementById("RightArmor").value = RightArmor
+        document.getElementById("RightSpeed").value = RightSpeed
+
   def Healable(Player):
       x = False
       if Player.MaxHP - Player.CurrentHP > 0:
@@ -5507,8 +6138,11 @@ def saveSelections(event):
         MainFight(LeftPlayer, RightPlayer, "RightPlayer")
     elif int(PlayOrEn) > 0:
         MainFight(LeftPlayer, RightEnemy, str(RightEnemyName))
-    
+
 </py-script>
+
+
+
 <!-- <button id="RunFight">Submit</button> -->
    <script>
     window.onload = function() {
@@ -5525,5 +6159,56 @@ def saveSelections(event):
 </fieldset>
 <button id="RunFight" py-click="saveSelections" type ="button">Submit</button>
 </div>
+
+<button id="UpdateStatsLeft" py-click="LeftStatCheck" style="display:none;">Update Stats</button>
+
+<button id="UpdateStatsRight" py-click="RightStatCheck" style="display:none;">Update Stats</button>
+
+<script>
+    // let count = document.getElementById("WeekCount")
+    countSelector.addEventListener("change", () => {
+        document.getElementById("UpdateStatsLeft").click();
+        document.getElementById("UpdateStatsRight").click();
+    })
+    let LWeapon = document.getElementById("LeftWeapons");
+    let LEdge = document.getElementById("LeftEdges");
+    LWeapon.addEventListener("change", () => {
+        document.getElementById("UpdateStatsLeft").click();
+    })
+    LEdge.addEventListener("change", () => {
+        document.getElementById("UpdateStatsLeft").click();
+    })
+
+    for (let i = 0; i < 12; i++) {
+    let BSIS = document.getElementById(`itemslots_${i}`);
+    let BSQuality = document.getElementById(`quality_${i}`);
+    BSIS.addEventListener("change", () => {
+        document.getElementById("UpdateStatsLeft").click();
+    })
+    BSQuality.addEventListener("change", () => {
+        document.getElementById("UpdateStatsLeft").click();
+    })
+    }
+
+    let RWeapon = document.getElementById("WeaponsRight");
+    let REdge = document.getElementById("RightEdges");
+    RWeapon.addEventListener("change", () => {
+        document.getElementById("UpdateStatsRight").click();
+    })
+    REdge.addEventListener("change", () => {
+        document.getElementById("UpdateStatsRight").click();
+    })
+
+    for (let i = 0; i < 12; i++) {
+    let BSIS = document.getElementById(`itemslotRight_${i}`);
+    let BSQuality = document.getElementById(`qualityRight_${i}`);
+    BSIS.addEventListener("change", () => {
+        document.getElementById("UpdateStatsRight").click();
+    })
+    BSQuality.addEventListener("change", () => {
+        document.getElementById("UpdateStatsRight").click();
+    })
+    }
+</script>
 </body>
 </html>
