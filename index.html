@@ -132,9 +132,6 @@
     </select>
     <br>
     <br>
-    <!-- <select id="Hiddendataforniceness" style="display: none;">
-        <option> Lol </option>
-    </select> -->
 
     <fieldset>
     <legend>Left Player Base Stats:</legend>
@@ -318,7 +315,7 @@
             <option value="BoiledHam">Boiled Ham</option>
             <option value="BombBag">Bomb Bag</option>
             <option value="BootsOfSloth">Boots of Sloth</option>
-            <option value="BootsoftheHero">Boots of the Hero</option>
+            <option value="BootsOfTheHero">Boots of the Hero</option>
             <option value="BrambleBelt">Bramble Belt</option>
             <option value="BrambleBuckler">Bramble Buckler</option>
             <option value="BrambleTalisman">Bramble Talisman</option>
@@ -522,7 +519,7 @@
             <option value="SharkRoast">Shark Roast</option>
             <option value="SheetMusic">Sheet Music</option>
             <option value="ShieldTalisman">Shield Talisman</option>
-            <option value="ShieldoftheHero">Shield of the Hero</option>
+            <option value="ShieldOfTheHero">Shield of the Hero</option>
             <option value="SilverAnchor">Silver Anchor</option>
             <option value="SilverscaleArmor">Silverscale Armor</option>
             <option value="SilverscaleFish">Silverscale Fish</option>
@@ -1060,7 +1057,7 @@
               '':{''},
               "ArcaneBell" : {"BattleStart", "Unique", "Instrument"}, #Decrease all cooldowns by 1... Maybe just "activate" cooldown items
               "ArcaneBellS" : {"BattleStart", "Unique", "Instrument"}, 
-              "BootsoftheHero" : {}, #Its just base stats
+              "BootsOfTheHero" : {}, #Its just base stats
               "ChampionsArmor" : {}, #Stats
               "CherryBomb" : {"BattleStart", "Bomb", "Food"}, #Deals 1 damage two times
               "CitrineEarring" : {"EveryOtherTurn", "Jewelry", "Citrine"}, #Gain 1 Speed every other turn
@@ -1115,7 +1112,7 @@
               "SapphireRing" : {"BattleStart", "Jewelry", "Ring", "Sapphire"}, #Steal 2 armor from foe (if possible)
               "SerpentLyre" : {"Exposed", "Unique", "Instrument"}, #Give the foe 3 poison
               "SerpentLyreS" : {"Exposed", "Unique", "Instrument"}, #Give the foe 3 poison
-              "ShieldoftheHero" : {}, #Its just base stats
+              "ShieldOfTheHero" : {}, #Its just base stats
               "SilverscaleFish" : {"Exposed", "Food"}, #Give the foe 1 riptide
               "SilverscaleTome" : {"Cooldown", "Tome"}, #CD 3: Give the foe 2 riptide
               "SlimeArmor" : {"BattleStart"}, #Gain 1 acid
@@ -1529,7 +1526,7 @@
               #Gotta redo the vamp cloak to check for stun at turn start *maybe*
               "VampireCloak" : {"Set"}, #TS: If you are stunned, double all healing this turn
               "WeaverMedallion" : {"Set", "TurnStart"}, #Spend 1 armor to gain 1 attack
-              "IronChain" : {"Set"}, #Double your base armor
+              #"IronChain" : {"Set"}, #Double your base armor
               "IronstoneArrowhead" : {"Set", "OnHit"}, #Gain 1 armor on hit
               "IronstoneOre" : {"Set", "BattleStart"}, #Gain armor = negative speed
               "SanguineGemstone" : {"Set", "OnHit"}, #If your attack == 1, restore 1 hp on hit? Idk if its sanguine
@@ -4829,7 +4826,7 @@
     if Name == "BoomStick": #2 attack
         BaseStats[1] = 2
 
-    if Name == "BootsoftheHero":#2*Quality Speed
+    if Name == "BootsOfTheHero":#2*Quality Speed
         BaseStats[3] = 2*QF
 
     if Name == "BrittlebarkBow": #4 Attack
@@ -4956,7 +4953,7 @@
     if Name == "SapphireCrown": #-2 MaxHP and 5 Armor * Q
         BaseStats = [-2*QF, 0, 5*QF, 0]
 
-    if Name == "ShieldoftheHero": # 3 Armor *Q
+    if Name == "ShieldOfTheHero": # 3 Armor *Q
         BaseStats = [0, 0, 3*QF, 0]
 
     if Name == "SilverscaleDagger": #2 Attack
@@ -5382,36 +5379,45 @@
 
     return BaseStats
 
+  def ConditionalMult(Value, Condition):
+        if Condition and Value < 0:
+            Value = 0
+        return Value
+
   def LeftStatCheck(event):
         LeftMaxHP = 10
         LeftAttack = 0
         LeftArmor = 0
         LeftSpeed = 0
         Quality = 0
+        HolyCrux = False
+        if CountBaseStatItems("Left", "HolyShield") > 0 and CountBaseStatItems("Left", "HolyTome") > 0:
+          HolyCrux = True
+
         count = int(document.getElementById("WeekCount").value)
 
         Weapon = document.getElementById("LeftWeapons").value
         StatsChange = ItemsBaseStats(Quality, Weapon)
-        LeftMaxHP = LeftMaxHP + StatsChange[0]
-        LeftAttack = LeftAttack + StatsChange[1]
-        LeftArmor = LeftArmor + StatsChange[2]
-        LeftSpeed = LeftSpeed + StatsChange[3]
+        LeftMaxHP = LeftMaxHP + ConditionalMult(StatsChange[0], HolyCrux)
+        LeftAttack = LeftAttack + ConditionalMult(StatsChange[1], HolyCrux)
+        LeftArmor = LeftArmor + ConditionalMult(StatsChange[2], HolyCrux)
+        LeftSpeed = LeftSpeed + ConditionalMult(StatsChange[3], HolyCrux)
 
         Edge = document.getElementById("LeftEdges").value
         StatsChange = ItemsBaseStats(Quality, Edge)
-        LeftMaxHP = LeftMaxHP + StatsChange[0]
-        LeftAttack = LeftAttack + StatsChange[1]
-        LeftArmor = LeftArmor + StatsChange[2]
-        LeftSpeed = LeftSpeed + StatsChange[3]
+        LeftMaxHP = LeftMaxHP + ConditionalMult(StatsChange[0], HolyCrux)
+        LeftAttack = LeftAttack + ConditionalMult(StatsChange[1], HolyCrux)
+        LeftArmor = LeftArmor + ConditionalMult(StatsChange[2], HolyCrux)
+        LeftSpeed = LeftSpeed + ConditionalMult(StatsChange[3], HolyCrux)
 
         for i in range(0, count):
             Item = document.getElementById(f"itemslots_{i}").value
             Quality = document.getElementById(f"quality_{i}").value
             StatsChange = ItemsBaseStats(Quality, Item)
-            LeftMaxHP = LeftMaxHP + StatsChange[0]
-            LeftAttack = LeftAttack + StatsChange[1]
-            LeftArmor = LeftArmor + StatsChange[2]
-            LeftSpeed = LeftSpeed + StatsChange[3]
+            LeftMaxHP = LeftMaxHP + ConditionalMult(StatsChange[0], HolyCrux)
+            LeftAttack = LeftAttack + ConditionalMult(StatsChange[1], HolyCrux)
+            LeftArmor = LeftArmor + ConditionalMult(StatsChange[2], HolyCrux)
+            LeftSpeed = LeftSpeed + ConditionalMult(StatsChange[3], HolyCrux)
 
         if document.getElementById("LeftAttackOil").checked:
             LeftAttack = LeftAttack + 1
@@ -5421,6 +5427,20 @@
 
         if document.getElementById("LeftSpeedOil").checked:
             LeftSpeed = LeftSpeed + 1
+
+        if Weapon == "SwordOfTheHero" and CountBaseStatItems("Left", "ShieldOfTheHero") > 0 and CountBaseStatItems("Left", "BootsOfTheHero") > 0:
+            LeftAttack = LeftAttack + 2
+            LeftArmor = LeftArmor + 2
+            LeftSpeed = LeftSpeed + 2
+
+        if Weapon == "ChampionsBlade" and CountBaseStatItems("Left", "ChampionsArmor") > 0:
+            LeftSpeed = LeftSpeed + 6
+
+        if CountBaseStatItems("Left", "WeaverArmor") > 0 and CountBaseStatItems("Left", "WeaverShield") > 0:
+            LeftMaxHP = LeftMaxHP + 5
+
+        if Weapon == "ChainmailSword" and CountBaseStatItems("Left", "ChainmailArmor") > 0:
+            LeftArmor = LeftArmor + 5
 
         if LeftArmor == 0:
             LeftMaxHP = LeftMaxHP + 3*CountBaseStatItems("Left", "LeatherBelt")
@@ -5442,30 +5462,33 @@
         RightArmor = 0
         RightSpeed = 0
         Quality = 0
+        HolyCrux = False
+        if CountBaseStatItems("Right", "HolyShield") > 0 and CountBaseStatItems("Right", "HolyTome") > 0:
+          HolyCrux = True
         count = int(document.getElementById("WeekCount").value)
 
         Weapon = document.getElementById("WeaponsRight").value
         StatsChange = ItemsBaseStats(Quality, Weapon)
-        RightMaxHP = RightMaxHP + StatsChange[0]
-        RightAttack = RightAttack + StatsChange[1]
-        RightArmor = RightArmor + StatsChange[2]
-        RightSpeed = RightSpeed + StatsChange[3]
+        RightMaxHP = RightMaxHP + ConditionalMult(StatsChange[0], HolyCrux)
+        RightAttack = RightAttack + ConditionalMult(StatsChange[1], HolyCrux)
+        RightArmor = RightArmor + ConditionalMult(StatsChange[2], HolyCrux)
+        RightSpeed = RightSpeed + ConditionalMult(StatsChange[3], HolyCrux)
 
         Edge = document.getElementById("RightEdges").value
         StatsChange = ItemsBaseStats(Quality, Edge)
-        RightMaxHP = RightMaxHP + StatsChange[0]
-        RightAttack = RightAttack + StatsChange[1]
-        RightArmor = RightArmor + StatsChange[2]
-        RightSpeed = RightSpeed + StatsChange[3]
+        RightMaxHP = RightMaxHP + ConditionalMult(StatsChange[0], HolyCrux)
+        RightAttack = RightAttack + ConditionalMult(StatsChange[1], HolyCrux)
+        RightArmor = RightArmor + ConditionalMult(StatsChange[2], HolyCrux)
+        RightSpeed = RightSpeed + ConditionalMult(StatsChange[3], HolyCrux)
 
         for i in range(0, count):
             Item = document.getElementById(f"itemslotRight_{i}").value
             Quality = document.getElementById(f"qualityRight_{i}").value
             StatsChange = ItemsBaseStats(Quality, Item)
-            RightMaxHP = RightMaxHP + StatsChange[0]
-            RightAttack = RightAttack + StatsChange[1]
-            RightArmor = RightArmor + StatsChange[2]
-            RightSpeed = RightSpeed + StatsChange[3]
+            RightMaxHP = RightMaxHP + ConditionalMult(StatsChange[0], HolyCrux)
+            RightAttack = RightAttack + ConditionalMult(StatsChange[1], HolyCrux)
+            RightArmor = RightArmor + ConditionalMult(StatsChange[2], HolyCrux)
+            RightSpeed = RightSpeed + ConditionalMult(StatsChange[3], HolyCrux)
 
         if document.getElementById("RightAttackOil").checked:
             RightAttack = RightAttack + 1
@@ -5475,6 +5498,20 @@
 
         if document.getElementById("RightSpeedOil").checked:
             RightSpeed = RightSpeed + 1
+
+        if Weapon == "SwordOfTheHero" and CountBaseStatItems("Right", "ShieldOfTheHero") > 0 and CountBaseStatItems("Right", "BootsOfTheHero") > 0:
+            RightAttack = RightAttack + 2
+            RightArmor = RightArmor + 2
+            RightSpeed = RightSpeed + 2
+
+        if Weapon == "ChampionsBlade" and CountBaseStatItems("Right", "ChampionsArmor") > 0:
+            RightSpeed = RightSpeed + 6
+
+        if CountBaseStatItems("Right", "WeaverArmor") > 0 and CountBaseStatItems("Right", "WeaverShield") > 0:
+            RightMaxHP = RightMaxHP + 5
+
+        if Weapon == "ChainmailSword" and CountBaseStatItems("Right", "ChainmailArmor") > 0:
+            RightArmor = RightArmor + 5
 
         if RightArmor == 0:
             RightMaxHP = RightMaxHP + 3*CountBaseStatItems("Right", "LeatherBelt")
