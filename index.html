@@ -463,7 +463,7 @@
             <option value="OakHeart">Oak Heart</option>
             <option value="OreHeart">Ore Heart</option>
             <option value="OverchargedOrb">Overcharged Orb</option>
-            <option value="PertrifiedStatue">Petrified Statue</option>
+            <option value="PetrifiedStatue">Petrified Statue</option>
             <option value="PetrifiedChestnut">Petrified Chestnut</option>
             <option value="PetrifyingElixir">Petrifying Elixir</option>
             <option value="PetrifyingFlask">Petrifying Flask</option>
@@ -477,6 +477,7 @@
             <option value="PoisonousMushroom">Poisonous Mushroom</option>
             <option value="PoisonousPufferfish">Poisonous Pufferfish</option>
             <option value="PowderKeg">Powder Keg</option>
+            <option value="PrimeForm">Prime Form</option>
             <option value="PurelakeArmor">Purelake Armor</option>
             <option value="PurelakeChalice">Purelake Chalice</option>
             <option value="PurelakeElixir">Purelake Elixir</option>
@@ -1280,7 +1281,7 @@
               "MoonlightShield" : {"TurnStart"}, #If you are below 50% hp, gain 2 armor
               "NoxiousGas" : {"TurnStart"}, #Both you and the foe get 1 poison
               "OverchargedOrb" : {"Wounded", "Unique"}, #Stun the foe for 3 turns
-              "PertrifiedStatue" : {"BattleStart", "Unique", "Stone"}, #Give the foe 1 stun per stone equipped
+              "PetrifiedStatue" : {"BattleStart", "Unique", "Stone"}, #Give the foe 1 stun per stone equipped
               "PlatedHelmet" : {"TurnStart"}, #If below 50% hp, gain 2 armor
               "PurelakeChalice" : {"Water", "EveryOtherTurn"}, #Gain 1 purity eot
               "RazorBreastplate" : {"Wounded"}, #Gain thorns = foe's attack
@@ -1309,7 +1310,7 @@
               "ColdResistance" : {"Unique"}, #Freeze doubles your attack instead of halving
               #"GrandCrescendo" : {"Unique"}, #Symphony triggers all other instruments
               "GraniteThorns" : {"Unique", "Stone", "BattleStart"}, #Needs a counter to not remove thorns
-              #"PrimeForm" : {"Unique"}, #Double attack while hp is full
+              "PrimeForm" : {"Unique", "PreStrike"}, #Double attack while hp is full
               "PrimordialSoup" : {"Unique"}, #Acid removes hp as well
               "RazorScales" : {"ArmorLose", "Unique"}, #If you lose armor, deal damage = to lost armor
               "SerpentScalemail" : {"Unique", "ArmorLose"}, #Give the foe 2 poison
@@ -1916,7 +1917,7 @@
 
           self.ExposedMultiTrigger = 1
           if "IronRune" in self.Items:
-              self.ExposedMultiTrigger = 2
+              self.ExposedMultiTrigger = 3
 
           self.GainedArmor = False
           if self.Armor > 0:
@@ -2258,7 +2259,7 @@
                 [P, Foe] = ItemsEffect(Tag, self.Quality[slot], self.Items[slot], P, Foe)
 
       def MultiSearch(self, TagP, Foe, TagF): #Seperate multisearch REQUIRES Speed order check (Outside when used)??
-          if self.Alive and Foe.Alive:
+          if self.Alive and Foe.Alive: 
             P = self
             if isinstance(TagP, str):
                 TagP = [TagP]
@@ -2267,21 +2268,25 @@
             if self.Order == "First":
                 for slot in range(0, max(len(P.Items), len(Foe.Items))):
                     if slot < len(P.Items):
-                        if any(t in ItemTags[P.Items[slot]] for t in TagP):
-                            [P, Foe] = ItemsEffect(TagP, self.Quality[slot], self.Items[slot], P, Foe)
+                        for t in TagP:
+                            if t in ItemTags[P.Items[slot]]:
+                                [P, Foe] = ItemsEffect([t], self.Quality[slot], self.Items[slot], P, Foe)
 
                     if slot < len(Foe.Items):
-                        if any(t in ItemTags[Foe.Items[slot]] for t in TagF):
-                            [Foe, P] = ItemsEffect(TagF, Foe.Quality[slot], Foe.Items[slot], Foe, P)
+                        for t in TagF:
+                            if t in ItemTags[Foe.Items[slot]]:
+                                [Foe, P] = ItemsEffect([t], Foe.Quality[slot], Foe.Items[slot], Foe, P)
 
             if self.Order == "Second":
                 for slot in range(0, max(len(P.Items), len(Foe.Items))):
                     if slot < len(Foe.Items):
-                        if any(t in ItemTags[Foe.Items[slot]] for t in TagF):
-                            [Foe, P] = ItemsEffect(TagF, Foe.Quality[slot], Foe.Items[slot], Foe, P)
+                        for t in TagF:
+                            if t in ItemTags[Foe.Items[slot]]:
+                                [Foe, P] = ItemsEffect([t], Foe.Quality[slot], Foe.Items[slot], Foe, P)
                     if slot < len(P.Items):
-                        if any(t in ItemTags[P.Items[slot]] for t in TagP):
-                            [P, Foe] = ItemsEffect(TagP, self.Quality[slot], self.Items[slot], P, Foe)
+                        for t in TagP:
+                            if t in ItemTags[P.Items[slot]]:
+                                [P, Foe] = ItemsEffect([t], self.Quality[slot], self.Items[slot], P, Foe)
 
       def AliveCheck(self, Foe): #Checks which player, if any, died
             #Check if you are the swampland hydra if you die change to the next hydra head instead of dying
@@ -2313,7 +2318,7 @@
                   StatusStacks = min(-Value, getattr(self, PickedStatus)) #Should be amount removed
                   StatusInterp(PickedStatus, self, Foe, -StatusStacks)
               elif Value > 0:
-                  StatusStacks = getattr(self, PickedStatus)
+                  StatusStacks = Value #getattr(self, PickedStatus)
                   StatusInterp(PickedStatus, self, Foe, Value)
               #RanNumber = random.randint(0, len(CurrentStatus))
               # if PickedStatus != "Stun" and PickedStatus != "Freeze":
@@ -2411,9 +2416,11 @@
               StatusInterp(Status, Foe, Player, Stacks)
 
       if Name == "ClearspringWatermelon":  #Decrease a random status effect by 1
-          if Phase in ("BattleStart", "Wounded"):
+          if any(p in ("BattleStart", "Wounded") for p in Phase):
+            #document.getElementById("debugBox").innerText = "Battle Start or Wounded"
             [Status, Stacks] = Player.RandomStatus(Foe, -1*(2**Quality), True) #This automagically changes a random self status effect
-          if Phase == "Exposed":
+          if any(p in ("Exposed") for p in Phase): 
+            document.getElementById("debugBox").innerText = "Exposed"
             for nn in range(0, Player.ExposedMultiTrigger):
                 [Status, Stacks] = Player.RandomStatus(Foe, -1*(2**Quality), True)
 
@@ -2712,13 +2719,13 @@
             SelfBombDamage(5, Player, Foe)
 
       if Name == "BombBag": #Spend 3 speed to retrigger a random bomb
-          if Phase in ("BattleStart", "Wounded"):
+          if any(p in ("BattleStart", "Wounded") for p in Phase): #if Phase in ("BattleStart", "Wounded"):
             if Player.Speed > 2:
                 #Idk if it takes speed if you have no bombs
                 #Player.Speed = Player.Speed - 3
                 GainSpeed(Player, Foe, -3)
                 Player.RandomSearch("Bomb", Foe)
-          if Phase == "Exposed":
+          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
             for nn in range(0, Player.ExposedMultiTrigger):
                 if Player.Speed > 2:
                     #Idk if it takes speed if you have no bombs
@@ -3288,9 +3295,9 @@
               #GainPoison(Foe, Player, 9)
 
       if Name == "AcidMutation":  #gain 1 Acid
-          if Phase == "BattleStart":
+          if any(p in ("BattleStart") for p in Phase): #if Phase == "BattleStart":
               StatusInterp("Acid", Player, Foe, 1)
-          if Phase == "PreStrike":
+          if any(p in ("PreStrike") for p in Phase):
               if Player.Acid > 0:
                   Player.TempAttack = Player.TempAttack + Player.Acid
           #GainAcid(Player, Foe, 1)
@@ -3302,7 +3309,7 @@
 
       if Name == "AcidicWitherleaf":  #Give the foe acid = to your speed
           if Player.Speed > 0:
-              StatusInterp("Acid", Player, Foe, Player.Speed)
+              StatusInterp("Acid", Foe, Player, Player.Speed)
               #GainAcid(Foe, Player, Player.Speed)
 
       if Name == "AssaultGreaves": #Deal 1 damage
@@ -3472,7 +3479,7 @@
           StatusInterp("Stun", Foe, Player, 3)
           #Stun(3, Player, Foe)
 
-      if Name == "PertrifiedStatue":  #Give the foe 1 stun per stone equipped
+      if Name == "PetrifiedStatue":  #Give the foe 1 stun per stone equipped PetrifiedStatue
           StatusInterp("Stun", Foe, Player, Count(Player, "Stone"))
           #Stun(Count(Player, "Stone"), Player, Foe)
 
@@ -3612,6 +3619,10 @@
       if Name == "GraniteThorns": #Needs a counter to not remove thorns
           Player.ThornsTriggers = 3
 
+      if Name == "PrimeForm": #Double attack while hp is full
+          if Player.CurrentHP == Player.MaxHP:
+              Player.StrikeMult = 2*Player.StrikeMult
+
       if Name == "RazorScales": #If you lose armor, deal damage
           x = np.copy(Player.DeltaArmor)
           Player.DeltaArmor = 0 #Changing to 0 first prevents possible random loops
@@ -3630,13 +3641,13 @@
               #GainPoison(Player, Foe, 1)
 
       if Name == "BloodOrange":  #Gain 3 acid
-          if Phase == "Wounded":
+          if any(p in ("Wounded") for p in Phase): #if Phase == "Wounded":
               if Player.Acid > 0:
                   x = Player.Acid
                   StatusInterp("Acid", Player, Foe, -Player.Acid)
                   StatusInterp("Regen", Player, Foe, x)
-              
-          if Phase == "BattleStart":
+
+          if any(p in ("BattleStart") for p in Phase):
               StatusInterp("Acid", Player, Foe, 3)
 
       # if Name == "BloodOrange":  #Gain 3 acid
@@ -3666,7 +3677,7 @@
 
       if Name == "BoiledHam": #Decrease all status effects by 1
           Amount = 1
-          if Phase == "Exposed":
+          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
             Amount = Player.ExposedMultiTrigger
 
           for nn in range(0, Amount):
@@ -3710,9 +3721,9 @@
               BombDamage(2, Player, Foe)
 
       if Name == "DeepseaWine":  #Give foe 1 riptide. Whenever a riptide triggers restore 3 hp
-          if Phase == "Wounded":
+          if any(p in ("Wounded") for p in Phase):
               StatusInterp("Riptide", Foe, Player, 1)
-          if Phase == "RiptideDamage":
+          if any(p in ("RiptideDamage") for p in Phase):
               HealingCalc(Player, Foe, 3)
 
       if Name == "ExplosiveFish": #Give foe 1 riptide and deal 2xfoe.riptide bombdamage
@@ -3783,7 +3794,7 @@
 
       if Name == "HornedMelon":  #Decrease 2 random status effects by 1 and gain that many thorns
           Amount = 1
-          if Phase == "Exposed":
+          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
             Amount = Player.ExposedMultiTrigger
           for nn in range(0, Amount): #Probably shouldnt decrease thorns
               [Status, Stacks1] = Player.RandomStatus(Foe, -1, True) #This automagically changes a random self status effect
@@ -3797,10 +3808,10 @@
           #GainAcid(Player, Foe, 2)
 
       if Name == "LemonShark":  #Gain 1 acid
-          if Phase == "BattleStart":
+          if any(p in ("BattleStart") for p in Phase): #if Phase == "BattleStart":
               StatusInterp("Acid", Player, Foe, 1)
-          
-          if Phase == "Exposed":
+
+          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
               for nn in range(0, Player.ExposedMultiTrigger):
                 if Player.Acid > 0:
                     StatusInterp("Riptide", Foe, Player, Player.Acid)
@@ -3831,7 +3842,7 @@
 
       if Name == "MarbledStonefish":  #If you hp is full, gain 5 armor and give foe 1 riptide
           Amount = 1
-          if Phase == "Exposed":
+          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
             Amount = Player.ExposedMultiTrigger
           for nn in range(0, Amount):
             if Player.CurrentHP == Player.MaxHP:
@@ -3840,17 +3851,17 @@
                 #GainRiptide(Foe, Player, 1)
 
       if Name == "MelonBomb": #Decrease a random status effect by 1. I believe both effects currently should trigger 3 times with powder keg but only the damage does
-          if Phase in ("BattleStart", "Wounded"):
+          if any(p in ("BattleStart", "Wounded") for p in Phase): #if Phase in ("BattleStart", "Wounded"):
               [Status, Stacks1] = Player.RandomStatus(Foe, -1, True) #This automagically changes a random self status effect
-          if Phase == "Exposed":
+          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
               for nn in range(0, Player.ExposedMultiTrigger):
                 [Status, Stacks1] = Player.RandomStatus(Foe, -1, True) #This automagically changes a random self status effect
-          if Phase == "LoseStatus": #Whenever a status effect is decreased, deal 1 damage to foe.
+          if any(p in ("LoseStatus") for p in Phase): #Whenever a status effect is decreased, deal 1 damage to foe.
               BombDamage(1, Player, Foe)
 
       if Name == "MelonLemonade":  #Remove all your acid
           Amount = 1
-          if Phase == "Exposed":
+          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
             Amount = Player.ExposedMultiTrigger
           for nn in range(0, Amount):
             if Player.Acid > 0:
@@ -3858,12 +3869,12 @@
                 #GainAcid(Player, Foe, -Player.Acid)
 
       if Name == "MelonWine":  #Decrease a random status by 1 and restore 3 hp
-          if Phase in ("BattleStart", "Wounded"):
+          if any(p in ("BattleStart", "Wounded") for p in Phase): #if Phase in ("BattleStart", "Wounded"):
               [Status, Stacks] = Player.RandomStatus(Foe, -1, True)
               if Stacks > 0:
                   HealingCalc(Player, Foe, 3)
 
-          if Phase == "Exposed":
+          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
               for nn in range(0, Player.ExposedMultiTrigger):
                 [Status, Stacks] = Player.RandomStatus(Foe, -1, True)
                 if Stacks > 0:
@@ -3871,7 +3882,7 @@
 
       if Name == "MineralWater":  #If HP is full, decrease a random status by 2 and gain 5 armor
           Amount = 1
-          if Phase == "Exposed":
+          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
             Amount = Player.ExposedMultiTrigger
           for nn in range(0, Amount):
             if Player.MaxHP == Player.CurrentHP:
@@ -3941,9 +3952,9 @@
               #GainThorns(Player, Foe, Player.Acid)
 
       if Name == "SpinySnapper":  #Give foe 1 riptide. Whenever riptide triggers, gain 3 thorns
-          if Phase == "BattleStart":
+          if any(p in ("BattleStart") for p in Phase):
               StatusInterp("Riptide", Foe, Player, 1)
-          if Phase == "RiptideDamage":
+          if any(p in ("RiptideDamage") for p in Phase):
               StatusInterp("Thorns", Player, Foe, 3)
 
       if Name == "SugarBomb":  #Deal 1 damage 3 times
@@ -3967,7 +3978,7 @@
 
       if Name == "UnderwaterWatermelon":  #Decrease 1 random status effect and give foe 1 riptide
           Amount = 1
-          if Phase == "Exposed":
+          if any(p in ("Exposed") for p in Phase):
             Amount = Player.ExposedMultiTrigger
           for nn in range(0, Amount):
             [Status, Stacks] = Player.RandomStatus(Foe, -1, True)
@@ -4206,7 +4217,7 @@
 
       if Name == "BrittlebarkClub": #Exp or Wound lose 2 attack
           Amount = 1
-          if Phase == "Exposed":
+          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
             Amount = Player.ExposedMultiTrigger
           for nn in range(0, Amount):
             if Player.NoBBB:
@@ -4277,9 +4288,9 @@
               Player.PreventStatusGain = True
 
       if Name == "PurelakeStaff":  #BS: Gain 2 purity. OH: Lose 1 purity
-          if Phase == "BattleStart":
+          if any(p in ("BattleStart") for p in Phase):
             StatusInterp("Purity", Player, Foe, 2)
-          if Player.Purity > 0 and Phase == "OnHit":
+          if Player.Purity > 0 and any(p in ("OnHit") for p in Phase):
               StatusInterp("Purity", Player, Foe, -1)
           #GainPurity(Player, Foe, 2)
           #Player.Items = [word.replace("PurelakeStaff", "PurelakeStaffOH") for word in Player.Items]
@@ -4360,16 +4371,16 @@
 
       if Name == "CherryBlade":  #Deal 4 damage on batstart and exposed
           Amount = 1
-          if Phase == "Exposed":
+          if any(p in ("Exposed") for p in Phase):
             Amount = Player.ExposedMultiTrigger
           for nn in range(0, Amount):
             BombDamage(4, Player, Foe)
 
       if Name == "DeathcapBow": #BS: Gain 3 Poison. TS: Gain 1 additional strike, if you are poisoned
-          if Phase == "BattleStart":
+          if any(p in ("BattleStart") for p in Phase):
               StatusInterp("Poison", Player, Foe, 3)
 
-          if Phase == "TurnStart":
+          if any(p in ("TurnStart") for p in Phase):
               if Player.Poison > 0:
                   GainStrikes(Player, Foe, 1)
 
@@ -4389,9 +4400,9 @@
               GainStrikes(Player, Foe, 1)
 
       if Name == "SilverscaleSwordfish":  #Gain 1 extra strike on battle start, #First Turn on hit give the foe 1 riptide
-          if Phase == "BattleStart":
+          if any(p in ("BattleStart") for p in Phase):
               GainStrikes(Player, Foe, 1)
-          if Phase == "FirstTurnStrike":
+          if any(p in ("FirstTurnStrike") for p in Phase):
               StatusInterp("Riptide", Foe, Player, 1)
 
       #Blacksmith Edge
@@ -4534,8 +4545,9 @@
           ArmorGain(Player, Foe, 3)
 
       if Name == "MarbleAnvil":  #Exposed trigger at battle start
-          Player.ExposedTriggers = Player.ExposedTriggers - 1
-          Player.MultiSearch("Exposed", Foe, "FoeExposed")
+          if Player.ExposedTriggers > 0:
+            Player.ExposedTriggers = Player.ExposedTriggers - 1
+            Player.MultiSearch("Exposed", Foe, "FoeExposed")
 
       if Name == "MarshlightAria": #When exposed: Trigger symphony twice
           for pp in range(0, 2):
@@ -4750,9 +4762,9 @@
 
       #Swamp Week 2
       if Name == "ClearspringSpirit": #BS: Gains 10 Purity. On Hit randomly decrease a self or player status
-          if Phase == "BattleStart":
+          if any(p in ("BattleStart") for p in Phase):
               StatusInterp("Purity", Player, Foe, 10)
-          elif Phase == "OnHit": #This is missing the removing self status effect
+          elif any(p in ("OnHit") for p in Phase): #This is missing the removing self status effect
               Player.RandomStatus(Foe, -1, True)
 
       if Name == "GraniteGriffin": #Gain 40 Armor and Stun for 4 turns
@@ -5800,6 +5812,7 @@
 
   def GainPoison(Player, Foe, PoisonStacks):
       Player.Poison = Player.Poison + PoisonStacks
+      Foe.Search("GainPoison", Player)
 
   def GainRiptide(Player, Foe, RiptideStacks):
       Player.Riptide = Player.Riptide + RiptideStacks
@@ -6223,13 +6236,13 @@ def saveSelections(event):
       setTimeout(() => {
         button.style.display = 'block';
         checkbox.forEach(cb => cb.style.visibility = 'visible');
-      }, 2500);
+      }, 3000);
     };
   </script>
 <div class="left-column" style="padding: 10%; padding-top: 0px; padding-bottom: 0px;">
 <fieldset style="font-size: large; margin-bottom: 10px; padding-top: 10px;">
 <div id="resultDisplay">Waiting On A Submission<br>(Don't Forget To Select The Week)</div>
-<!-- <div id="debugBox">You shouldn't see this message</div> -->
+<div id="debugBox">You shouldn't see this message</div>
 </fieldset>
 <button id="RunFight" py-click="saveSelections" type ="button">Submit</button>
 </div>
