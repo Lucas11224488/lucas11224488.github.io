@@ -145,14 +145,20 @@
     <label for="quantity">Attack:</label>
     <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/a/aa/Icon_attack.png" alt="Attack:"> -->
     <input type="number" id="LeftAttack" name="LeftAttack" min="-99999" max="99999" value="1">
+    <input type="checkbox" id="LeftAttackOil" name="LeftAttackOil" value="1" style="visibility: hidden;">
+    <label for="LeftAttackOil">Attack Oil</label>
     <br>
     <label for="quantity">Armor:</label>
     <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/a/a9/Icon_armor.png" alt="Armor:"> -->
     <input type="number" id="LeftArmor" name="LeftArmor" min="0" max="99999" value="0">
+    <input type="checkbox" id="LeftArmorOil" name="LeftArmorOil" value="1" style="visibility: hidden;">
+    <label for="LeftArmorOil">Armor Oil</label>
     <br>
     <label for="quantity">Speed:</label>
     <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/9/9f/Icon_speed.png" alt="Speed:"> -->
     <input type="number" id="LeftSpeed" name="LeftSpeed" min="-99999" max="99999" value="0">
+    <input type="checkbox" id="LeftSpeedOil" name="LeftSpeedOil" value="1" style="visibility: hidden;">
+    <label for="LeftSpeedOil">Speed Oil</label>
     <br>
     <label for="quantity">Gold:</label>
     <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/e/e2/Treasury_16x.png" alt="Gold:"> -->
@@ -625,23 +631,11 @@
 
       countSelector.addEventListener("change", () => {
         const count = parseInt(countSelector.value);
-        // const ItemSlots = document.getElementById("ItemSlots");
-        // const Quality = document.getElementById("QualitySlider");
-        // const container = document.getElementById("dropdownContainer");
         if (count < PrevCount) { //Removes dropdowns if the Week is decreased
           for (let i = count; i < PrevCount; i++) {
             document.getElementById(`itemslots_${i}`).style.display = "none";
             document.querySelector(`label[for=itemslots_${i}]`).style.display = "none";
             document.getElementById(`quality_${i}`).style.display = "none";
-            // document.querySelector(`label[for=quality_${i}]`).style.display = "none";
-            // const lastBr = container.querySelector('br:last-of-type');
-            // if (lastBr) {
-            // lastBr.remove();
-            // }
-            // const lastBr1 = container.querySelector('br:last-of-type');
-            // if (lastBr1) {
-            // lastBr1.remove();
-            // }
           }
           PrevCount = count;
         }
@@ -653,27 +647,6 @@
                     document.getElementById(`quality_${i}`).style.display = "initial";
                     // document.querySelector(`label[for=quality_${i}]`).style.display = "initial";
                 }
-        //   for (let i = PrevCount; i < count; i++) {
-        //     const content = ItemSlots.content.cloneNode(true);
-        //     const labelIS = content.querySelector("label");
-        //     const selectIS = content.querySelector("select");
-
-        //     const IS = `itemslots_${i}`;
-        //     selectIS.id = IS;
-        //     selectIS.name = IS;
-        //     labelIS.setAttribute("for", IS);
-        //     container.appendChild(content);
-
-        //     const contentQ = Quality.content.cloneNode(true);
-        //     const labelQ = contentQ.querySelector("label");
-        //     const selectQ= contentQ.querySelector("input");
-
-        //     const Q = `quality_${i}`;
-        //     selectQ.id = Q;
-        //     selectQ.name = Q;
-        //     labelQ.setAttribute("for", Q);
-        //     container.appendChild(contentQ);
-        //   }
           PrevCount = count;
         }
       });
@@ -806,14 +779,20 @@
       <label for="quantity">Attack:</label>
       <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/a/aa/Icon_attack.png" alt="Attack:"> -->
       <input type="number" id="RightAttack" name="RightAttack" min="-99999" max="99999" value="1">
+      <input type="checkbox" id="RightAttackOil" name="RightAttackOil" value="1" style="visibility: hidden;">
+      <label for="RightAttackOil">Attack Oil</label>
       <br>
       <label for="quantity">Armor:</label>
       <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/a/a9/Icon_armor.png" alt="Armor:"> -->
       <input type="number" id="RightArmor" name="RightArmor" min="0" max="99999" value="0">
+      <input type="checkbox" id="RightArmorOil" name="RightArmorOil" value="1" style="visibility: hidden;">
+      <label for="RightArmorOil">Armor Oil</label>
       <br>
       <label for="quantity">Speed:</label>
       <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/9/9f/Icon_speed.png" alt="Speed:"> -->
       <input type="number" id="RightSpeed" name="RightSpeed" min="-99999" max="99999" value="0">
+      <input type="checkbox" id="RightSpeedOil" name="RightSpeedOil" value="1" style="visibility: hidden;">
+      <label for="RightSpeedOil">Speed Oil</label>
       <br>
       <label for="quantity">Gold:</label>
       <!-- <img src="https://wiki.hoodedhorse.com/images/mbhh_hisc/e/e2/Treasury_16x.png" alt="Gold:"> -->
@@ -5020,9 +4999,11 @@
     if Name == "BasiliskFang": #3 Attack
         BaseStats = [0, 3, 0, 0]
 
+    if Name == "BattleAxe":  #2 Attack
+        BaseStats = [0, 2, 0, 0]
+
     if Name == "BejeweledBlade":  # 1+ Gains 2 attack per jewelry item in inv
-        c = Count(Player, "Jewelry")
-        BaseStats = [0, 1 + 2*c, 0, 0]
+        BaseStats = [0, 1, 0, 0]
 
     if Name == "BlackbriarBlade":  #1 Attack
         BaseStats = [0, 1, 0, 0]
@@ -5431,7 +5412,25 @@
             LeftAttack = LeftAttack + StatsChange[1]
             LeftArmor = LeftArmor + StatsChange[2]
             LeftSpeed = LeftSpeed + StatsChange[3]
-        
+
+        if document.getElementById("LeftAttackOil").checked:
+            LeftAttack = LeftAttack + 1
+
+        if document.getElementById("LeftArmorOil").checked:
+            LeftArmor = LeftArmor + 1
+
+        if document.getElementById("LeftSpeedOil").checked:
+            LeftSpeed = LeftSpeed + 1
+
+        if LeftArmor == 0:
+            LeftMaxHP = LeftMaxHP + 3*CountBaseStatItems("Left", "LeatherBelt")
+
+        if CountBaseStatItems("Left", "HoneyHam") > 0:
+            LeftMaxHP = 2*LeftMaxHP
+
+        if Weapon == "GraniteLance":
+            LeftArmor = 2*LeftArmor
+
         document.getElementById("LeftMaxHP").value = LeftMaxHP
         document.getElementById("LeftAttack").value = LeftAttack
         document.getElementById("LeftArmor").value = LeftArmor
@@ -5467,11 +5466,47 @@
             RightAttack = RightAttack + StatsChange[1]
             RightArmor = RightArmor + StatsChange[2]
             RightSpeed = RightSpeed + StatsChange[3]
-        
+
+        if document.getElementById("RightAttackOil").checked:
+            RightAttack = RightAttack + 1
+
+        if document.getElementById("RightArmorOil").checked:
+            RightArmor = RightArmor + 1
+
+        if document.getElementById("RightSpeedOil").checked:
+            RightSpeed = RightSpeed + 1
+
+        if RightArmor == 0:
+            RightMaxHP = RightMaxHP + 3*CountBaseStatItems("Right", "LeatherBelt")
+
+        if CountBaseStatItems("Right", "HoneyHam") > 0:
+            RightMaxHP = 2*RightMaxHP
+
+        if Weapon == "GraniteLance":
+            RightArmor = 2*RightArmor
+
         document.getElementById("RightMaxHP").value = RightMaxHP
         document.getElementById("RightAttack").value = RightAttack
         document.getElementById("RightArmor").value = RightArmor
         document.getElementById("RightSpeed").value = RightSpeed
+
+  def CountBaseStatItems(Side, CheckingForItem):
+        if Side == "Right":
+          S = "Right"
+          Q = "Right"
+        elif Side == "Left":
+          S = "s"
+          Q = ""
+        Count = 0
+
+        count = int(document.getElementById("WeekCount").value)
+        for i in range(0, count):
+            Item = document.getElementById(f"itemslot{S}_{i}").value
+            Quality = document.getElementById(f"quality{Q}_{i}").value
+            if CheckingForItem == Item:
+                Count = Count + 2**int(Quality)
+        return Count
+
 
   def Healable(Player):
       x = False
@@ -6147,9 +6182,11 @@ def saveSelections(event):
    <script>
     window.onload = function() {
       const button = document.getElementById('RunFight');
+      const checkbox = document.querySelectorAll('input[type="checkbox"]'); 
       setTimeout(() => {
         button.style.display = 'block';
-      }, 2000);
+        checkbox.forEach(cb => cb.style.visibility = 'visible');
+      }, 2500);
     };
   </script>
 <div class="left-column" style="padding: 10%; padding-top: 0px; padding-bottom: 0px;">
@@ -6169,6 +6206,15 @@ def saveSelections(event):
     countSelector.addEventListener("change", () => {
         document.getElementById("UpdateStatsLeft").click();
         document.getElementById("UpdateStatsRight").click();
+    })
+    LeftAttackOil.addEventListener("change", () => {
+        document.getElementById("UpdateStatsLeft").click();
+    })
+    LeftArmorOil.addEventListener("change", () => {
+        document.getElementById("UpdateStatsLeft").click();
+    })
+    LeftSpeedOil.addEventListener("change", () => {
+        document.getElementById("UpdateStatsLeft").click();
     })
     let LWeapon = document.getElementById("LeftWeapons");
     let LEdge = document.getElementById("LeftEdges");
@@ -6190,6 +6236,16 @@ def saveSelections(event):
     })
     }
 
+    
+    RightAttackOil.addEventListener("change", () => {
+        document.getElementById("UpdateStatsRight").click();
+    })
+    RightArmorOil.addEventListener("change", () => {
+        document.getElementById("UpdateStatsRight").click();
+    })
+    RightSpeedOil.addEventListener("change", () => {
+        document.getElementById("UpdateStatsRight").click();
+    })
     let RWeapon = document.getElementById("WeaponsRight");
     let REdge = document.getElementById("RightEdges");
     RWeapon.addEventListener("change", () => {
