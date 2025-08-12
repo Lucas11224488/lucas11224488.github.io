@@ -123,7 +123,7 @@
   <div class="left-column">
     <label for="WeekCount">What Week?</label>
     <select id="WeekCount">
-      <option disabled selected hidden value="2">--Choose--</option>
+      <option disabled selected hidden value="0">--Choose--</option>
       <option value="4">1</option>
       <option value="6">2</option>
       <option value="8">3</option>
@@ -836,7 +836,7 @@
 
     <template id="EnemiesType">
       <label for="enemies" id="enemiesLabel">Enemy:</label>
-      <select name="enemies" id="enemies">
+      <select name="enemies" id="enemies" style="margin-right: 69px;">
       <option disabled>~~Regular Enemies~~</option>
       <option value="Bat">Bat</option>
       <option value="Bear">Bear</option>
@@ -1146,12 +1146,10 @@
               'BlacksmithBond' : {'Unique'},
               "BlastcapArmor" : {"Bomb", "Exposed"}, #Take 5 Damage
               'BloodChain': {'Unique'},
-              #Random soooooo
               "BombBag" : {"BattleStart", "Exposed", "Wounded"}, #Spend 3 speed to retrigger a random bomb
               "BrambleBelt" : {"BattleStart"}, #Gain 2 thorns and give the foe 1 more strike
               "BrambleBuckler" : {"TurnStart"}, #Convert 1 armor to 2 thorns
               "BrambleTalisman" : {"GainThorns", "Unique"}, #Whenever you gain thorns, gain 1 armor
-              #Need to add a toggle that activates on thorn lose for first time self.FirstThornLose
               "BrambleVest" : {"ThornsLose"}, #The first time you lose thorns, restore hp = to lost thorns
               "RazorvineTalisman" : {"Unique", "GainThorns"}, #When gain thorns, gain another one: ~~~~~~~~~~~~Might need to add GainThornsS
               "BrittlebarkBuckler" : {"AfterFoeFirstStrike", "Wood"}, #After Foe's First Strike take damage then lose all armor Probably can just put it as a check directly in the strike calc
@@ -1257,7 +1255,6 @@
               "ViperExtract" : {"Potion", "GainPoison"}, #First time foe gains poison, give them 3 more
               "ViperElixir" : {"Potion", "GainPoison", "Unique"}, #First time foe gains poison, give them 9 more
               "AcidMutation" : {"BattleStart", "PreStrike"}, #gain 1 Acid
-              #"AcidMutationPS" : {"PreStrike"}, #Gain temp attack = to acid
               "AcidicWitherleaf" : {"BattleStart"}, #Give the foe acid = to your speed
               "AssaultGreaves" : {"TakeDamage", "TakeDamageS"}, #Deal 1 damage
               "BlackbriarArmor" : {"TakeDamage", "TakeDamageS"}, #Whenever you take damage, gain 2 thorns
@@ -1993,7 +1990,6 @@
           self.Stun = 0
           self.Purity = 0
           self.Regen = 0
-          self.FirstThornLose = True
           self.SecondTakeDamage = True
           self.SecondNonWeapon = 0
 
