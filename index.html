@@ -166,6 +166,7 @@
     <label for="LeftWeapons">Left Weapon:</label>
     <select name="LeftWeapons" id="LeftWeapons">
         <option value="WoodenStick">Wooden Stick</option>
+        <option value="AncientWarhammer">Ancient Warhammer</option>
         <option value="ArcaneWand">Arcane Wand</option>
         <option value="BasiliskFang">Basilisk Fang</option>
         <option value="BattleAxe">Battle Axe</option>
@@ -237,6 +238,7 @@
         <option value="RoyalScepter">Royal Scepter</option>
         <option value="RustySword">Rusty Sword</option>
         <option value="SanguineScepter">Sanguine Scepter</option>
+        <option value="ScepterOfGreed">Scepter Of Greed</option>
         <option value="SerpentDagger">Serpent Dagger</option>
         <option value="SilverscaleDagger">Silverscale Dagger</option>
         <option value="SilverscaleSwordfish">Silverscale Swordfish</option>
@@ -674,6 +676,7 @@
       <label for="WeaponsRight" id="WeaponsRightLabel">Right Weapon:</label>
       <select name="WeaponsRight" id="WeaponsRight">
         <option value="WoodenStick">Wooden Stick</option>
+        <option value="AncientWarhammer">Ancient Warhammer</option>
         <option value="ArcaneWand">Arcane Wand</option>
         <option value="BasiliskFang">Basilisk Fang</option>
         <option value="BattleAxe">Battle Axe</option>
@@ -745,6 +748,7 @@
         <option value="RoyalScepter">Royal Scepter</option>
         <option value="RustySword">Rusty Sword</option>
         <option value="SanguineScepter">Sanguine Scepter</option>
+        <option value="ScepterOfGreed">Scepter Of Greed</option>
         <option value="SerpentDagger">Serpent Dagger</option>
         <option value="SilverscaleDagger">Silverscale Dagger</option>
         <option value="SilverscaleSwordfish">Silverscale Swordfish</option>
@@ -1454,7 +1458,7 @@
               "StoneslabSword" : {"Weapon", "OnHit", "Stone"}, #Gain 2 armor
               "ThunderboundSabre" : {"Weapon", "BattleStart"}, #Stun yourself for 2 turns
               "TwinBlade" : {"Weapon", "BattleStart"}, #Base strikes count = 2 #Might want to make a PreBattle Tag??
-              #"AncientWarhammer" : {"Weapon", "OnHit"}, #OH: Remove all of the foe's armor
+              "AncientWarhammer" : {"Weapon", "OnHit"}, #OH: Remove all of the foe's armor
               "BearclawBlade" : {"Weapon", "PreStrikeL"}, #Attack = Missing HP
               "DashmastersDagger" : {"Weapon", "BattleStart"}, #Gain additional strikes equal to speed
               "LakebedSword" : {"Weapon"}, #Doubles the effects from Purity
@@ -1462,7 +1466,7 @@
               "SpikyClub" : {"Weapon"},  #Maybe GainThorns tag? or add it to everything that adds thorns. GainThorns becomes GainAttack
               "TempestBlade" : {"Weapon", "PreStrikeL"}, #Attack = Speed
               "CleaverOfWrath" : {"Weapon"}, #Your max hp is always 1 (Disables all max hp changes)
-              #"ScepterOfGreed" : {"Weapon"}, #Cant gain gold. (Disables all gold gain)
+              "ScepterOfGreed" : {"Weapon"}, #Cant gain gold. (Disables all gold gain)
               "SwordOfPride" : {"Weapon", "BattleStart"}, #If the foe has more attack, armor, or speed, take 3 damage
               "BeeStinger" : {"Weapon", "FirstTurnStrike", "Food"}, #Give the foe 4 poison, 3 acid, and 2 stun on hit
               "BlackbriarBow" : {"Weapon", "CantAttack", "TurnStart"}, #Turn Start gain thorns = to your attack
@@ -2045,6 +2049,10 @@
           self.HealingDisabled = False
           if Count(self, "CantHeal") > 0:
             self.HealingDisabled = True
+
+          self.GoldGain = True
+          if "ScepterOfGreed" in Player.Items:
+              self.GoldGain = False
           self.Alive = True
           #self.RHeal = 0 Prob not using
           self.StunHead = True
@@ -2554,11 +2562,13 @@
             HealingCalc(Player, Foe, 3*(2**Quality))
 
       if Name == "RoyalHorn":  #Wounded: Gain 2 gold symphony
-          Player.Gold = Player.Gold + 2
+          if Player.GoldGain:
+            Player.Gold = Player.Gold + 2
           Symphony(Player, Foe, "RoyalHorn")
 
       if Name == "RoyalHornS":  #Wounded: Gain 2 gold symphony
-          Player.Gold = Player.Gold + 2
+          if Player.GoldGain:
+              Player.Gold = Player.Gold + 2
 
       if Name == "RubyEarring": #Deal 1 damage eot
           DealDamage(1*(2**Quality), Player, Foe)
@@ -2930,8 +2940,9 @@
           StatusInterp("Freeze", Foe, Player, 1)
 
       if Name == "GoldRing": #Gain 1 gold RING
-          for nn in range(0, Player.RingTrigger):
-              Player.Gold = Player.Gold + 1
+          if Player.GoldGain:
+            for nn in range(0, Player.RingTrigger):
+                Player.Gold = Player.Gold + 1
 
       if Name == "GraniteCrown": #Gain max HP = to Base armor
           Player.MaxHP = Player.MaxHP + Player.BaseArmor
@@ -4301,7 +4312,8 @@
           GainStrikes(Player, Foe, 1)
 
       if Name == "RoyalCrownblade":  #Gain 1 Gold
-          Player.Gold = Player.Gold + 1
+          if Player.GoldGain:
+            Player.Gold = Player.Gold + 1
           
       if Name == "RoyalScepter":  #Sets attack always equal to gold. Cannot have more than 10 gold
           Player.TempAttack = 0
@@ -4328,6 +4340,9 @@
 
       if Name == "TwinBlade":  #Base strikes count = 2
           Player.BaseStrikesCount = 2
+
+      if Name == "AncientWarhammer":  #OH: Remove all of the foe's armor
+          ArmorGain(Foe, Player, -Foe.Armor)
 
       if Name == "BearclawBlade":  #Attack = Missing HP
           Player.TempAttack = 0
@@ -4428,7 +4443,7 @@
           #Freeze(3, Player, Foe)
 
       if Name == "GildedEdge": #If Gold < 10, Gain 1 gold
-          if Player.Gold < 10:
+          if Player.Gold < 10 and Player.GoldGain:
               Player.Gold = Player.Gold + 1
 
       if Name == "JaggedEdge": #Gain 2 thorns and take 1 self damage
