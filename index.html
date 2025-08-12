@@ -2417,10 +2417,8 @@
 
       if Name == "ClearspringWatermelon":  #Decrease a random status effect by 1
           if any(p in ("BattleStart", "Wounded") for p in Phase):
-            #document.getElementById("debugBox").innerText = "Battle Start or Wounded"
             [Status, Stacks] = Player.RandomStatus(Foe, -1*(2**Quality), True) #This automagically changes a random self status effect
           if any(p in ("Exposed") for p in Phase): 
-            document.getElementById("debugBox").innerText = "Exposed"
             for nn in range(0, Player.ExposedMultiTrigger):
                 [Status, Stacks] = Player.RandomStatus(Foe, -1*(2**Quality), True)
 
@@ -6242,7 +6240,7 @@ def saveSelections(event):
 <div class="left-column" style="padding: 10%; padding-top: 0px; padding-bottom: 0px;">
 <fieldset style="font-size: large; margin-bottom: 10px; padding-top: 10px;">
 <div id="resultDisplay">Waiting On A Submission<br>(Don't Forget To Select The Week)</div>
-<div id="debugBox">You shouldn't see this message</div>
+<!-- <div id="debugBox">You shouldn't see this message</div> -->
 </fieldset>
 <button id="RunFight" py-click="saveSelections" type ="button">Submit</button>
 </div>
