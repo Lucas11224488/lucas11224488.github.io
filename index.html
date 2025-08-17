@@ -1084,7 +1084,7 @@
               "GraniteEgg" : {"Unique", "Stone"}, #Does Nothing
               "GraniteTome" : {"Stone", "Cooldown", "Tome"}, #CD 4: Gain 6 armor
               "HolyShield" : {}, #Stats
-              "HolyTome" : {"Cooldown", "Tome"}, #CD 4: Gain 3 attack
+              "HolyTome" : {"Cooldown", "Tome"}, #CD 6: Gain 3 attack
               "HornedHelmet" : {"BattleStart"}, #Gain 1 thorn
               "IceblockShield" : {"Unique", "Water", "BattleStart"}, #Self freeze 2 on battlestart
               "IronstoneBracelet" : {"Stone", "Unique", "PreFoeStrike"}, #Foe strikes deal 1 less damage if you have armor, else +1
@@ -1145,7 +1145,7 @@
               "BlackbriarRose" : {"Unique", "HPRestore", "HPRestoreS"}, #Whenever you restore hp gain 2 thorns
               'BlacksmithBond' : {'Unique'},
               "BlastcapArmor" : {"Bomb", "Exposed"}, #Take 5 Damage
-              'BloodChain': {'Unique'},
+              'BloodChain': {'Unique', "Sanguine"},
               "BombBag" : {"BattleStart", "Exposed", "Wounded"}, #Spend 3 speed to retrigger a random bomb
               "BrambleBelt" : {"BattleStart"}, #Gain 2 thorns and give the foe 1 more strike
               "BrambleBuckler" : {"TurnStart"}, #Convert 1 armor to 2 thorns
@@ -1165,8 +1165,8 @@
               "DoubleExplosion" : {"SecondNonWeapon"}, #The 2nd time you deal nonweapon damage a turn, deal 3 damage.
               #Maybe can run the "TakeDamage" tag and then add a toggle if its the second trigger. Then reset toggle at end of turn.
               "DoubleplatedVest" : {"SecondTakeDamage", "Unique"}, #2nd time you take damage each turn, gain 2 armor
-              "EnergyDrain" : {"BattleStart", "Unique"}, # steal all foe's speed
-              "ExplosivePowder" : {"BombBonus"}, #All bomb items deal 1 more damage
+              "EnergyDrain" : {"BattleStart", "Unique"}, # steal 5 foe's speed
+              "ExplosivePowder" : {"BombBonus", "Unique"}, #All bomb items deal 1 more damage
               "ExplosiveSurprise" : {"Exposed", "Bomb"}, #Deal 6 damage
               "FeatherweightArmor" : {"GainSpeed"}, #Gain 1 armor for every gained speed
               "FeatherweightGauntlet" : {"FirstTurn"}, #Spend 2 speed to gain 4 attack temp
@@ -1193,13 +1193,13 @@
               "ImpressivePhysique" : {"Exposed"}, #Exposed: Stun the foe for 1 turn
               "IronRose" : {"HPRestore", "Unique", "HPRestoreS"}, #Whenever you restore hp, gain 1 armor
               "IronShrapnel" : {"BattleStart", "Bomb"}, #Deal 3 damage to foe, if they have no armor deal double
-              "IronstoneSandals" : {"PreStrike", "Stone"}, #Gain 3 attack when have armor
+              "IronstoneSandals" : {"PreStrike", "Stone"}, #Gain 2 attack when have armor
               "KindlingBomb" : {"BattleStart", "Bomb"}, #Deal 1 damage, then give the next bomb a temp damage increase.
               "LeatherBoots" : {"BattleStart"}, #More speed than foe, gain 2 attack
               "LeatherWaterskin" : {"Exposed", "Unique"}, #Gain 2 purity, repeat for each equipped water item
               "LightningBottle" : {"BattleStart", "Potion"}, #Stun yourself for 1 turn
               "LightningElixir" : {"BattleStart", "Unique", "Potion"}, #Stun yourself for 2 turns
-              "MarbleMirror" : {"BattleStart", "Stone"}, #Gain armor = foes current armor
+              "MarbleMirror" : {"BattleStart", "Stone", "Unique"}, #Gain armor = foes current armor
               "MarshlightLantern" : {"Exposed"}, #Lose 3 hp and gain 8 armor
               "MoonlightCrest" : {"TurnStart", "Unique"}, #If you are below 50% hp, gain 1 regen
               "MuscleGrowth" : {"PreStrike", "Wood"}, #While you have regen, temp gain 3 attack
@@ -1233,7 +1233,7 @@
               "SlimeBomb" : {"FoeExposed", "Unique", "Bomb"}, #Remove all their acid, and deal 2 damage per acid removed
               "SlimeBooster" : {"BattleStart"}, #Convert 1 acid to 2 attack
               "SlimeHeart" : {"Wounded", "Unique"}, #Remove all acid and restore 2 hp per acid removed
-              "SlimePotion" : {"Wounded", "Potion"}, #Gain armor = missing hp and gain 5 acid.
+              "SlimePotion" : {"Wounded", "Potion", "Unique"}, #Gain armor = missing hp and gain 5 acid.
               "SlimeElixir" : {"Wounded", "Potion", "Unique"}, #Gain armor = max hp and gain 5 acid.
               "SmokeBomb" : {"BattleStart", "Bomb"}, #If less speed than foe, then gain 3 speed and give foe 3 powder
               "SpiralShell" : {"TurnStart"}, #If Stunned, give foe 1 riptide
@@ -1245,7 +1245,7 @@
               "SunlightCrest" : {"TurnStart"}, #If you're above 50% hp, lose 3 hp and gain 1 attack
               "SwiftstrikeCrown" : {"BattleStart", "Unique"}, #Spend 5 speed to perm gain 1 extra strike~~~~~Adds x2 when having the specifc weapon
               "TempestBreastplate" : {"Exposed"}, #Gain speed = base armor
-              "ThornRing" : {"BattleStart", "Ring"}, #Take 1 damage and gain thorns equal to missing hp
+              "ThornRing" : {"BattleStart", "Ring", "Unique"}, #Take 1 damage and gain thorns equal to missing hp
               "ThunderCloud" : {"Wounded", "Unique"}, #On Wounded: stun foe for 3
               "ToxicAlgae" : {"FirstRiptide"}, #Give the foe 5 poison
               "ToxicRose" : {"HPRestore", "Unique", "HPRestoreS"}, #Whenever you restore hp, give foe 1 poison
@@ -1256,24 +1256,24 @@
               "ViperElixir" : {"Potion", "GainPoison", "Unique"}, #First time foe gains poison, give them 9 more
               "AcidMutation" : {"BattleStart", "PreStrike"}, #gain 1 Acid
               "AcidicWitherleaf" : {"BattleStart"}, #Give the foe acid = to your speed
-              "AssaultGreaves" : {"TakeDamage", "TakeDamageS"}, #Deal 1 damage
-              "BlackbriarArmor" : {"TakeDamage", "TakeDamageS"}, #Whenever you take damage, gain 2 thorns
+              "AssaultGreaves" : {"TakeDamage", "TakeDamageS", "Unique"}, #Deal 1 damage
+              "BlackbriarArmor" : {"TakeDamage", "TakeDamageS", "Unique"}, #Whenever you take damage, gain 2 thorns
               "BloodstoneRing" : {"BattleStart", "Sanguine", "Ring"}, #BS: Gain 5 max hp and restore 5 hp
               "BrittlebarkArmor" : {"TakeDamage", "Wood"}, #Take another damage
               "CactusCap" : {"ThornMultNoArmor", "Unique"}, #Convert armor to thorns
               "ChainmailArmor" : {"Wounded"}, #RegainBaseArmor MIGHT BE IMPLIMENTED INCORRECTLY
               "CitrineGemstone" : {"Unique", "Jewelry", "Citrine"}, #Invert base speed
               "ClearspringDuck" : {"TurnStart", "Unique", "Water"}, #Gain 1 armor and decrease a random status effect by 1
-              "CrimsonCloak" : {"TakeDamage", "Sanguine", "TakeDamageS"}, #Restore 1 HP
+              "CrimsonCloak" : {"TakeDamage", "Sanguine", "TakeDamageS", "Unique"}, #Restore 1 HP
               #"DruidsCloak" : {"Unique", "HPLose", "CantHeal"}, #Whenever you lose hp, gain that much armor. Cannot restore hp
               "ElderwoodNecklace" : {"Wood"}, #Base Stats
-              "EmeraldGemstone" : {"Unique", "Jewelry", "HPOverHeal", "Emerald"}, #Overhealing deals damage
-              "ExplosiveArrow" : {"TurnStart", "Bomb"}, #If foe doesnt have armor, deal 2 damage
+              "EmeraldGemstone" : {"Unique", "Jewelry", "Emerald"}, #Battle Start: If Foe has more max hp than you, set your max hp to theirs.
+              "ExplosiveArrow" : {"TurnStart", "Bomb"}, #If foe doesnt have armor, deal 3 damage
               "GrandTome" : {"Cooldown", "Unique"}, #CD 10: Retriggers all other tomes
               "Honeycomb" : {"Unique", "Food"}, 
               "IronTransfusion" : {"TurnStart"}, #Gain 2 armor lose 1 hp
               "IronskinPotion" : {"BattleStart", "Potion", "Unique"}, #Gain armor = missing hp
-              "IronskinElixir" : {"BattleStart", "Potion", "Unique"}, #Double your max hp. Gain armor = missing hp
+              "IronskinElixir" : {"BattleStart", "Potion", "Unique"}, #gain 20 max hp. Gain armor = missing hp
               "IronstoneArmor" : {"Unique", "Stone", "PreFoeStrike"}, #Enemy strikes deal 2 less damage while you have armor
               "LifeZap" : {"BattleStart", "Unique"}, #Lose all your hp except 1 and stun the foe for 2 turns
               "LifebloodArmor" : {"BattleStart", "Sanguine"}, #Convert 50% of current hp rounded down to 2x armor
@@ -1292,7 +1292,7 @@
               "RoyalShield" : {"TurnStart"}, #Convert 1 gold to 3 armor
               "RubyGemstone" : {"OnHit", "Unique", "Jewelry", "Ruby"}, #If your attack if 1, deal 4 extra damage
               "SanguineImp" : {"TurnStart", "Unique", "Sanguine"}, #Deal 1 damage and restore 1 hp
-              "SanguineMorphosis" : {"TurnStart", "Sanguine"}, #Stun yourself and gain 3 regen
+              "SanguineMorphosis" : {"TurnStart", "Sanguine", "Unique"}, #Stun yourself and gain 3 regen
               "SapphireGemstone" : {"ArmorLose", "Unique", "Jewelry", "Sapphire"}, #When ever you lose armor restore than much hp
               "SerpentMask" : {"BattleStart"}, #Give the foe poison = to attack
               "SheetMusic" : {"Cooldown", "Tome", "Unique"}, #CD 6: Trigger Symphony 3 times
@@ -1413,7 +1413,7 @@
               "BasiliskFang" : {"Weapon", "OnHit"}, #Decrease self poison by 2 and give it to foe.
               "BejeweledBlade" : {"Weapon", "Jewelry", "BattleStart"}, # Gains 2 attack per jewelry item in inv Currently not a base stats thing
               #Maybe 0 out the new temp attack for weapons right before checking if weapons have a temp increase
-              "BlackbriarBlade" : {"Weapon", "PreStrike"}, #Gain 2 attack per thorn you have (Temp Increase might make other stuff that use attack stat incorrect)
+              "BlackbriarBlade" : {"Weapon"}, #Gain 1 attack instead of thorns
               "BloodmoonDagger" : {"Weapon", "Wounded", "Sanguine"}, # Gain 5 attack and take 2 self damage
               "BloodmoonSickle" : {"Weapon", "OnHit", "Sanguine"}, # 1 Self damage
               "BubblegloopStaff" : {"Weapon", "CantAttack", "TurnStart"}, #Spend 1 speed to give the foe 1 acid and 2 poison
@@ -1423,14 +1423,14 @@
               "IcicleSpear" : {"Weapon", "Water", "Exposed"}, #Give the enemy 1 freeze for each equipped water item
               "IronstoneBow" : {"Weapon", "OnHit", "Stone"}, #On hit lose 1 speed. If Speed is 0 or less only attack every other turn (Idk if it attacks everytime the first turn you are at 0 or less speed)
               "LifebloodSpear" : {"Weapon", "HP3Restore"}, #Whenever you heal for 3 or more, gain 1 attack
-              "LiferootHammer" : {"Weapon", "Wood"}, #Regen that triggers overheal increases max hp. I assume this is before the Overheal gem
-              "LightningRod" : {"Weapon", "Unique", "TurnStart"}, #If stunned, gain 1 attack
+              "LiferootHammer" : {"Weapon", "Wood", "OnHit"}, #Regen that triggers overheal increases max hp. I assume this is before the Overheal gem
+              "LightningRod" : {"Weapon", "Unique", "TurnStart"}, #If stunned, gain 3 attack
               "LightningWhip" : {"Weapon", "Unique", "TurnStart"}, #If foe is stunned, gain 1 strike
               "RingBlades" : {"Weapon", "BattleStart"}, #Steal 1 attack from foe
-              "RustySword" : {"Weapon", "OnHit"}, #If the foe has no armor deal additional damage equal to foe acid
+              "RustySword" : {"Weapon", "FirstTurnOnHit"}, #First Turn, On Hit Give the foe acid = your attack
               "SanguineScepter" : {"Weapon", "Sanguine"}, #Healing doubled
               "SwiftstrikeBow" : {"Weapon"}, #Maybe add "StrikeGain" whenever you gain a strike, gain another one
-              "SwiftstrikeRapier" : {"Weapon", "BattleStart"}, #If you have more speed than foe, gain 2 strikes
+              "SwiftstrikeRapier" : {"Weapon", "BattleStart"}, #If you have more speed than foe, gain 3 strikes
               "WaveBreaker" : {"Weapon", "CantAttack", "BattleStart"}, #Give the foe 2*(negative base attack) riptide
               "BloodlordsAxe" : {"Weapon", "BattleStart", "Sanguine"}, #Foe loses 5 hp, you restore 5 hp
               "BrittlebarkClub" : {"Weapon", "Wood", "Exposed", "Wounded"}, #Exp or Wound lose 2 attack
@@ -1458,7 +1458,7 @@
               "AncientWarhammer" : {"Weapon", "OnHit"}, #OH: Remove all of the foe's armor
               "BearclawBlade" : {"Weapon", "PreStrikeL"}, #Attack = Missing HP
               "DashmastersDagger" : {"Weapon", "BattleStart"}, #Gain additional strikes equal to speed
-              "LakebedSword" : {"Weapon"}, #Doubles the effects from Purity
+              "LakebedSword" : {"Weapon", "Water"}, #Doubles the effects from Purity
               "MountainCleaver" : {"Weapon", "BattleStart", "Stone"}, #Attack = Base Armor
               "SpikyClub" : {"Weapon"},  #Maybe GainThorns tag? or add it to everything that adds thorns. GainThorns becomes GainAttack
               "TempestBlade" : {"Weapon", "PreStrikeL"}, #Attack = Speed
@@ -1518,7 +1518,7 @@
               "IronstoneCrest" : {"Set", "TurnStart"}, #Steal 2 armor from foe
               "IronstoneFang" : {"Set", "FirstTurnOnHit"}, #Gain 3 armor on hit
               "MarbleAnvil" : {"Set", "BattleStart"}, #
-              "MarshlightAria" : {"Set", "Exposed"}, #When exposed: Trigger symphony twice
+              "MarshlightAria" : {"Set", "Exposed"}, #When exposed: Trigger symphony 3 times
               "SeafoodHotpot" : {"Set", "BattleStart"}, #Gain 2 armor per speed
               #Gotta redo the vamp cloak to check for stun at turn start *maybe*
               "VampireCloak" : {"Set"}, #TS: If you are stunned, double all healing this turn
@@ -2469,8 +2469,8 @@
                   Cooldowned(Player, Foe)
               Player.GraniteTome = False
 
-      if Name == "HolyTome":  #CD 4: Gain 3 attack
-          if (Player.Cooldown + Player.CooldownReduction > np.ceil(4*Player.CooldownMult) and Player.HolyTome) or Player.GrandTomeRetriggers:
+      if Name == "HolyTome":  #CD 6: Gain 3 attack
+          if (Player.Cooldown + Player.CooldownReduction > np.ceil(6*Player.CooldownMult) and Player.HolyTome) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.TomeTriggers):
                   Player.Attack = Player.Attack + 3*(2**Quality)
                   Cooldowned(Player, Foe)
@@ -2848,17 +2848,17 @@
 
       if Name == "DoubleExplosion":  #The 2nd time you deal nonweapon damage a turn, deal 3 damage.
         if Player.SecondNonWeapon == 2:
-            BombDamage(3, Player, Foe)
+            DealDamage(3, Player, Foe)
 
       if Name == "DoubleplatedVest":  #2nd time you take damage each turn, gain 2 armor
           ArmorGain(Player, Foe, 2)
 
-      if Name == "EnergyDrain": #steal all foe's speed
+      if Name == "EnergyDrain": #steal 5 of foe's speed
           if Foe.Speed > 0: #Player.Speed == 0 and 
               #Player.Speed = np.copy(Foe.Speed)
-              Player.DeltaSpeed = np.copy(Foe.Speed)
-              GainSpeed(Player, Foe, Foe.Speed)
-              Foe.Speed = 0
+              Player.DeltaSpeed = np.copy(min(Foe.Speed, 5))
+              GainSpeed(Player, Foe, min(Foe.Speed, 5))
+              Foe.Speed = Foe.Speed - min(Foe.Speed, 5)
 
       if Name == "ExplosivePowder":  #All bomb items deal 1 more damage
           Player.BombBonus = Player.BombBonus + 1
@@ -2998,9 +2998,9 @@
               Player.BombMult = 2*Player.BombMult
               BombDamage(3, Player, Foe)
 
-      if Name == "IronstoneSandals": #Gain 3 attack when have armor
+      if Name == "IronstoneSandals": #Gain 2 attack when have armor
           if Player.Armor > 0:
-              Player.TempAttack = Player.TempAttack + 3
+              Player.TempAttack = Player.TempAttack + 2
 
       if Name == "KindlingBomb":  #Deal 1 damage, then give the next bomb a temp damage increase.
           BombDamage(1, Player, Foe)
@@ -3014,9 +3014,9 @@
       if Name == "LeatherWaterskin": #Gain 2 purity, repeat for each equipped water item
           for nn in range(0, Player.ExposedMultiTrigger):
             c = Count(Player, "Water")
-            for nn in range(0, c + 1):
-                StatusInterp("Purity", Player, Foe, 2)
-                #GainPurity(Player, Foe, 2)
+            #for nn in range(0, c + 1):
+            StatusInterp("Purity", Player, Foe, 2*(c+1))
+            #GainPurity(Player, Foe, 2)
 
       if Name == "LightningBottle": #Stun yourself for 1 turn
           StatusInterp("Stun", Player, Foe, 1)
@@ -3390,9 +3390,13 @@
 
       #if Name == "DruidsCloak" : {"Unique", "HPLose", "CantHeal"}, #Whenever you lose hp, gain that much armor. Cannot restore hp
 
-      if Name == "ExplosiveArrow":  #If foe doesnt have armor, deal 2 damage
+      if Name == "EmeraldGemstone":  #Battle Start: If Foe has more max hp than you, set your max hp to theirs.
+          if Foe.MaxHP > Player.MaxHP:
+              Player.MaxHP = Foe.MaxHP
+
+      if Name == "ExplosiveArrow":  #If foe doesnt have armor, deal 3 damage
           if Foe.Armor == 0:
-              BombDamage(2, Player, Foe)
+              BombDamage(3, Player, Foe)
 
       if Name == "GrandTome":  #CD 10: Retriggers all other tomes
           if (Player.Cooldown + Player.CooldownReduction > np.ceil(10*Player.CooldownMult) and Player.GrandTome):
@@ -3417,8 +3421,8 @@
               #Player.Armor = Player.Armor + Player.MaxHP - Player.CurrentHP
               ArmorGain(Player, Foe, Player.MaxHP - Player.CurrentHP)
 
-      if Name == "IronskinElixir":  #Double your max hp. Gain armor = missing hp
-          Player.MaxHP = 2*Player.MaxHP
+      if Name == "IronskinElixir":  #gain 20 max hp. Gain armor = missing hp
+          Player.MaxHP = Player.MaxHP + 20
           Player.Wounded(Foe)
           ArmorGain(Player, Foe, Player.MaxHP - Player.CurrentHP)
 
@@ -3917,7 +3921,7 @@
       if Name == "PoisonousPufferfish": #Gain 3 poison and give foe 2 riptide
           StatusInterp("Poison", Player, Foe, 3)
           #GainPoison(Player, Foe, 3)
-          StatusInterp("Riptide", Foe, Player, 2)
+          StatusInterp("Riptide", Foe, Player, Player.Poison)
           #GainRiptide(Foe, Player, 2)
 
       if Name == "PowderCookie":  #Gain 3 thorns and give foe 3 powder
@@ -4177,12 +4181,15 @@
       if Name == "LifebloodSpear":  #Gains attack = first hp restored sounds hard
           Player.Attack = Player.Attack + 1
 
-      #if Name == "LiferootHammer":  #Regen that triggers overheal increases max hp. I assume this is before the Overheal gem
+      if Name == "LiferootHammer":  #Regen that triggers overheal increases max hp. I assume this is before the Overheal gem
+        if Player.MaxHP == Player.CurrentHP:
+            X = Player.Regen
+            ArmorGain(Player, Foe, 3*X)
+            StatusInterp("Regen", Player, Foe, -Player.Regen)
 
-
-      if Name == "LightningRod":  #If stunned, gain 1 attack
+      if Name == "LightningRod":  #If stunned, gain 3 attack
           if Player.Stun > 0:
-              Player.Attack = Player.Attack + 1
+              Player.Attack = Player.Attack + 3
 
       if Name == "LightningWhip":  #If foe is stunned, gain 1 strike
           if Foe.Stun > 0:
@@ -4193,14 +4200,13 @@
               Foe.Attack = Foe.Attack - 1
               Player.Attack = Player.Attack + 1
 
-      if Name == "RustySword":  #If the foe has no armor deal additional damage equal to foe acid
-          if Foe.Armor == 0:
-              DealDamage(Foe.Acid, Player, Foe)
+      if Name == "RustySword":  #First Turn, On Hit Give the foe acid = your attack
+          StatusInterp("Acid", Foe, Player, Player.Attack)
 
       #if Name == "SanguineScepter": #Healing doubled
 
-      if Name == "SwiftstrikeRapier": #If you have more speed than foe, gain 2 strikes
-          GainStrikes(Player, Foe, 2)
+      if Name == "SwiftstrikeRapier": #If you have more speed than foe, gain 3 strikes
+          GainStrikes(Player, Foe, 3)
 
       if Name == "WaveBreaker":  #Give the foe 2*(negative base attack) riptide
           if Player.Attack < 0:
@@ -4554,7 +4560,7 @@
             Player.MultiSearch("Exposed", Foe, "FoeExposed")
 
       if Name == "MarshlightAria": #When exposed: Trigger symphony twice
-          for pp in range(0, 2):
+          for pp in range(0, 3):
               Symphony(Player, Foe, "")
 
       if Name == "SeafoodHotpot": #Gain 2 armor per speed
@@ -5018,8 +5024,8 @@
     if Name == "BejeweledBlade":  # 1+ Gains 2 attack per jewelry item in inv
         BaseStats = [0, 1, 0, 0]
 
-    if Name == "BlackbriarBlade":  #1 Attack
-        BaseStats = [0, 1, 0, 0]
+    if Name == "BlackbriarBlade":  #2 Attack
+        BaseStats = [0, 2, 0, 0]
 
     if Name == "BlastcapArmor": #8 Armor
         BaseStats = [0, 0, 8, 0]
@@ -5646,7 +5652,7 @@
 
   def GainThorns(Player, Foe, Value):
       if Value > 0:
-          if "SpikyClub" in Player.Items:
+          if "SpikyClub" in Player.Items or "BlackbriarBlade" in Player.Items:
               Player.Attack = Player.Attack + Value
           else:
               Player.Thorns = Player.Thorns + Value
@@ -5877,18 +5883,18 @@
               ArmorGain(Player, Foe, Player.Regen)
               StatusInterp("Regen", Player, Foe, -1)
               #GainRegen(Player, Foe, -1)
-          elif "LiferootHammer" in Player.Items:
-              Value = 1
-              if not Player.HealingDisabled:
-                if Player.CurrentHP/Player.MaxHP < 0.5:
-                    Value = Player.TwilightCrestMult*Value
-                if Player.Stun > 0:
-                    Value = Value*Player.VampireCloak    
-                Value = Value*Player.SanguineScepterMult
-                if Player.MaxHP - Player.CurrentHP < Player.Regen*Value:
-                    Player.MaxHP = Player.MaxHP + Player.Regen*Value
-              HealingCalc(Player, Foe, Player.Regen)
-              StatusInterp("Regen", Player, Foe, -1)
+          #elif "LiferootHammer" in Player.Items:
+              #Value = 1
+              #if not Player.HealingDisabled:
+                #if Player.CurrentHP/Player.MaxHP < 0.5:
+                    #Value = Player.TwilightCrestMult*Value
+                #if Player.Stun > 0:
+                    #Value = Value*Player.VampireCloak    
+                #Value = Value*Player.SanguineScepterMult
+                #if Player.MaxHP - Player.CurrentHP < Player.Regen*Value:
+                    #Player.MaxHP = Player.MaxHP + Player.Regen*Value
+              #HealingCalc(Player, Foe, Player.Regen)
+              #StatusInterp("Regen", Player, Foe, -1)
           else:
               HealingCalc(Player, Foe, Player.Regen)
               StatusInterp("Regen", Player, Foe, -1)
