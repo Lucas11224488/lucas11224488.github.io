@@ -1111,7 +1111,7 @@
               "RoyalHorn" : {"Wounded", "Unique", "Instrument"}, #Wounded: Gain 2 gold symphony
               "RoyalHornS" : {"Wounded", "Unique", "Instrument"}, #Wounded: Gain 2 gold symphony
               "RubyCrown" : {"Jewelry", "Ruby"},
-              "RubyEarring" : {"EveryOtherTurn", "Jewerly", "Ruby"}, #Deal 1 damage eot
+              "RubyEarring" : {"EveryOtherTurn", "Jewelry", "Ruby"}, #Deal 1 damage eot
               "RubyRing" : {"BattleStart", "Jewelry", "Ring", "Ruby"}, #Gain 2 attack and take 3 damage
               "RustyRing" : {"BattleStart", "Ring"}, #Give the foe 1 acid
               "SaffronFeather" : {"TurnStart"}, #Convert 1 speed to 2 hp even if cannot heal? ye
@@ -2007,7 +2007,7 @@
           self.Regen = 0
           self.SecondTakeDamage = True
           self.SecondNonWeapon = 0
-          self.TakeDamageCount = 0
+          self.TakeDamageCount = 0 #Counts the number times you take damage in a turn
 
           self.SanguineMult = 1
           if "VampiresTooth" in self.Items:
@@ -5952,6 +5952,7 @@
 
       Player.Search("EndTurn", Foe)
       Player.SecondTakeDamage = True
+      Player.TakeDamageCount = 0
       #Also do other stuff like reduce freezecount activate turn end items
 
   def Death(Player): #Will prevent a player who drops to 0 or less hp to not heal
