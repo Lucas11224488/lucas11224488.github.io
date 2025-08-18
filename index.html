@@ -1164,7 +1164,7 @@
               "CrimsonFang" : {"BattleStart", "Sanguine"}, #If your hp is full, lose 5 hp and gain 2 strikes
               "DoubleExplosion" : {"SecondNonWeapon"}, #The 2nd time you deal nonweapon damage a turn, deal 3 damage.
               #Maybe can run the "TakeDamage" tag and then add a toggle if its the second trigger. Then reset toggle at end of turn.
-              "DoubleplatedVest" : {"SecondTakeDamage", "Unique"}, #2nd time you take damage each turn, gain 2 armor
+              "DoubleplatedVest" : {"ThirdTakeDamage", "Unique"}, #Every 3rd time you take damage, gain 2 armor.
               "EnergyDrain" : {"BattleStart", "Unique"}, # steal 5 foe's speed
               "ExplosivePowder" : {"BombBonus", "Unique"}, #All bomb items deal 1 more damage
               "ExplosiveSurprise" : {"Exposed", "Bomb"}, #Deal 6 damage
@@ -1514,9 +1514,11 @@
               "CrystalMirror": {"Set", "StatusGain"}, #Whenever you gain a status effect, give it to the foe too
               "DeadlyToxin" : {"Set", "GainPoison"}, #First time foe gains poison, give 2 acid
               "GraniteQuill" : {"Set"}, #Makes Regen give armor instead of hp
+              "HerosGlasses" : {"Set", "OnHit"}, #On Hit: Reduce cooldowns by 1, Hero Tome and Hero's Crossguard
               "HolyCrucifix" : {"Set"}, #Just changes base stats
               "IronstoneCrest" : {"Set", "TurnStart"}, #Steal 2 armor from foe
               "IronstoneFang" : {"Set", "FirstTurnOnHit"}, #Gain 3 armor on hit
+              "LiquidMetal" : {"Set", "BattleStart"}, #Give the foe 20 armor, Rusted Sword and Rusted Armor
               "MarbleAnvil" : {"Set", "BattleStart"}, #
               "MarshlightAria" : {"Set", "Exposed"}, #When exposed: Trigger symphony 3 times
               "SeafoodHotpot" : {"Set", "BattleStart"}, #Gain 2 armor per speed
@@ -1807,6 +1809,10 @@
         self.Items.append("ElderwoodMask") #Double all base attack, armor, speed
         self.Quality.append(0)
 
+    if "TomeOfTheHero" in self.Items and "HerosCrossguard" in self.Items:
+        self.Items.append("HerosGlasses") #Double all base attack, armor, speed
+        self.Quality.append(0)
+
     if "SwordOfTheHero" in self.Items and "BootsOfTheHero" in self.Items and "ShieldOfTheHero" in self.Items:
         self.Items.append("HerosReturn") #Base Stats
         self.Quality.append(0)
@@ -1841,6 +1847,14 @@
 
     if "IronTransfusion" in self.Items and "LifebloodArmor" in self.Items:
         self.Items.append("LifebloodTransfusion") #Restore 10 HP after battle. Kinda just not useful to include?
+        self.Quality.append(0)
+
+    if "VenomousFang" in self.Items and "CrimsonFang" in self.Items:
+        self.Items.append("IronstoneFang") #Just changes base stats
+        self.Quality.append(0)
+
+    if "RustySword" in self.Items and "RustedPlate" in self.Items:
+        self.Items.append("LiquidMetal")  #Give the foe 20 armor, Rusted Sword and Rusted Armor
         self.Quality.append(0)
 
     if "MarbleSword" in self.Items and "SerpentLyre" in self.Items:
@@ -1992,6 +2006,7 @@
           self.Regen = 0
           self.SecondTakeDamage = True
           self.SecondNonWeapon = 0
+          self.TakeDamageCount = 0
 
           self.SanguineMult = 1
           if "VampiresTooth" in self.Items:
@@ -2850,7 +2865,7 @@
         if Player.SecondNonWeapon == 2:
             DealDamage(3, Player, Foe)
 
-      if Name == "DoubleplatedVest":  #2nd time you take damage each turn, gain 2 armor
+      if Name == "DoubleplatedVest":  #Every 3rd time you take damage, gain 2 armor.
           ArmorGain(Player, Foe, 2)
 
       if Name == "EnergyDrain": #steal 5 of foe's speed
@@ -4546,6 +4561,9 @@
               Player.DeadlyToxin = False
               StatusInterp("Acid", Foe, Player, 5)
 
+      if Name == "HerosGlasses":  #On Hit: Reduce cooldowns by 1, Hero Tome and Hero's Crossguard
+          Player.Cooldown = Player.Cooldown + 1
+
       if Name == "IronstoneCrest":  #Steal 2 armor from foe
           if Foe.Armor > 0:
               ArmorGain(Player, Foe, min(2, Foe.Armor))
@@ -4553,6 +4571,9 @@
 
       if Name == "IronstoneFang":  #Gain 3 armor on hit
           ArmorGain(Player, Foe, 3)
+
+      if Name == "LiquidMetal":  #Give the foe 20 armor, Rusted Sword and Rusted Armor
+          ArmorGain(Foe, Player, 20)
 
       if Name == "MarbleAnvil":  #Exposed trigger at battle start
           if Player.ExposedTriggers > 0:
@@ -5630,6 +5651,9 @@
       if Player.SecondTakeDamage:
           Player.Search("SecondTakeDamage", Foe)
           Player.SecondTakeDamage = False
+      if Player.TakeDamageCount % 3 == 0 and Player.TakeDamageCount > 0:
+          Player.Search("ThirdTakeDamage", Foe)
+      Player.TakeDamageCount = Player.TakeDamageCount + 1
 
   def OnHit(Player, Foe):
       #document.getElementById("debugBox").innerText = str(Player.FirstTurn) + str(Foe.FirstTurn)
