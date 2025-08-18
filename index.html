@@ -692,6 +692,7 @@
         <option value="BoomStick">Boom Stick</option>
         <option value="BrittlebarkBow">Brittlebark Bow</option>
         <option value="BrittlebarkClub">Brittlebark Club</option>
+        <option value="BrokenWineglass">Broken Winebottle</option>
         <option value="BubblegloopStaff">Bubblegloop Staff</option>
         <option value="ChainmailSword">Chainmail Sword</option>
         <option value="ChampionsBlade">Champion's Blade</option>
@@ -1468,7 +1469,7 @@
               "SwordOfPride" : {"Weapon", "BattleStart"}, #If the foe has more attack, armor, or speed, take 3 damage
               "BeeStinger" : {"Weapon", "FirstTurnStrike", "Food"}, #Give the foe 4 poison, 3 acid, and 2 stun on hit
               "BlackbriarBow" : {"Weapon", "CantAttack", "TurnStart"}, #Turn Start gain thorns = to your attack
-              #"BrokenWineglass" : {"Weapon", "Wounded"}, #When wounded, on your next turn keep striking until the foe is wounded
+              "BrokenWineglass" : {"Weapon", "Wounded"}, #When wounded, on your next turn keep striking until the foe is wounded
               "CherryBlade" : {"Weapon", "BattleStart", "Exposed", "Food", "Bomb"}, #Deal 4 damage on batstart and exposed
               "DeathcapBow" : {"Weapon", "BattleStart", "TurnStart"}, #BS: Gain 3 Poison. TS: Gain 1 additional strike, if you are poisoned
               "HamBat" : {"Weapon", "BattleStart", "Food", "Wood"}, #Gain 2 additional strikes
@@ -1515,7 +1516,7 @@
               "CrystalMirror": {"Set", "StatusGain"}, #Whenever you gain a status effect, give it to the foe too
               "DeadlyToxin" : {"Set", "GainPoison"}, #First time foe gains poison, give 2 acid
               "GraniteQuill" : {"Set"}, #Makes Regen give armor instead of hp
-              "HerosGlasses" : {"Set", "OnHit"}, #On Hit: Reduce cooldowns by 1, Hero Tome and Hero's Crossguard
+              "HerosGlasses" : {"Set", "OnHit"}, #On Hit: Reduce countdowns by 1, Hero Tome and Hero's Crossguard
               "HolyCrucifix" : {"Set"}, #Just changes base stats
               "IronstoneCrest" : {"Set", "TurnStart"}, #Steal 2 armor from foe
               "IronstoneFang" : {"Set", "FirstTurnOnHit"}, #Gain 3 armor on hit
@@ -1951,7 +1952,6 @@
           # if "IronstoneBracelet" in self.Items:
           #     self.ArmorShielding = 1
 
-          
           self.FirstFoeStrikeMult = 1
           if "FrostbiteArmor" in self.Items:
               self.FirstFoeStrikeMult = 2
@@ -2062,12 +2062,14 @@
           if Count(self, "CantHeal") > 0:
             self.HealingDisabled = True
 
+          self.BrokenWineglass = False
           self.GoldGain = True
           if "ScepterOfGreed" in self.Items:
               self.GoldGain = False
           self.Alive = True
           #self.RHeal = 0 Prob not using
           self.StunHead = True
+          
       #I need freezemult damage reduction to occur then the -tempattack from the ironstone armor/ironstone bracelet
       #That is search weapons (Blacksmithing is added after the base effects) then items.
       #Hit damage, on hit, blacksmith edge, foes reaction to being hit (thorns from foe, brittlebark armor etc.)
@@ -2100,6 +2102,8 @@
               for i in range(0, SC): #Check if death occurs before each strike/after?
                   self.TempAttack = 0
                   Foe.StrikeReduction = 0
+                  if self.FirstTurnStrike == True:
+                      self.Search("FirstTurnStrike", Foe)
                   self.StrikeCounter = self.StrikeCounter + 1
                   PreStrikeAttackBonus(self, Foe)
                   PreStrikeL(self, Foe) #Need to set self.TempAttack = 0 since these weapons set attack not gain?
@@ -2107,6 +2111,9 @@
                   if np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult > 0:   #Might need to go in the above for loop????
                       TakeDamage(Foe, self) #TakeDamage check for items
                   self.StrikeMult = 1
+                  if self.FirstStrike:
+                    Foe.Search("AfterFoeFirstStrike", self) #Unsure what Phase this is. 
+                    self.FirstStrike = False
                   self.ThornsDamage(Foe) #Adds thorns activation
                   self.AliveCheck(Foe)
                   Death(Foe)
@@ -2114,6 +2121,8 @@
                   Foe.FirstFoeStrikeMult = 1
                   self.TempAttack = 0
                   Foe.StrikeReduction = 0
+                  if self.BrokenWineglass == True:
+                    SC = min(SC + 1, 25)
               self.StrikesCount = self.BaseStrikesCount
               self.CheckThornsLose(Foe)
 
@@ -2148,6 +2157,9 @@
               Foe.FirstFoeStrikeMult = 1
               Foe.StrikeReduction = 0
               self.TempAttack = 0
+              if self.BrokenWineglass == True:
+                SC = min(SC + 1, 25)
+                
           self.StrikesCount = self.BaseStrikesCount
           
 
@@ -2226,6 +2238,8 @@
                   P.MultiSearch("Wounded", Foe, "Wounded") #It might activate all the faster persons items first instead of a slot by slot check
               else:
                   P.Search("Wounded", Foe)
+              if Foe.BrokenWineglass == True:
+                  Foe.BrokenWineglass = False
 
       def Exposed(self, Foe):
           P = self
@@ -4402,6 +4416,10 @@
 
       if Name == "BlackbriarBow":  #Turn Start gain thorns = to your attack
           StatusInterp("Thorns", Player, Foe, Player.Attack)
+
+      if Name == "BrokenWineglass": #When wounded, on your next turn keep striking until the foe is wounded
+          if Phase == "Wounded":
+            Player.BrokenWineglass = True
 
       if Name == "CherryBlade":  #Deal 4 damage on batstart and exposed
           Amount = 1
