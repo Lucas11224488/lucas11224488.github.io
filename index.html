@@ -4002,13 +4002,14 @@
             StatusInterp("Riptide", Foe, Player, 1)
 
       if Name == "BloodRune": #Wounded: Retriggers the last triggered wounded item.
-          for xx in range(0, max(len(Player.Items))):
+          Check = True
+          for xx in range(0, len(Player.Items)):
             if Player.Items[xx] == "BloodRune":
                 Index = xx
-                break
           #Index = Player.Items.index("BloodRune")
-          for nn in range(Index - 1, -1, -1):
-            if "Wounded" in ItemTags[Player.Items[nn]]:
+          for nn in range(int(Index) - 1, -1, -1):
+            if "Wounded" in ItemTags[Player.Items[nn]] and Check:
+              Check = False
               [Player, Foe] = ItemsEffect("Wounded", Player.Quality[nn], Player.Items[nn], Player, Foe)
 
       if Name == "EchoRune":  #Wounded: Retrigger a random batstart item
