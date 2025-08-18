@@ -311,6 +311,7 @@
             <option value="BlastcapArmor">Blastcap Armor</option>
             <option value="BloodChain">Blood Chain</option>
             <option value="BloodOrange">Blood Orange</option>
+            <option value="BloodRune">Blood Rune</option>
             <option value="BloodSausage">Blood Sausage</option>
             <option value="BloodmoonArmor">Bloodmoon Armor</option>
             <option value="BloodstoneRing">Bloodstone Ring</option>
@@ -1368,7 +1369,7 @@
               "UnderwaterWatermelon" : {"BattleStart", "Exposed", "Wounded", "Food"}, #Decrease 1 random status effect and give foe 1 riptide
           
               
-              #"BloodRune" : {"Wounded", "Unique"}, #Wounded: Retriggers the last triggered wounded item.
+              "BloodRune" : {"Wounded", "Unique"}, #Wounded: Retriggers the last triggered wounded item.
               "EchoRune" : {"Wounded", "Unique"}, #Wounded: Retrigger a random batstart item
               "IronRune" : {"Unique"}, #If you have 1 exposed item, it triggers thrice
               "BeltOfGluttony" : {"Unique"}, #Just Stats*
@@ -1797,9 +1798,9 @@
         self.Items.append("ChampionsGreaves") #Just Stats
         self.Quality.append(0)
 
-    if "MarbleMirror" in self.Items and "SinfulMirror" in self.Items:
-        self.Items.append("CrystalMirror") #Whenever you gain a status effect, give it to the foe
-        self.Quality.append(0)
+    #if "MarbleMirror" in self.Items and "SinfulMirror" in self.Items:
+        #self.Items.append("CrystalMirror") #Whenever you gain a status effect, give it to the foe
+        #self.Quality.append(0)
 
     if "NervePotion" in self.Items and "ViperExtract" in self.Items:
         self.Items.append("DeadlyToxin") #The first time the foe gains poison, give 2 acid
@@ -2062,7 +2063,7 @@
             self.HealingDisabled = True
 
           self.GoldGain = True
-          if "ScepterOfGreed" in Player.Items:
+          if "ScepterOfGreed" in self.Items:
               self.GoldGain = False
           self.Alive = True
           #self.RHeal = 0 Prob not using
@@ -2251,10 +2252,7 @@
             for slot in range(0, len(P.Items)):
                 # Check if any tag in Tag is in the item's tags
                 if any(t in ItemTags[P.Items[slot]] for t in Tag):
-                    [P, Foe] = ItemsEffect(Tag[0], self.Quality[slot], self.Items[slot], P, Foe)
-            #for slot in range(0, len(P.Items)): #max(len(P.Items), len(Foe.Items))):
-                #if Tag in ItemTags[P.Items[slot]]:
-                    #[P, Foe] = ItemsEffect(Tag, self.Quality[slot], self.Items[slot], P, Foe)
+                    [P, Foe] = ItemsEffect(Tag[0], self.Quality[slot], self.Items[slot], P, Foe) #Tag[0] is incorrect, trying t?
 
       def RandomSearch(self, Tag, Foe):
           if self.Alive and Foe.Alive:
@@ -4002,6 +4000,16 @@
           for nn in range(0, Amount):
             [Status, Stacks] = Player.RandomStatus(Foe, -1, True)
             StatusInterp("Riptide", Foe, Player, 1)
+
+      if Name == "BloodRune": #Wounded: Retriggers the last triggered wounded item.
+          for xx in range(0, max(len(Player.Items))):
+            if Player.Items[xx] == "BloodRune":
+                Index = xx
+                break
+          #Index = Player.Items.index("BloodRune")
+          for nn in range(Index - 1, -1, -1):
+            if "Wounded" in ItemTags[Player.Items[nn]]:
+              [Player, Foe] = ItemsEffect("Wounded", Player.Quality[nn], Player.Items[nn], Player, Foe)
 
       if Name == "EchoRune":  #Wounded: Retrigger a random batstart item
           Player.RandomSearch("BattleStart", Foe)
