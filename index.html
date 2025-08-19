@@ -6031,6 +6031,18 @@
     #[10; 10; 3; 0; 4; SwordOfTheHero, CuttingEdge, ; 0; 0]
     #[1; 1; 1; 0; 0; BluntEdge, HornedHelmet, HornedHelmet, HornedHelmet, VampiricWine; 0; 0]
 
+  def WriteLog(Player, Foe, Turn):
+      LogBox = document.getElementById("Log")
+      LogBox.append("Turn: ", Turn + 1)
+      LogBox.innerHTML += "<br><br>"
+      LogBox.append("Player's HP: ", Player.CurrentHP, "/", Player.MaxHP, " Attack: ", Player.Attack, " Armor: ", Player.Armor, " Speed: ", Player.Speed, " Gold: ", Player.Gold)
+      LogBox.innerHTML += "<br>"
+      LogBox.append(" Thorns: ", Player.Thorns, " Freeze: ", Player.Freeze, " Regen: ", Player.Regen, " Poison: ", Player.Poison, " Stun: ", Player.Stun, " Riptide: ", Player.Riptide, " Acid: ", Player.Acid, " Purity: ", Player.Purity)
+      LogBox.innerHTML += "<br><br>"
+      LogBox.append("Foe's HP:  ", Foe.CurrentHP, "/", Foe.MaxHP, " Attack: ", Foe.Attack,  " Armor: ", Foe.Armor, " Speed: ", Foe.Speed, " Gold: ", Foe.Gold)
+      LogBox.innerHTML += "<br>"
+      LogBox.append(" Thorns: ", Foe.Thorns, " Freeze: ", Foe.Freeze, " Regen: ", Foe.Regen, " Poison: ", Foe.Poison, " Stun: ", Foe.Stun, " Riptide: ", Foe.Riptide, " Acid: ", Foe.Acid, " Purity: ", Foe.Purity)
+      LogBox.innerHTML += "<br><br>"
 
 def MainFight(Left, Right, EnemyType):
       if max(Left[4], Right[4]) == Left[4]:
@@ -6077,6 +6089,8 @@ def MainFight(Left, Right, EnemyType):
 
             #PostTurn Stuff for firstturn
             EndTurn(P1, P2, turn)
+            if document.getElementById("LogView").checked and turn < 50:
+                WriteLog(P1, P2, turn)
 
             if checkLife(P1, P2, Players) == 1:
                     break
@@ -6093,6 +6107,8 @@ def MainFight(Left, Right, EnemyType):
 
             #PostTurn Stuff for firstturn
             EndTurn(P2, P1, turn)
+            if document.getElementById("LogView").checked and turn < 50:
+                WriteLog(P1, P2, turn)
 
             if checkLife(P1, P2, Players) == 1:
                     break
@@ -6132,6 +6148,7 @@ def MainFight(Left, Right, EnemyType):
       #return Result
 
 def saveSelections(event):
+    document.getElementById("Log").innerText = ""
     try:
         Level = int(document.getElementById("WeekCount").value)
     except ValueError:
@@ -6309,19 +6326,35 @@ def saveSelections(event):
     window.onload = function() {
       const button = document.getElementById('RunFight');
       const checkbox = document.querySelectorAll('input[type="checkbox"]'); 
+      const LogView = document.getElementById('ExtraLogBox'); 
       setTimeout(() => {
         button.style.display = 'block';
+        LogView.style.display = "block";
         checkbox.forEach(cb => cb.style.visibility = 'visible');
       }, 3000);
     };
   </script>
 <div class="left-column" style="padding: 10%; padding-top: 0px; padding-bottom: 0px;">
-<fieldset style="font-size: large; margin-bottom: 10px; padding-top: 10px;">
+<fieldset style="font-size: large; margin-bottom: 10px; margin-left:0px; padding-top: 10px;">
 <div id="resultDisplay">Waiting On A Submission<br>(Don't Forget To Select The Week)</div>
 <!-- <div id="debugBox">You shouldn't see this message</div> -->
 </fieldset>
 <button id="RunFight" py-click="saveSelections" type ="button">Submit</button>
+
+<fieldset id="ExtraLogBox" style="font-size:large; margin-top:10px; margin-left:0px; padding-top:10px;display:none;">
+    <label for="LogView">Log?</label>
+    <input type="checkbox" id="LogView" name="LogView" value="1">
+    <br>
+    <fieldset name="Log" id="Log" style="font-size:small;margin-top:10px;display:none;border:none;"> Logs take up to a minute to write and is limited to 50 turns</fieldset>
+</fieldset>
 </div>
+
+<script>
+    const LogView = document.getElementById("LogView")
+    LogView.addEventListener("change", () => {
+        document.getElementById("Log").style.display = LogView.checked ? "initial" : "none";
+    })
+</script>
 
 <button id="UpdateStatsLeft" py-click="LeftStatCheck" style="display:none;">Update Stats</button>
 
