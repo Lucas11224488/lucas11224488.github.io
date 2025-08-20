@@ -2392,7 +2392,6 @@
           Player.AliveCheck(Foe)
           Death(Foe)
           #Player.TempBombBonus = 0
-          Player.BombMult = 1
           HP1Check(Foe, Player)
           if Foe.Armor > 0:
               Foe.DeltaArmor = max(min(Foe.Armor, Damagevalue), 0)
@@ -5869,14 +5868,16 @@
           DealDamage(Player.BombMult*(Damage + Player.BombBonus + Player.TempBombBonus), Player, Foe)
           if Player.BombMult*(Damage + Player.BombBonus + Player.TempBombBonus) >= 5:
               Player.Search("BombDamage5", Foe)
+      Player.BombMult = 1
       Player.TempBombBonus = 0
 
   def SelfBombDamage(Damage, Player, Foe):
       #Add check to see if you do more damage/Retrigger
-      for nn in range(0, Player.BombTrigger):
+      for nn in range(0, Player.BombTrigger): #Need to check bombmult here not in the bomb
           DealDamage(Player.BombMult*(Damage + Player.BombBonus + Player.TempBombBonus), Foe, Player)
           if Player.BombMult*(Damage + Player.BombBonus + Player.TempBombBonus) >= 5:
               Player.Search("BombDamage5", Foe)
+      Player.BombMult = 1
       Player.TempBombBonus = 0
 
   def GainFreeze(Player, Foe, FreezeCount):
