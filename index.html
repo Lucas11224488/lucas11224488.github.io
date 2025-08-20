@@ -6089,8 +6089,11 @@ def MainFight(Left, Right, EnemyType):
 
             #PostTurn Stuff for firstturn
             EndTurn(P1, P2, turn)
-            if document.getElementById("LogView").checked and turn < 50:
+            if document.getElementById("LogView").checked and turn < 50 and Players[0] == "Left":
                 WriteLog(P1, P2, turn)
+            elif document.getElementById("LogView").checked and turn < 50:
+                WriteLog(P2, P1, turn)
+
 
             if checkLife(P1, P2, Players) == 1:
                     break
@@ -6107,8 +6110,10 @@ def MainFight(Left, Right, EnemyType):
 
             #PostTurn Stuff for firstturn
             EndTurn(P2, P1, turn)
-            if document.getElementById("LogView").checked and turn < 50:
+            if document.getElementById("LogView").checked and turn < 50 and Players[0] == "Left":
                 WriteLog(P1, P2, turn)
+            elif document.getElementById("LogView").checked and turn < 50:
+                WriteLog(P2, P1, turn)
 
             if checkLife(P1, P2, Players) == 1:
                     break
