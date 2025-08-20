@@ -5952,10 +5952,6 @@
               StatusInterp("Regen", Player, Foe, -1)
               #GainRegen(Player, Foe, -1)
 
-      if Player.Stun > 0:
-          StatusInterp("Stun", Player, Foe, -1)
-          #Stun(-1, Foe, Player)
-
       if Player.Riptide > 0:
           if Player.FirstRiptide:
               Player.Search("FirstRiptide", Foe)
@@ -6087,6 +6083,8 @@ def MainFight(Left, Right, EnemyType):
                 P2 = P1.Strike(P2) #Strike
                 if checkLife(P1, P2, Players) == 1:
                     break
+            elif P1.Stun > 0:
+                StatusInterp("Stun", P1, P2, -1)
 
             #PostTurn Stuff for firstturn
             EndTurn(P1, P2, turn)
@@ -6108,6 +6106,8 @@ def MainFight(Left, Right, EnemyType):
                 P1 = P2.Strike(P1) #Strike
                 if checkLife(P1, P2, Players) == 1:
                     break
+            elif P2.Stun > 0:
+                StatusInterp("Stun", P2, P1, -1)
 
             #PostTurn Stuff for firstturn
             EndTurn(P2, P1, turn)
