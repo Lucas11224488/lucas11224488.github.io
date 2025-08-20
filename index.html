@@ -6029,9 +6029,9 @@
     #[10; 10; 3; 0; 4; SwordOfTheHero, CuttingEdge, ; 0; 0]
     #[1; 1; 1; 0; 0; BluntEdge, HornedHelmet, HornedHelmet, HornedHelmet, VampiricWine; 0; 0]
 
-  def WriteLog(Player, Foe, Turn):
+  def WriteLog(Player, Foe, Turn, Side):
       LogBox = document.getElementById("Log")
-      LogBox.append("Turn: ", Turn + 1)
+      LogBox.append(Side, "'s Turn: ", Turn + 1)
       LogBox.innerHTML += "<br><br>"
       LogBox.append("Player's HP: ", Player.CurrentHP, "/", Player.MaxHP, " Attack: ", Player.Attack, " Armor: ", Player.Armor, " Speed: ", Player.Speed, " Gold: ", Player.Gold)
       LogBox.innerHTML += "<br>"
@@ -6090,9 +6090,9 @@ def MainFight(Left, Right, EnemyType):
             #PostTurn Stuff for firstturn
             EndTurn(P1, P2, turn)
             if document.getElementById("LogView").checked and turn < 50 and Players[0] == "Left":
-                WriteLog(P1, P2, turn)
+                WriteLog(P1, P2, turn, "Player")
             elif document.getElementById("LogView").checked and turn < 50:
-                WriteLog(P2, P1, turn)
+                WriteLog(P2, P1, turn, "Foe")
 
 
             if checkLife(P1, P2, Players) == 1:
@@ -6113,9 +6113,9 @@ def MainFight(Left, Right, EnemyType):
             #PostTurn Stuff for firstturn
             EndTurn(P2, P1, turn)
             if document.getElementById("LogView").checked and turn < 50 and Players[0] == "Left":
-                WriteLog(P1, P2, turn)
+                WriteLog(P1, P2, turn, "Foe")
             elif document.getElementById("LogView").checked and turn < 50:
-                WriteLog(P2, P1, turn)
+                WriteLog(P2, P1, turn, "Player")
 
             if checkLife(P1, P2, Players) == 1:
                     break
