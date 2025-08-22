@@ -1491,7 +1491,7 @@
               "JaggedEdge" : {"Edge", "OnHit"}, #Gain 2 thorns and take 1 self damage
               "OakenEdge" : {"Edge", "BattleStart"}, #Gain 3 regen
               "OozingEdge" : {"Edge", "OnHit"}, #If foe poison = 0, give 2 poison
-              "PetrifiedEdge" : {"Edge", "OnHit"}, #Double your attack, OH: gain 1 stun
+              "PetrifiedEdge" : {"Edge", "OnHit", "PreStrike"}, #Double your attack, OH: gain 1 stun
               "PlatedEdge" : {"Edge", "OnHit"}, #Convert 1 speed to 3 armor
               "RazorEdge" : {"Edge", "BattleStart"}, #Gain 1 attack
               "SmokingEdge" : {"Edge", "OnHit"}, #Give 1 powder to foe
@@ -1966,8 +1966,8 @@
           self.StrikeReduction = 0
           self.ThornsTriggers = 0
           self.StrikeMult = 1
-          if "PetrifiedEdge" in self.Items:
-              self.StrikeMult = 2
+          #if "PetrifiedEdge" in self.Items:
+              #self.StrikeMult = 2
 
           self.OnHitTrigger = 1 + Count(self, "OnHitTrigger")
           self.OnHitTriggerFT = Count(self, "OnHitTriggerFT")
@@ -2107,8 +2107,8 @@
                   if self.FirstTurnStrike == True:
                       self.Search("FirstTurnStrike", Foe)
                   self.StrikeCounter = self.StrikeCounter + 1
-                  PreStrikeAttackBonus(self, Foe)
-                  PreStrikeL(self, Foe) #Need to set self.TempAttack = 0 since these weapons set attack not gain?
+                  #PreStrikeAttackBonus(self, Foe)
+                  #PreStrikeL(self, Foe) #Need to set self.TempAttack = 0 since these weapons set attack not gain?
                   self.StrikeCalcIgnoreArmor(Foe) #Might need to add multistrikes here
                   if np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult > 0:   #Might need to go in the above for loop????
                       TakeDamage(Foe, self) #TakeDamage check for items
@@ -2143,8 +2143,8 @@
               if self.FirstTurnStrike == True:
                   self.Search("FirstTurnStrike", Foe)
               self.StrikeCounter = self.StrikeCounter + 1
-              PreStrikeAttackBonus(self, Foe)
-              PreStrikeL(self, Foe) #Need to set self.TempAttack = 0 since these weapons set attack not gain?
+              #PreStrikeAttackBonus(self, Foe)
+              #PreStrikeL(self, Foe) #Need to set self.TempAttack = 0 since these weapons set attack not gain?
               self.StrikeCalc(Foe) #Might need to add multistrikes here
               if np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult > 0:   #Might need to go in the above for loop????
                   TakeDamage(Foe, self) #TakeDamage check for items
@@ -2167,21 +2167,22 @@
 
       def StrikeCalc(self, Foe):
           if self.Alive and Foe.Alive: #Might be just Foe.Alive in game?
-            self.FreezeMult = 1
-            if self.Freeze > 0:
-                self.FreezeMult = self.BaseFreezeMult
-            StrikeMult(self, Foe)
-            if np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult > 0:
-                Foe.DamageFromFoeStrike = np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult
+            #self.FreezeMult = 1
+            #if self.Freeze > 0:
+            #    self.FreezeMult = self.BaseFreezeMult
+            #StrikeMult(self, Foe)
+            AttackStat = self.AttackStatCalc(Foe)
+            if np.floor(AttackStat - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult > 0:
+                Foe.DamageFromFoeStrike = np.floor(AttackStat - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult
                 if self.FirstTurnPostStrike == True:
                   self.Search("FirstTurnPostStrike", Foe)
-                Foe.HPloseFromFoeStrike = max(0, np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult- Foe.Armor)
-                Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult)
+                Foe.HPloseFromFoeStrike = max(0, np.floor(AttackStat - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult- Foe.Armor)
+                Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP + Foe.Armor - np.floor(AttackStat - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult)
                 HP1Check(Foe, self)
-                Foe.DeltaArmor = min(Foe.Armor, np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult)
+                Foe.DeltaArmor = min(Foe.Armor, np.floor(AttackStat - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult)
                 ArmorLose(Foe, self)
                 Foe.DeltaArmor = 0
-                Foe.Armor = max(0, Foe.Armor - np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult)
+                Foe.Armor = max(0, Foe.Armor - np.floor(AttackStat - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult)
                 Foe.StrikeReduction = 0
 
             #Might need to go into the strike function in its own seperate for loop??????????
@@ -2189,21 +2190,32 @@
         
       def StrikeCalcIgnoreArmor(self, Foe):
           if self.Alive and Foe.Alive:
-            self.FreezeMult = 1
-            if self.Freeze > 0:
-                self.FreezeMult = self.BaseFreezeMult
-            StrikeMult(self, Foe)
-            if np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult > 0:
-                Foe.DamageFromFoeStrike = np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult
+            #self.FreezeMult = 1
+            #if self.Freeze > 0:
+            #    self.FreezeMult = self.BaseFreezeMult
+            #StrikeMult(self, Foe)
+            AttackStat = self.AttackStatCalc(Foe)
+            if np.floor(AttackStat - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult > 0:
+                Foe.DamageFromFoeStrike = np.floor(AttackStat- Foe.StrikeReduction)*Foe.FirstFoeStrikeMult
                 if self.FirstTurnPostStrike == True:
                   self.Search("FirstTurnPostStrike", Foe)
-                Foe.HPloseFromFoeStrike = max(0, np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult) #Idk why its -Foe.Armor here?
-                Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP - np.floor(((self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult) - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult)
+                Foe.HPloseFromFoeStrike = max(0, np.floor(AttackStat - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult) #Idk why its -Foe.Armor here?
+                Foe.CurrentHP = min(Foe.CurrentHP, Foe.CurrentHP - np.floor(AttackStat - Foe.StrikeReduction)*Foe.FirstFoeStrikeMult)
                 Foe.StrikeReduction = 0
                 HP1Check(Foe, self)
             #Might need to go into the strike function in its own seperate for loop??????????
             OnHit(self, Foe) #Checks for On hit effects including weapons and blacksmithed and include dealdamage
         
+
+      def AttackStatCalc(self, Foe):
+            self.FreezeMult = 1
+            if self.Freeze > 0:
+                self.FreezeMult = self.BaseFreezeMult
+            StrikeMult(self, Foe)
+            PreStrikeAttackBonus(self, Foe)
+            PreStrikeL(self, Foe)
+            AttackStat = (self.StrikeMult*(self.Attack + self.TempAttack))*self.FreezeMult
+            return AttackStat
 
       def ThornsDamage(self, Foe):
           if Foe.Thorns > 0:
@@ -4164,7 +4176,7 @@
           Player.Attack = Player.Attack + 2*c #Maybe this should be a base stats thing
 
       if Name == "BlackbriarBlade":  #Gain 2 attack per thorn you have
-          Player.TempAttack = Player.TempAttack + 2*Player.Thorns
+          Player.TempAttack = Player.TempAttack #+ 2*Player.Thorns
 
       if Name == "BloodmoonDagger": # Gain 5 attack and take 2 self damage
           Player.Attack = Player.Attack + 5
@@ -4191,13 +4203,16 @@
       #     #     Foe.Powder = max(0, Foe.Powder - 1)
 
       if Name == "FrostbiteDagger": #Give the foe freeze = your attack on hit
-          Player.FreezeMult = 1
-          if Player.Freeze > 0:
-              Player.FreezeMult = 0.5
-          StrikeMult(Player, Foe)
-          if np.floor((Player.StrikeMult*(Player.Attack + Player.TempAttack))*Player.FreezeMult) > 0:
-              StatusInterp("Freeze", Foe, Player, np.floor((Player.StrikeMult*(Player.Attack + Player.TempAttack))*Player.FreezeMult))
+          #Player.FreezeMult = 1
+          #if Player.Freeze > 0:
+          #    Player.FreezeMult = 0.5
+          #StrikeMult(Player, Foe)
+          #if np.floor((Player.StrikeMult*(Player.Attack + Player.TempAttack))*Player.FreezeMult) > 0:
+              #StatusInterp("Freeze", Foe, Player, np.floor((Player.StrikeMult*(Player.Attack + Player.TempAttack))*Player.FreezeMult))
               #Freeze(np.floor((Player.StrikeMult*(Player.Attack + Player.TempAttack))*FreezeMult), Player, Foe)
+          AttackStat = Player.AttackStatCalc(Foe)
+          if AttackStat > 0:
+            StatusInterp("Freeze", Foe, Player, AttackStat)
           Player.StrikeMult = 1
 
       if Name == "GraniteAxe":  #Lose 3 hp and gain 3 armor
@@ -4416,7 +4431,9 @@
           StatusInterp("Stun", Foe, Player, 2)
 
       if Name == "BlackbriarBow":  #Turn Start gain thorns = to your attack
-          StatusInterp("Thorns", Player, Foe, Player.Attack)
+          AttackStat = Player.AttackStatCalc(Foe)
+          StatusInterp("Thorns", Player, Foe, AttackStat)
+          Player.StrikeMult = 1
 
       if Name == "BrokenWineglass": #When wounded, on your next turn keep striking until the foe is wounded
           if Phase == "Wounded":
@@ -4506,8 +4523,11 @@
               #GainPoison(Foe, Player, 2)
 
       if Name == "PetrifiedEdge":  #Double your attack, OH: gain 1 stun
-          StatusInterp("Stun", Player, Foe, 1)
+          if Phase == "OnHit":
+            StatusInterp("Stun", Player, Foe, 1)
           #Stun(1, Foe, Player)
+          if Phase == "PreStrike":
+            Player.StrikeMult = Player.StrikeMult*2
 
       if Name == "PlatedEdge":  #Convert 1 speed to 3 armor
           if Player.Speed > 0:
@@ -5704,8 +5724,10 @@
 
   def GainThorns(Player, Foe, Value):
       if Value > 0:
-          if "SpikyClub" in Player.Items or "BlackbriarBlade" in Player.Items:
+          if "SpikyClub" in Player.Items: #or "BlackbriarBlade" in Player.Items:
               Player.Attack = Player.Attack + Value
+          elif "BlackbriarBlade" in Player.Items:
+              Player.Attack = Player.Attack + 1
           else:
               Player.Thorns = Player.Thorns + Value
               Player.Search("GainThorns", Foe)
