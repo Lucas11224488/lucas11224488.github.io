@@ -48,6 +48,14 @@
         width: 50px;
       }
 
+      textarea {
+        background: #25131A;
+        color: #daece5;
+        border-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAApCAYAAACoYAD2AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAC6SURBVFhH7dixDYMwEIVhzAp06SMm8BSZlykyAfR07EAUyy58ukNCejnH0vsrg5D4kE1z4Tk9zmV9D7LXHPPKL8sRtmM/y0WpPOwJ1d5Z7iWkhtG+6tdZjjGvUy1gWtJRIT239yrp6ONM9vB3p+2WoBbAb5ajOpP/GpGoiERFJCoiURGJikhURKIiEhWRqIhERSQqIlH1g5QzGG0m45Hl4KT3bpajOpMtYFrSUSE9t/cq6eCk9266Iw4fJe50ORS4PgAAAAAASUVORK5CYII=") 6;
+        border-width: 6px;
+        font-size: normal;
+      }
+
     label {
       color: #daece5;
       font-size: large;
@@ -6357,18 +6365,227 @@ def saveSelections(event):
       const button = document.getElementById('RunFight');
       const checkbox = document.querySelectorAll('input[type="checkbox"]'); 
       const LogView = document.getElementById('ExtraLogBox'); 
+      const ImportBox = document.getElementById('ImportBox'); 
       setTimeout(() => {
         button.style.display = 'block';
         LogView.style.display = "block";
+        ImportBox.style.display = "block";
         checkbox.forEach(cb => cb.style.visibility = 'visible');
       }, 3000);
     };
   </script>
+
+
+
+
+
 <div class="left-column" style="padding: 10%; padding-top: 0px; padding-bottom: 0px;">
+
+<label for="ImportExportView">Import/Export?</label>
+<input type="checkbox" id="ImportExportView" name="ImportExportView" value="1">
+<br>
+<div id="ImportExport" style="display:none">
+<button id="ImportLeft" type ="button" style="font-size:10px;height:30px;width:60px;" onclick="LeftImport()">Import</button>
+<button id="ExportLeft" type ="button" style="font-size:10px;height:30px;width:60px;">Export</button>
+
+<button id="ExportRight" type ="button" style="font-size:10px;height:30px;width:60px;float:right;">Export</button>
+<button id="ImportRight" type ="button" style="font-size:10px;height:30px;width:60px;float:right;margin-right:5px" onclick="RightImport()">Import</button>
+
+<textarea style="height:100px;margin-bottom:10px;margin-top:10px;min-height:100px;min-width:stretch;max-width:stretch;" id="ImportBox"></textarea>
+</div>
+
+<script>
+    const ImportExportView = document.getElementById("ImportExportView")
+    ImportExportView.addEventListener("change", () => {
+        document.getElementById("ImportExport").style.display = ImportExportView.checked ? "initial" : "none";
+    })
+</script>
+
+<script>
+    const LeftExport = document.getElementById("ExportLeft")
+    LeftExport.addEventListener("click", () => {
+      const count = parseInt(countSelector.value);
+      const ImportBox = document.getElementById("ImportBox")
+      ImportBox.value = ""
+      ImportBox.value += "Stats: " + document.getElementById("LeftCurrentHP").value + " CurrentHP / "
+      ImportBox.value += document.getElementById("LeftMaxHP").value + " MaxHP / "
+      ImportBox.value += document.getElementById("LeftAttack").value + " Attack / "
+      ImportBox.value += document.getElementById("LeftArmor").value + " Armor / "
+      ImportBox.value += document.getElementById("LeftSpeed").value + " Speed / "
+      ImportBox.value += document.getElementById("LeftGold").value + " Gold\n"
+      ImportBox.value += "Oils: " 
+      ImportBox.value += document.getElementById("LeftAttackOil").checked ? " Attack / " : "/ "
+      ImportBox.value += document.getElementById("LeftArmorOil").checked ? "Armor / " : "/ "
+      ImportBox.value += document.getElementById("LeftSpeedOil").checked ? "Speed" : ""
+
+      ImportBox.value += "\nWeapon: " + document.getElementById("LeftWeapons").value
+      ImportBox.value +="\n" + document.getElementById("LeftEdges").value
+      ImportBox.value +="\nSlots: " + count
+
+      for (let i = 0; i < count; i++) {
+            ImportBox.value += "\n- " + document.getElementById(`itemslots_${i}`).value
+            ImportBox.value += " " + document.getElementById(`quality_${i}`).value
+          }
+    });
+    
+    const RightExport = document.getElementById("ExportRight")
+    RightExport.addEventListener("click", () => {
+      const count = parseInt(countSelector.value);
+      const ImportBox = document.getElementById("ImportBox")
+      ImportBox.value = ""
+      ImportBox.value += "Stats: " + document.getElementById("RightCurrentHP").value + " CurrentHP / "
+      ImportBox.value += document.getElementById("RightMaxHP").value + " MaxHP / "
+      ImportBox.value += document.getElementById("RightAttack").value + " Attack / "
+      ImportBox.value += document.getElementById("RightArmor").value + " Armor / "
+      ImportBox.value += document.getElementById("RightSpeed").value + " Speed / "
+      ImportBox.value += document.getElementById("RightGold").value + " Gold\n"
+      ImportBox.value += "Oils: " 
+      ImportBox.value += document.getElementById("RightAttackOil").checked ? " Attack / " : "/ "
+      ImportBox.value += document.getElementById("RightArmorOil").checked ? "Armor / " : "/ "
+      ImportBox.value += document.getElementById("RightSpeedOil").checked ? "Speed" : ""
+
+      ImportBox.value += "\nWeapon: " + document.getElementById("WeaponsRight").value
+      ImportBox.value +="\n" + document.getElementById("RightEdges").value
+      ImportBox.value +="\nSlots: " + count
+
+      for (let i = 0; i < count; i++) {
+            ImportBox.value += "\n- " + document.getElementById(`itemslotRight_${i}`).value
+            ImportBox.value += " " + document.getElementById(`qualityRight_${i}`).value
+          }
+    });
+
+    function LeftImport() {
+        const ImportBox = document.getElementById("ImportBox");
+        const ImportBoxText = document.getElementById("ImportBox").value;
+        const Stats = ImportBoxText.match(/Stat(s*):([^\n]+)/i)
+        const Oils = ImportBoxText.match(/Oil(s*):([^\n]+)/i)
+        const Weapon = ImportBoxText.match(/Weapon(s*):\s*([a-zA-Z]*)/i)
+        const ItemSlots = ImportBoxText.match(/Slot(s*):\s*(\d*)/i)
+        const Edge = ImportBoxText.match(/(\w+)Edge/i)
+        const Items = [...ImportBoxText.matchAll(/-\s*([a-zA-Z]*)\s*(\d*)/gi)];
+        // ImportBox.value += Items[0][1] + Items[1][1] + "\n" + ItemSlots[2]
+
+        try {if (ItemSlots[2]) {const X = Math.min(parseInt(ItemSlots[2]), 12)
+            document.getElementById("WeekCount").value = String(X)
+        }}catch (e) {}
+
+        try {if (Weapon[2]) {document.getElementById("LeftWeapons").value = Weapon[2]}}catch (e) {}
+        try {if (Edge[0]) {document.getElementById("LeftEdges").value = Edge[0]}}catch (e) {}
+
+        try{for(let i = 0; i < document.getElementById("WeekCount").value; i++) {
+            try { 
+                const Item = Items[i][1]
+                try {if (Item) {document.getElementById(`itemslots_${i}`).value = Item}
+                    else{document.getElementById(`itemslots_${i}`).value =""}}catch (e) {}
+                const Quality = Items[i][2]
+                try {if (Quality) {document.getElementById(`quality_${i}`).value = Quality}}catch (e) {} 
+            }catch (e) {}}}catch (e) {}
+
+        try{
+        const AttackOil = Oils[0].match(/Attack/i);
+        const ArmorOil = Oils[0].match(/Armor/i);
+        const SpeedOil = Oils[0].match(/Speed/i);
+        try {if (AttackOil) {document.getElementById("LeftAttackOil").checked = true;} else {document.getElementById("LeftAttackOil").checked = false;}}catch (e) {}
+        try {if (ArmorOil) {document.getElementById("LeftArmorOil").checked = true;} else {document.getElementById("LeftArmorOil").checked = false;}}catch (e) {}
+        try {if (SpeedOil) {document.getElementById("LeftSpeedOil").checked = true;} else {document.getElementById("LeftSpeedOil").checked = false;}}catch (e) {}
+
+        }catch (e) {}
+
+        
+        // Run the change Weekcount function
+        try{if (PrevCount !== parseInt(ItemSlots[2])){
+            if (["0", "4", "6", "8", "10", "12"].includes(String(parseInt(ItemSlots[2])))){
+                const ForceChangeItemSlots = new Event("change");
+                countSelector.dispatchEvent(ForceChangeItemSlots);
+                PrevCount = parseInt(ItemSlots[2])}}}catch (e) {}
+
+        try{
+        const CurrentHP = Stats[0].match(/(\d+)\s*CurrentHP/i);
+        const MaxHP = Stats[0].match(/(\d+)\s*MaxHP/i);
+        const Attack = Stats[0].match(/(\d+)\s*Attack/i);
+        const Armor = Stats[0].match(/(\d+)\s*Armor/i);
+        const Speed = Stats[0].match(/(\d+)\s*Speed/i);
+        const Gold = Stats[0].match(/(\d+)\s*Gold/i);
+
+        try {if (CurrentHP[1]) {document.getElementById("LeftCurrentHP").value = CurrentHP[1]}}catch (e) {}
+        try {if (MaxHP[1]) {document.getElementById("LeftMaxHP").value =  MaxHP[1]}}catch (e) {}
+        try {if (Attack[1]) {document.getElementById("LeftAttack").value =  Attack[1]}}catch (e) {}
+        try {if (Armor[1]) {document.getElementById("LeftArmor").value =  Armor[1]}}catch (e) {}
+        try {if (Speed[1]) {document.getElementById("LeftSpeed").value =  Speed[1]}}catch (e) {}
+        try {if (Gold[1]) {document.getElementById("LeftGold").value =  Gold[1]}}catch (e) {}
+        }catch (e) {}
+    }
+
+        function RightImport() {
+        const ImportBox = document.getElementById("ImportBox");
+        const ImportBoxText = document.getElementById("ImportBox").value;
+        const Stats = ImportBoxText.match(/Stat(s*):([^\n]+)/i)
+        const Oils = ImportBoxText.match(/Oil(s*):([^\n]+)/i)
+        const Weapon = ImportBoxText.match(/Weapon(s*):\s*([a-zA-Z]*)/i)
+        const ItemSlots = ImportBoxText.match(/Slot(s*):\s*(\d*)/i)
+        const Edge = ImportBoxText.match(/(\w+)Edge/i)
+        const Items = [...ImportBoxText.matchAll(/-\s*([a-zA-Z]*)\s*(\d*)/gi)];
+        // ImportBox.value += Items[0][1] + Items[1][1] + "\n" + ItemSlots[2]
+
+
+        try {if (ItemSlots[2]) {const X = Math.min(parseInt(ItemSlots[2]), 12)
+            document.getElementById("WeekCount").value = X
+        }}catch (e) {}
+
+        try {if (Weapon[2]) {document.getElementById("WeaponsRight").value = Weapon[2]}}catch (e) {}
+        try {if (Edge[0]) {document.getElementById("RightEdges").value = Edge[0]}}catch (e) {}
+
+        try{for(let i = 0; i < document.getElementById("WeekCount").value; i++) {
+            try { 
+                const Item = Items[i][1]
+                try {if (Item) {document.getElementById(`itemslotRight_${i}`).value  = Item}
+                    else{document.getElementById(`itemslotRight_${i}`).value =""}}catch (e) {}
+                const Quality = Items[i][2]
+                try {if (Quality) {document.getElementById(`qualityRight_${i}`).value  = Quality}}catch (e) {} 
+            }catch (e) {}}}catch (e) {}
+
+        try{
+        const AttackOil = Oils[0].match(/Attack/i);
+        const ArmorOil = Oils[0].match(/Armor/i);
+        const SpeedOil = Oils[0].match(/Speed/i);
+        try {if (AttackOil) {document.getElementById("RightAttackOil").checked = true;} else {document.getElementById("RightAttackOil").checked = false;}}catch (e) {}
+        try {if (ArmorOil) {document.getElementById("RightArmorOil").checked = true;} else {document.getElementById("RightArmorOil").checked = false;}}catch (e) {}
+        try {if (SpeedOil) {document.getElementById("RightSpeedOil").checked = true;} else {document.getElementById("RightSpeedOil").checked = false;}}catch (e) {}
+
+        }catch (e) {}
+
+        // Run the change Weekcount function
+        try{if (PrevCount !== parseInt(ItemSlots[2])){
+            if (["0", "4", "6", "8", "10", "12"].includes(String(parseInt(ItemSlots[2])))){
+                const ForceChangeItemSlots = new Event("change");
+                countSelector.dispatchEvent(ForceChangeItemSlots);
+                PrevCount = parseInt(ItemSlots[2])}}}catch (e) {}
+
+        try{
+        const CurrentHP = Stats[0].match(/(\d+)\s*CurrentHP/i);
+        const MaxHP = Stats[0].match(/(\d+)\s*MaxHP/i);
+        const Attack = Stats[0].match(/(\d+)\s*Attack/i);
+        const Armor = Stats[0].match(/(\d+)\s*Armor/i);
+        const Speed = Stats[0].match(/(\d+)\s*Speed/i);
+        const Gold = Stats[0].match(/(\d+)\s*Gold/i);
+
+        try {if (CurrentHP[1]) {document.getElementById("RightCurrentHP").value = CurrentHP[1]}}catch (e) {}
+        try {if (MaxHP[1]) {document.getElementById("RightMaxHP").value =  MaxHP[1]}}catch (e) {}
+        try {if (Attack[1]) {document.getElementById("RightAttack").value =  Attack[1]}}catch (e) {}
+        try {if (Armor[1]) {document.getElementById("RightArmor").value =  Armor[1]}}catch (e) {}
+        try {if (Speed[1]) {document.getElementById("RightSpeed").value =  Speed[1]}}catch (e) {}
+        try {if (Gold[1]) {document.getElementById("RightGold").value =  Gold[1]}}catch (e) {}
+        }catch (e) {}
+    }
+</script>
+
+
+
 <fieldset style="font-size: large; margin-bottom: 10px; margin-left:0px; padding-top: 10px;">
 <div id="resultDisplay">Waiting On A Submission<br>(Don't Forget To Select The Week)</div>
 <!-- <div id="debugBox">You shouldn't see this message</div> -->
 </fieldset>
+
 <button id="RunFight" py-click="saveSelections" type ="button">Submit</button>
 
 <fieldset id="ExtraLogBox" style="font-size:large; margin-top:10px; margin-left:0px; padding-top:10px;display:none;">
@@ -6378,6 +6595,7 @@ def saveSelections(event):
     <fieldset name="Log" id="Log" style="font-size:small;margin-top:10px;display:none;border:none;"> Logs take up to a minute to write and is limited to 50 turns</fieldset>
 </fieldset>
 </div>
+
 
 <script>
     const LogView = document.getElementById("LogView")
