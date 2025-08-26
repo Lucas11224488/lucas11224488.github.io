@@ -84,16 +84,67 @@
       font-size: large;
       border-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAApCAYAAACoYAD2AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAC6SURBVFhH7dixDYMwEIVhzAp06SMm8BSZlykyAfR07EAUyy58ukNCejnH0vsrg5D4kE1z4Tk9zmV9D7LXHPPKL8sRtmM/y0WpPOwJ1d5Z7iWkhtG+6tdZjjGvUy1gWtJRIT239yrp6ONM9vB3p+2WoBbAb5ajOpP/GpGoiERFJCoiURGJikhURKIiEhWRqIhERSQqIlH1g5QzGG0m45Hl4KT3bpajOpMtYFrSUSE9t/cq6eCk9266Iw4fJe50ORS4PgAAAAAASUVORK5CYII=") 6;
       border-width: 6px;
+      cursor:pointer;
       }
       #RunFight {
         display: none;
       }
-    </style>
-    <!-- Includes PyScript -->
-      <link rel="stylesheet" href="https://pyscript.net/releases/2025.7.3/core.css">
-      <script type="module" src="https://pyscript.net/releases/2025.7.3/core.js"></script>
 
-      <style>
+      .open-settings {
+      background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADkAAAA5CAYAAACMGIOFAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsAAAA7AAWrWiQkAAAL2SURBVGhD7Zc9jxoxEIadHBJwEtV1lKBUlBT8I0qo6NPT0cEfSZEUV+QvUEW0dOlBQkru3eycHMcfM7M2x214JGt3BV772fH448Onp+Ev03I+1tdWc5dsC0Vz8sfPY32X5qUf9V1+ikvO5/P6Kcxutysqec/JnPR6vWApjVoSQ1GSc01o2pZKknINpbQo3r9YLKqibUssSYJESVESJLSiIklb0M6nEqKuIBiPxypRtqQrSJQQDQmORiMzmUzEog9Pj4PP9X2QkCDR6XTM5XIx0+nUfP3+bF7e+VcdgP+EmM1m5svzt9d6IUEwGAxMv9+vnqlOiuRmICVoczqdqisWd1swVY/YbDZRQXA8Hs1+v6+f/tRJbSTUS4gPe+gSXEEgFeSSlMRXQmQARSqGLSURdOEIcqIIWJHUiN6KIGAPV6moltyCQHwKkUxENuiYiyYHpYJAddSSiJKcr2N4D4BsKUGgPk+mRGNyLiS73W7NcDjMKggaRxK4ktoO4b0QdQWJbJGkrxojtQ42kXTz1IVGSAy3ba+kLREjpyDBEfXR7Xar63q9/qd99Y4nNeHcElFJiISKj6ZRBKjPGZIS1JF8T9wl28JdUgqmfs46GyO2hGCZCJUY7yaSKZEYqh0PZ1eiWUpCUbQFsdincNtW711DojhNLJfLbJKuoOa9quGKhnwLNh2XsMlGhzmjAtB/YyNEKwiyRTJ0HqSP4esgfYSYHKBoakXFkhJBG1/kU3I2TURFklrBXGhF2Tn51oLgfD5X19Vq9TrUObAkryGIKNkzaQiNaFLyWoJECVHxEqKdZELYUsg1wBGVkJREglOnuYJ2nRiuIOpxROk37gTEiiR1+nA4VGIgJgi4osDuLK4xUakgYA9X6jTEUoJNCYlqBIEoJ21Rm5yChCuqFQTiiYdEiRKChC0KNIJAtXcFNHXHGvUtPzbc6HDaiiGOJIEGtY1KadqWWpIL5ZOvXIvikreAOic5cLZcRMmhX1TyVvgvhutdsh0Y8xteYSMKV16AOwAAAABJRU5ErkJggg==");
+      border: none;
+      cursor: pointer;
+      border-radius:32px;
+      border-width:5px;
+      margin: 20px;
+      width:57px;
+      height:57px;
+    }
+
+    /* Overlay background */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    /* Popup content */
+    .setting-box {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #25131A;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1001;
+    }
+
+    /* Close button */
+    .close-settings {
+      background-color: #FF4D4D;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      float: right;
+    }
+
+    </style>
+
+    <!-- Includes PyScript -->
+    <link rel="stylesheet" href="https://pyscript.net/releases/2025.7.3/core.css">
+    <script type="module" src="https://pyscript.net/releases/2025.7.3/core.js"></script>
+
+    <style>
     .slider-container {
       appearance: none;
       -webkit-appearance: none;
@@ -122,10 +173,209 @@
       cursor: pointer;
     }
   </style>
+
+<!-- The Style for the custom selection box -->
+<style>
+.custom-select {
+  position: relative;
+  width: 100%; 
+  max-width: 170px;
+  font-family: sans-serif;
+  margin-top: 8px;
+  border-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAApCAYAAACoYAD2AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAC6SURBVFhH7dixDYMwEIVhzAp06SMm8BSZlykyAfR07EAUyy58ukNCejnH0vsrg5D4kE1z4Tk9zmV9D7LXHPPKL8sRtmM/y0WpPOwJ1d5Z7iWkhtG+6tdZjjGvUy1gWtJRIT239yrp6ONM9vB3p+2WoBbAb5ajOpP/GpGoiERFJCoiURGJikhURKIiEhWRqIhERSQqIlH1g5QzGG0m45Hl4KT3bpajOpMtYFrSUSE9t/cq6eCk9266Iw4fJe50ORS4PgAAAAAASUVORK5CYII=") 6;
+  border-width: 6px;
+  box-sizing: border-box;
+}
+.custom-select .selected {
+  border: 6px solid transparent;
+  border-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAApCAYAAACoYAD2AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAC6SURBVFhH7dixDYMwEIVhzAp06SMm8BSZlykyAfR07EAUyy58ukNCejnH0vsrg5D4kE1z4Tk9zmV9D7LXHPPKL8sRtmM/y0WpPOwJ1d5Z7iWkhtG+6tdZjjGvUy1gWtJRIT239yrp6ONM9vB3p+2WoBbAb5ajOpP/GpGoiERFJCoiURGJikhURKIiEhWRqIhERSQqIlH1g5QzGG0m45Hl4KT3bpajOpMtYFrSUSE9t/cq6eCk9266Iw4fJe50ORS4PgAAAAAASUVORK5CYII=") 6 stretch;
+  padding: 2px;
+  background: #25131A;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 4px;
+  font-size: 13px;
+  width: 100%;
+}
+.custom-select .dropdown {
+  position: absolute;
+  top: 100%;
+  left: 3px;
+  width: 105%;
+  background: #25131A;
+  border: 1px solid #daece5;
+  border-top: none;
+  max-height: 180px;
+  overflow-y: auto;
+  display: none;
+  z-index: 999;
+  font-size: 13px;
+}
+.custom-select .dropdown input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+  border: none;
+  border-bottom: 1px solid #daece5;
+  outline: none;
+}
+.custom-select .option {
+  padding: 8px;
+  cursor: pointer;
+}
+.custom-select .option:hover {
+  background: #daece5;
+  color:#25131A;
+}
+</style>
 </head>
 <body>
 
-  
+<!-- Button to open the popup -->
+<div style="display: flex; justify-content: right; align-items: center;">
+<button class="open-settings" onclick="openPopup()"></button>
+</div>
+
+<!-- Overlay and popup -->
+<div class="overlay" id="settingsOverlay">
+<div class="setting-box">
+<button class="close-settings" onclick="closePopup()">X</button>
+<h2 style="color:#daece5">Settings</h2>
+<p style="color:#daece5">Adjust your preferences here:</p>
+<label style="color:#daece5">
+    <input type="checkbox" id="BundleInfo"> Enable Bundle Info
+</label><br>
+<!-- <label style="color:#daece5">
+    <input type="checkbox"> Dark Mode
+</label> -->
+</div>
+</div>
+
+<script>
+// Function to open the popup
+function openPopup() {
+document.getElementById('settingsOverlay').style.display = 'block';
+}
+
+// Function to close the popup
+function closePopup() {
+document.getElementById('settingsOverlay').style.display = 'none';
+}
+</script>
+
+
+<script>
+    // Probably can remove the hiddenName
+function createSearchableSelector(containerSelector, numbers, letters, toggleCheckbox, id, hiddenName) {
+  // Create wrapper
+  const wrapper = document.createElement("div");
+  wrapper.className = "custom-select";
+  if (id) wrapper.id = id;
+
+  wrapper.innerHTML = `
+    <div class="selected" data-value="" style="display:flex;">${numbers[0]}</div>
+    <div class="dropdown">
+      <input type="text" placeholder="Search...">
+    </div>
+  `;
+
+  // Add hidden input for form submission
+  const hiddenInput = document.createElement("input");
+  hiddenInput.type = "hidden";
+  if (hiddenName) hiddenInput.name = hiddenName;
+  wrapper.appendChild(hiddenInput);
+
+  containerSelector.appendChild(wrapper);
+
+  const selected = wrapper.querySelector(".selected");
+  const dropdown = wrapper.querySelector(".dropdown");
+  const search = dropdown.querySelector("input");
+
+  // Generate options
+  function createOptions(mode="numbers") {
+    dropdown.querySelectorAll(".option").forEach(opt => opt.remove()); // clear old
+
+    if (mode === "numbers") {
+      numbers.forEach(num => {
+        const label = num //Displayed in the selector
+        const value = num.match(/[a-zA-Z]/g)?.join('') || ''; //Hidden value that the rest of the code reads
+        addOption(value, label, id);
+      });
+    } else if (mode === "numbers+letters") {
+      numbers.forEach((num, i) => {
+        const label = num + letters[i]; //Displayed in the selector
+        const value = num.match(/[a-zA-Z]/g)?.join('') || ''; //Hidden value that the rest of the code reads
+        addOption(value, label, id);
+      });
+    }
+  }
+
+  function addOption(value, label, id) {
+    const opt = document.createElement("div");
+    opt.className = "option";
+    opt.textContent = label;       // what user sees
+    opt.dataset.value = value;     // actual value
+
+    opt.addEventListener("click", () => {
+      selected.textContent = label;
+      selected.dataset.value = value;
+      hiddenInput.value = value;   // store in hidden input for forms
+      dropdown.style.display = "none";
+          const ForceChange = new Event("change");
+    document.getElementById(id).dispatchEvent(ForceChange);
+    });
+
+    dropdown.appendChild(opt);
+  }
+
+  selected.textContent = numbers[0];
+  selected.dataset.value = hiddenName[0];
+
+  // Toggle dropdown
+  selected.addEventListener("click", () => {
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    search.value = "";
+    filterOptions("");
+    search.focus();
+  });
+
+  // Filter options
+  search.addEventListener("input", () => {
+    filterOptions(search.value.toLowerCase());
+  });
+
+  function filterOptions(val) {
+    dropdown.querySelectorAll(".option").forEach(opt => {
+      opt.style.display = opt.textContent.toLowerCase().includes(val) ? "" : "none";
+    });
+  }
+
+  // Close if clicking outside
+  document.addEventListener("mousedown", e => {
+    if (!wrapper.contains(e.target)) dropdown.style.display = "none";
+  });
+
+  // Checkbox toggle
+  if (toggleCheckbox) {
+    toggleCheckbox.addEventListener("change", () => {
+        if (toggleCheckbox.checked) {X = numbers.indexOf(selected.textContent);}
+        else{X = (numbers.map((val, i) => val + letters[i])).indexOf(selected.textContent);}
+      createOptions(toggleCheckbox.checked ? "numbers+letters" : "numbers");
+       if (toggleCheckbox.checked) {selected.textContent = numbers[X] + letters[X];}
+      else{selected.textContent = numbers[X];}
+
+    //   selected.dataset.value = numbers[X].match(/[a-zA-Z]/g)?.join('') || '';
+    //   hiddenInput.value = numbers[X].match(/[a-zA-Z]/g)?.join('') || '';
+    });
+  }
+
+  // Init with numbers
+  createOptions("numbers");
+
+  return wrapper;
+}
+</script>
+
 <div class="container">
     <!-- Left Side -->
   <div class="left-column">
@@ -171,7 +421,7 @@
     </fieldset>
 
     <br>
-    <label for="LeftWeapons">Left Weapon:</label>
+    <!-- <label for="LeftWeapons">Left Weapon:</label>
     <select name="LeftWeapons" id="LeftWeapons">
         <option value="WoodenStick">Wooden Stick</option>
         <option value="AncientWarhammer">Ancient Warhammer</option>
@@ -236,7 +486,7 @@
         <option value="MountainCleaver">Mountain Cleaver</option>
         <option value="PacifistStaff">Pacifist Staff</option>
         <option value="PurelakeStaff">Purelake Staff</option>
-        <option value="QuickgrowthSpear">Quickgrowth Spear</option>
+        <option value="EvergrowthSpear">Evergrowth Spear</option>
         <option value="RazorthornSpear">Razorthorn Spear</option>
         <option value="RedwoodRod">Redwood Rod</option>
         <option value="RingBlades">Ring Blades</option>
@@ -266,37 +516,375 @@
         <option value="TwinBlade">Twin Blade</option>
         <option value="WaveBreaker">Wave Breaker</option>
         <option value="WoodcuttersAxe">Woodcutter's Axe</option>
-    </select>
+    </select> -->
 
-    <br>
 
-    <label for="LeftEdges">Left Edge:</label>
-    <select name="LeftEdges" id="LeftEdges" style="margin-bottom: 5px; margin-top: 15px">
-      <option value="">None</option>
-      <option value="AgileEdge">Agile Edge</option>
-      <option value="BleedingEdge">Bleeding Edge</option>
-      <option value="BluntEdge">Blunt Edge</option>
-      <option value="CleansingEdge">Cleansing Edge</option>
-      <option value="CuttingEdge">Cutting Edge</option>
-      <option value="FeatherweightEdge">Featherweight Edge</option>
-      <option value="FreezingEdge">Freezing Edge</option>
-      <option value="GildedEdge">Gilded Edge</option>
-      <option value="JaggedEdge">Jagged Edge</option>
-      <option value="OakenEdge">Oaken Edge</option>
-      <option value="OozingEdge">Oozing Edge</option>
-      <option value="PetrifiedEdge">Petrified Edge</option>
-      <option value="PlatedEdge">Plated Edge</option>
-      <option value="RazorEdge">Razor Edge</option>
-      <option value="SmokingEdge">Smoking Edge</option>
-      <option value="StormcloudEdge">Stormcloud Edge</option>
-      <option value="WhirlpoolEdge">Whirlpool Edge</option>
-      <!-- <option value="ThievingEdge">Thieving Edge</option> -->
-    </select>
-    <br>
+
+    <div style="display: flex; align-items: center; gap: 4px;flex-wrap: wrap;">
+  <label for="LeftWeapons" style="position:relative; top:3px">Left Weapon:</label>
+  <div id="LeftWeaponsSelectorBox" style="flex: 1;display: flex; align-items: center;margin-right:20%"></div>
+</div>
+
+<script>
+    // Example usage
+const WeaponsList = ["Wooden Stick",
+"Ancient Warhammer",
+"Arcane Wand",
+"Basilisk Fang",
+"Battle Axe",
+"Bearclaw Blade",
+"Bee Stinger",
+"Bejeweled Blade",
+"Blackbriar Blade",
+"Blackbriar Bow",
+"Bloodlord's Axe",
+"Bloodmoon Dagger",
+"Bloodmoon Sickle",
+"Boom Stick",
+"Brittlebark Bow",
+"Brittlebark Club",
+"Broken Winebottle",
+"Bubblegloop Staff",
+"Chainmail Sword",
+"Champion's Blade",
+"Cherry Blade",
+"Cleaver Of Wrath",
+"Dashmaster's Dagger",
+"Deathcap Bow",
+"Elderwood Staff",
+"Evergrowth Spear",
+"Explosive Sword",
+"Featherweight Blade",
+"Forge Hammer",
+"Frostbite Dagger",
+"Frozen Iceblade",
+"Fungal Rapier",
+"Gale Staff",
+"Gemstone Scepter",
+"Granite Axe",
+"Granite Hammer",
+"Granite Lance",
+"Grilling Skewer",
+"Grindstone Club",
+"Ham Bat",
+"Haymaker",
+"Heart Drinker",
+"Hidden Dagger",
+"Icicle Spear",
+"Ironstone Bow",
+"Ironstone Greatsword",
+"Ironstone Spear",
+"King's Blade",
+"Knight's Blade",
+"Lakebed Sword",
+"Leather Whip",
+"Lemontree Branch",
+"Lifeblood Spear",
+"Liferoot Hammer",
+"Liferoot Staff",
+"Lifesteal Scythe",
+"Lightning Rod",
+"Lightning Whip",
+"Marble Sword",
+"Melonvine Whip",
+"Melting Iceblade",
+"Moonlight Cleaver",
+"Mountain Cleaver",
+"Pacifist Staff",
+"Purelake Staff",
+"Razorthorn Spear",
+"Redwood Rod",
+"Ring Blades",
+"Riverflow Rapier",
+"Rocksalt Sword",
+"Royal Crownblade",
+"Royal Scepter",
+"Rusty Sword",
+"Sanguine Scepter",
+"Scepter Of Greed",
+"Serpent Dagger",
+"Silverscale Dagger",
+"Silverscale Swordfish",
+"Silverscale Trident",
+"Slime Sword",
+"Spearshield Lance",
+"Spiky Club",
+"Squire's Blade",
+"Stoneslab Sword",
+"Stormcloud Spear",
+"Swiftstrike Bow",
+"Swiftstrike Rapier",
+"Sword Of Pride",
+"Sword Of The Hero",
+"Tempest Blade",
+"Thunderbound Sabre",
+"Twin Blade",
+"Wave Breaker",
+"Woodcutter's Axe"];
+const WeaponsBundles = [": All",
+": Swamp",
+": SY",
+": SB",
+": WR",
+": Wood",
+": SY",
+": WB",
+": WB",
+": WR+SY",
+": SB",
+": WY",
+": WR",
+": WB",
+": WY",
+": WY",
+": WY+SY",
+": SY",
+": SR",
+": SR",
+": WB+SY",
+": Swamp/All?",
+": Swamp",
+": SB+SY",
+": WY",
+": WR",
+": WR",
+": WY",
+": SY",
+": WY",
+": WB",
+": SB",
+": SB",
+": WB",
+": SB",
+": WB",
+": WR",
+": SY",
+": WR",
+": WR+SY",
+": Haymaker",
+": WR",
+": WY",
+": WY",
+": WR",
+": WB",
+": SY",
+": SY",
+": SR",
+": Swamp",
+": SY",
+": SB+SY",
+": WR",
+": SR",
+": SR",
+": WY",
+": SB",
+": SY",
+": SY",
+": SB+SY",
+": SR",
+": SY",
+": Wood",
+": SB",
+": SB",
+": WB",
+": WB",
+": SR",
+": SB",
+": WB+SY",
+": WY",
+": WB",
+": SY",
+": SB",
+": Swamp/All?",
+": SR",
+": SR",
+": SR+SY",
+": SR",
+": SB",
+": WB",
+": SpikyClub",
+": SR",
+": WY",
+": SB",
+": WY",
+": WY",
+": Swamp/All?",
+": WR",
+": Wood",
+": SB",
+": WR",
+": SR",
+": WR"];
+const toggle = document.getElementById("BundleInfo");
+const containerSelection = document.getElementById("LeftWeaponsSelectorBox");
+const Values = ["WoodenStick",
+"AncientWarhammer",
+"ArcaneWand",
+"BasiliskFang",
+"BattleAxe",
+"BearclawBlade",
+"BeeStinger",
+"BejeweledBlade",
+"BlackbriarBlade",
+"BlackbriarBow",
+"BloodlordsAxe",
+"BloodmoonDagger",
+"BloodmoonSickle",
+"BoomStick",
+"BrittlebarkBow",
+"BrittlebarkClub",
+"BubblegloopStaff",
+"ChainmailSword",
+"ChampionsBlade",
+"CherryBlade",
+"CleaverOfWrath",
+"DashmastersDagger",
+"DeathcapBow",
+"ElderwoodStaff",
+"EvergrowthSpear",
+"ExplosiveSword",
+"FeatherweightBlade",
+"ForgeHammer",
+"FrostbiteDagger",
+"FrozenIceblade",
+"FungalRapier",
+"GaleStaff",
+"GemstoneScepter",
+"GraniteAxe",
+"GraniteHammer",
+"GraniteLance",
+"GrillingSkewer",
+"GrindstoneClub",
+"HamBat",
+"Haymaker",
+"HeartDrinker",
+"HiddenDagger",
+"IcicleSpear",
+"IronstoneBow",
+"IronstoneGreatsword",
+"IronstoneSpear",
+"KingsBlade",
+"KnightsBlade",
+"LakebedSword",
+"LeatherWhip",
+"LemontreeBranch",
+"LifebloodSpear",
+"LiferootHammer",
+"LiferootStaff",
+"LifestealScythe",
+"LightningRod",
+"LightningWhip",
+"MarbleSword",
+"MelonvineWhip",
+"MeltingIceblade",
+"MoonlightCleaver",
+"MountainCleaver",
+"PacifistStaff",
+"PurelakeStaff",
+"RazorthornSpear",
+"RedwoodRod",
+"RingBlades",
+"RiverflowRapier",
+"RocksaltSword",
+"RoyalCrownblade",
+"RoyalScepter",
+"RustySword",
+"SanguineScepter",
+"ScepterOfGreed",
+"SerpentDagger",
+"SilverscaleDagger",
+"SilverscaleSwordfish",
+"SilverscaleTrident",
+"SlimeSword",
+"SpearshieldLance",
+"SpikyClub",
+"SquiresBlade",
+"StoneslabSword",
+"StormcloudSpear",
+"SwiftstrikeBow",
+"SwiftstrikeRapier",
+"SwordOfPride",
+"SwordOfTheHero",
+"TempestBlade",
+"ThunderboundSabre",
+"TwinBlade",
+"WaveBreaker",
+"WoodcuttersAxe"];
+
+createSearchableSelector(containerSelection, WeaponsList, WeaponsBundles, toggle, "LeftWeapons", Values);
+</script>
+
+<div style="display: flex; align-items: center; gap: 4px;flex-wrap: wrap;">
+  <label for="LeftEdges" style="position:relative; top:3px">Left Edge:</label>
+  <div id="LeftEdgesSelectorBox" style="flex: 1;display: flex; align-items: center;margin-right:20%"></div>
+</div>
+
+<script>
+    // Example usage
+const EdgesList = ["None",
+"Agile Edge",
+"Bleeding Edge",
+"Blunt Edge",
+"Cleansing Edge",
+"Cutting Edge",
+"Featherweight Edge",
+"Freezing Edge",
+"Gilded Edge",
+"Jagged Edge",
+"Oaken Edge",
+"Oozing Edge",
+"Petrified Edge",
+"Plated Edge",
+"Razor Edge",
+"Smoking Edge",
+"Stormcloud Edge",
+"Whirlpool Edge"];
+const EdgesBundles = ["",
+": WY",
+": WB",
+": WR",
+": SB",
+": WR",
+": WY",
+": WY",
+": WR",
+": WB",
+": SR",
+": SR",
+": SB",
+": SY",
+": SB",
+":  None",
+": SY",
+": SR"];
+// const toggle = document.getElementById("BundleInfo");
+const containerSelectionLEdges = document.getElementById("LeftEdgesSelectorBox");
+const EdgesValues = ["",
+"AgileEdge",
+"BleedingEdge",
+"BluntEdge",
+"CleansingEdge",
+"CuttingEdge",
+"FeatherweightEdge",
+"FreezingEdge",
+"GildedEdge",
+"JaggedEdge",
+"OakenEdge",
+"OozingEdge",
+"PetrifiedEdge",
+"PlatedEdge",
+"RazorEdge",
+"SmokingEdge",
+"StormcloudEdge",
+"WhirlpoolEdge"];
+
+createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, toggle, "LeftEdges", EdgesValues);
+</script>
+
  
     <div id="dropdownContainer"></div>
 
-    <template id="ItemSlots">
+    <!-- <template id="ItemSlots">
         <label>Item Slot:</label>
         <select style="margin-top: 10px; margin-bottom: 5px;">
             <option value="">None</option>
@@ -597,11 +1185,11 @@
             <option value="WeaverShield">Weaver Shield</option>
             <option value="WetEgg">Wet Egg</option>
       </select>
-    </template>
+    </template> -->
 
     <template id="QualitySlider">
       <label hidden="True">Item Slot:</label> 
-      <input type="range" min="0" max="2" value="0" class="slider-container"></input>
+      <input type="range" min="0" max="2" value="0" class="slider-container" style="position:relative; left: 20px; top:4px"></input>
       <br>
     </template>
     
@@ -614,18 +1202,942 @@
       const ItemSlots = document.getElementById("ItemSlots");
       const Quality = document.getElementById("QualitySlider");
       const container = document.getElementById("dropdownContainer");
+      const ItemsList = ["None",
+        "Acid Mutation",
+        "Acidic Witherleaf",
+        "Arcane Bell",
+        "Arcane Cloak",
+        "Arcane Gauntlet",
+        "Arcane Lens",
+        "Arcane Shield",
+        "Armor Regrowth",
+        "Assault Greaves",
+        "Basilisk Scale",
+        "Belt Of Gluttony",
+        "Big Boom",
+        "Bitter Melon",
+        "Blackbriar Armor",
+        "Blackbriar Gauntlet",
+        "Blackbriar Rose",
+        "Blacksmith Bond",
+        "Blastcap Armor",
+        "Blood Chain",
+        "Blood Orange",
+        "Blood Rune",
+        "Blood Sausage",
+        "Bloodmoon Armor",
+        "Bloodstone Ring",
+        "Bloody Steak",
+        "Boiled Ham",
+        "Bomb Bag",
+        "Boots Of Sloth",
+        "Boots Of The Hero",
+        "Bramble Belt",
+        "Bramble Buckler",
+        "Bramble Talisman",
+        "Bramble Vest",
+        "Brittlebark Armor",
+        "Brittlebark Buckler",
+        "Cactus Cap",
+        "Candied Nuts",
+        "Caustic Tome",
+        "Chainlink Medallion",
+        "Chainmail Armor",
+        "Chainmail Cloak",
+        "Champion's Armor",
+        "Cherry Bomb",
+        "Cherry Cocktail",
+        "Chest Of Lust",
+        "Citrine Earring",
+        "Citrine Gemstone",
+        "Citrine Ring",
+        "Clearspring Cloak",
+        "Clearspring Duck",
+        "Clearspring Feather",
+        "Clearspring Opal",
+        "Clearspring Rose",
+        "Clearspring Watermelon",
+        "Cold Resistance",
+        "Combustible Lemon",
+        "Cookbook",
+        "Corroded Bone",
+        "Cracked Bouldershield",
+        "Cracked Whetstone",
+        "Crimson Cloak",
+        "Crimson Fang",
+        "Deepsea Wine",
+        "Deviled Egg",
+        "Double Explosion",
+        "Doubleplated Armor",
+        "Doubleplated Vest",
+        "Druid's Cloak",
+        "Echo Rune",
+        "Elderwood Necklace",
+        "Emerald Crown",
+        "Emerald Earring",
+        "Emerald Gemstone",
+        "Emerald Ring",
+        "Emergency Shield",
+        "Energy Drain",
+        "Explosive Arrow",
+        "Explosive Fish",
+        "Explosive Powder",
+        "Explosive Roast",
+        "Explosive Surprise",
+        "Featherweight Armor",
+        "Featherweight Gauntlet",
+        "Featherweight Greaves",
+        "Featherweight Helmet",
+        "Featherweight Wings",
+        "Firecracker Belt",
+        "Flameburst Tome",
+        "Forge Gauntlet",
+        "Fortified Gauntlet",
+        "Friendship Bracelet",
+        "Frostbite Armor",
+        "Frostbite Curse",
+        "Frostbite Gauntlet",
+        "Frostbite Greaves",
+        "Frostbite Trap",
+        "Gold Ring",
+        "Grand Tome",
+        "Grand Crescendo",
+        "Granite Cherry",
+        "Granite Crown",
+        "Granite Egg",
+        "Granite Fungi",
+        "Granite Thorns",
+        "Granite Tome",
+        "Heartshaped Acorn",
+        "Heartshaped Elixir",
+        "Heartshaped Potion",
+        "Helmet Of Envy",
+        "Hero's Crossguard",
+        "Holy Shield",
+        "Holy Tome",
+        "Honey Caviar",
+        "Honey Ham",
+        "Honeycomb",
+        "Honeydew Melon",
+        "Honeyglazed Shroom",
+        "Horned Helmet",
+        "Horned Melon",
+        "Ice Spikes",
+        "Ice Tomb",
+        "Iceblock Shield",
+        "Impressive Physique",
+        "Iron Rose",
+        "Iron Rune",
+        "Iron Shrapnel",
+        "Iron Transfusion",
+        "Ironskin Elixir",
+        "Ironskin Potion",
+        "Ironstone Armor",
+        "Ironstone Bracelet",
+        "Ironstone Sandals",
+        "Kindling Bomb",
+        "Knight's Armor",
+        "Leather Belt",
+        "Leather Boots",
+        "Leather Glove",
+        "Leather Vest",
+        "Leather Waterskin",
+        "Lemon Roast",
+        "Lemon Shark",
+        "Lemon Syrup",
+        "Life Zap",
+        "Lifeblood Armor",
+        "Lifeblood Burst",
+        "Lifeblood Helmet",
+        "Liferoot Beast",
+        "Liferoot Gauntlet",
+        "Liferoot Lute",
+        "Liferoot Tome",
+        "Lightning Bottle",
+        "Lightning Elixir",
+        "Lightspeed Elixir",
+        "Lightspeed Potion",
+        "Limestone Fruit",
+        "Loose Change",
+        "Marble Mushroom",
+        "Marbled Stonefish",
+        "Marble Mirror",
+        "Marshlight Lantern",
+        "Melon Bomb",
+        "Melon Lemonade",
+        "Melon Wine",
+        "Mineral Water",
+        "Mist Armor",
+        "Moldy Meat",
+        "Moonlight Crest",
+        "Moonlight Shield",
+        "Muscle Elixir",
+        "Muscle Growth",
+        "Muscle Potion",
+        "Mushroom Buckler",
+        "Mushroom Soup",
+        "Nerve Elixir",
+        "Nerve Poison",
+        "Noxious Gas",
+        "Oak Heart",
+        "Ore Heart",
+        "Petrified Statue",
+        "Petrified Chestnut",
+        "Petrifying Elixir",
+        "Petrifying Flask",
+        "Piercing Thorns",
+        "Pinecone Breastplate",
+        "Plated Greaves",
+        "Plated Helmet",
+        "Plated Shield",
+        "Poisonous Durian",
+        "Poisonous Lemon",
+        "Poisonous Mushroom",
+        "Poisonous Pufferfish",
+        "Powder Keg",
+        "Prime Form",
+        "Primordial Soup",
+        "Purelake Armor",
+        "Purelake Chalice",
+        "Purelake Elixir",
+        "Purelake Helmet",
+        "Purelake Potion",
+        "Purelake Tome",
+        "Razor Breastplate",
+        "Razor Scales",
+        "Razorvine Talisman",
+        "Redwood Cloak",
+        "Redwood Helmet",
+        "Redwood Roast",
+        "Riverflow Talisman",
+        "Riverflow Violin",
+        "Roasted Chestnut",
+        "Rock Candy",
+        "Rock Roast",
+        "Royal Helmet",
+        "Royal Horn",
+        "Royal Shield",
+        "Ruby Crown",
+        "Ruby Earring",
+        "Ruby Gemstone",
+        "Ruby Ring",
+        "Rusted Plate",
+        "Rusty Ring",
+        "Saffron Feather",
+        "Saltcrusted Crown",
+        "Sanguine Imp",
+        "Sanguine Morphosis",
+        "Sanguine Rose",
+        "Sanguine Tome",
+        "Sapphire Crown",
+        "Sapphire Earring",
+        "Sapphire Gemstone",
+        "Sapphire Ring",
+        "Serpent Lyre",
+        "Serpent Mask",
+        "Serpent Scalemail",
+        "Shark Roast",
+        "Sheet Music",
+        "Shield Talisman",
+        "Shield Of The Hero",
+        "Silver Anchor",
+        "Silverscale Armor",
+        "Silverscale Fish",
+        "Silverscale Gauntlet",
+        "Silverscale Greaves",
+        "Silverscale Tome",
+        "Sinful Mirror",
+        "Slime Armor",
+        "Slime Bomb",
+        "Slime Booster",
+        "Slime Elixir",
+        "Slime Heart",
+        "Slime Potion",
+        "Smoke Bomb",
+        "Soap Stone",
+        "Sour Lemon",
+        "Spiked Wine",
+        "Spiny Chestnut",
+        "Spiny Kiwifruit",
+        "Spiny Snapper",
+        "Spiral Shell",
+        "Spiritual Balance",
+        "Squires Armor",
+        "Stillwater Pearl",
+        "Stone Steak",
+        "Stoneborn Turtle",
+        "Stormcloud Armor",
+        "Stormcloud Curse",
+        "Stormcloud Drum",
+        "Stormcloud Tome",
+        "Stormtide Anchor",
+        "Studded Gauntlet",
+        "Sugar Bomb",
+        "Sunlight Crest",
+        "Sweet Wine",
+        "Swiftstrike Belt",
+        "Swiftstrike Cloak",
+        "Swiftstrike Crown",
+        "Swiftstrike Gauntlet",
+        "Sword Talisman",
+        "Tempest Breastplate",
+        "Thorn Ring",
+        "Thunder Cloud",
+        "Time Bomb",
+        "Tome Of The Hero",
+        "Toxic Algae",
+        "Toxic Cherry",
+        "Toxic Rose",
+        "Trail Mix",
+        "Treebark Egg",
+        "Twinfuse Knot",
+        "Twisted Root",
+        "Underwater Watermelon",
+        "Vampiric Wine",
+        "Vampires Tooth",
+        "Vampiric Stasis",
+        "Venomous Fang",
+        "Viper Elixir",
+        "Viper Extract",
+        "Weaver Armor",
+        "Weaver Shield",
+        "Wet Egg"
+        ];
+      const ItemsBundles = ["",
+    ": SB",
+    ": SY",
+    ": SY",
+    ": Swamp",
+    ": SY",
+    ": SY",
+    ": SY",
+    ": Removed",
+    ": WR",
+    ": SB",
+    ": All",
+    ": Removed",
+    ": SB",
+    ": WB",
+    ": WR",
+    ": WB",
+    ": WR",
+    ": WR",
+    ": WY",
+    ": WY+SB",
+    ": All",
+    ": WR+WY",
+    ": Wood",
+    ": SB",
+    ": WB+WY",
+    ": WR+SR",
+    ": WR",
+    ": All",
+    ": WR",
+    ": WR",
+    ": WB",
+    ": WB",
+    ": WR",
+    ": WR",
+    ": WY",
+    ": WB",
+    ": WR",
+    ": SY",
+    ": Wood",
+    ": WB",
+    ": SY",
+    ": SR",
+    ": WB",
+    ": WB+WY",
+    ": All",
+    ": WB",
+    ": WB",
+    ": WB",
+    ": Removed",
+    ": SB",
+    ": SB",
+    ": SB",
+    ": SB",
+    ": SB",
+    ": Wood",
+    ": WB+SB",
+    ": SY",
+    ": SY",
+    ": WR",
+    ": WY",
+    ": WY",
+    ": SR",
+    ": WY+SR",
+    ": SR",
+    ": WB",
+    ": WR",
+    ": WR",
+    ": WR",
+    ": All",
+    ": WY",
+    ": WB",
+    ": WB",
+    ": WB",
+    ": WB",
+    ": Removed",
+    ": WR",
+    ": SR",
+    ": WB+SR",
+    ": WB",
+    ": WR+WB",
+    ": WR",
+    ": WY",
+    ": Removed",
+    ": WY",
+    ": WY",
+    ": WY",
+    ": WB",
+    ": SY",
+    ": SY",
+    ": WR",
+    ": SR",
+    ": WY",
+    ": WB",
+    ": WY",
+    ": WY",
+    ": WY",
+    ": WB",
+    ": SY",
+    ": Swamp",
+    ": WB",
+    ": WR",
+    ": SY",
+    ": SY",
+    ": Wood",
+    ": SY",
+    ": WR",
+    ": WY",
+    ": WY",
+    ": All",
+    ": SR",
+    ": SY",
+    ": SY",
+    ": SR",
+    ": WR",
+    ": All",
+    ": SB",
+    ": SB",
+    ": WR",
+    ": WR+SR",
+    ": WB",
+    ": WB",
+    ": WB",
+    ": SY",
+    ": WR",
+    ": All",
+    ": WR",
+    ": WY",
+    ": WR",
+    ": WR",
+    ": WY",
+    ": WY",
+    ": WY",
+    ": WB",
+    ": SR",
+    ": SY",
+    ": WY",
+    ": WY",
+    ": WY",
+    ": SB",
+    ": WR+SR",
+    ": SR+SB",
+    ": SB",
+    ": SY",
+    ": WY",
+    ": WY",
+    ": WR",
+    ": SR",
+    ": SR",
+    ": SR",
+    ": SY",
+    ": SB",
+    ": SB",
+    ": SY",
+    ": SY",
+    ": WB+SB",
+    ": WY",
+    ": WB+SB",
+    ": WB+SR",
+    ": SY",
+    ": SB",
+    ": WB+SB",
+    ": SB",
+    ": WY+SB",
+    ": WB+SB",
+    ": SY",
+    ": WR+SR",
+    ": SR",
+    ": WR",
+    ": SB",
+    ": SR",
+    ": SB",
+    ": SB",
+    ": WY+SB",
+    ": SR",
+    ": SR",
+    ": SR",
+    ": WR",
+    ": WY",
+    ": SY",
+    ": WR+WB",
+    ": SB",
+    ": SB",
+    ": Removed",
+    ": WB",
+    ": WY",
+    ": Removed",
+    ": SB",
+    ": WR+SR",
+    ": SB",
+    ": SB",
+    ": SR+SB",
+    ": WR",
+    ": Swamp",
+    ": Swamp",
+    ": SB",
+    ": SB",
+    ": SB",
+    ": SB",
+    ": SB",
+    ": SY",
+    ": WR",
+    ": Wood",
+    ": Removed",
+    ": WB",
+    ": WB",
+    ": WR",
+    ": SB",
+    ": SB",
+    ": WR",
+    ": WB",
+    ": WR+WB",
+    ": WY",
+    ": SB",
+    ": WY",
+    ": WB",
+    ": WB",
+    ": WB",
+    ": WB",
+    ": SY",
+    ": SY",
+    ": WY",
+    ": SB",
+    ": SR",
+    ": SB",
+    ": WY",
+    ": SY",
+    ": WB",
+    ": WB",
+    ": WB",
+    ": WB",
+    ": SR",
+    ": SR",
+    ": Swamp",
+    ": WR+SR",
+    ": SY",
+    ": WB",
+    ": WR",
+    ": SR",
+    ": SR",
+    ": SR",
+    ": SR",
+    ": SR",
+    ": SY",
+    ": SB",
+    ": SB",
+    ": Removed",
+    ": SB",
+    ": SB",
+    ": SB",
+    ": SB",
+    ": Removed",
+    ": SR",
+    ": SB",
+    ": WR+WY",
+    ": WR",
+    ": WR+SR",
+    ": WR+SR",
+    ": SB",
+    ": SR",
+    ": SR",
+    ": SR",
+    ": WB",
+    ": SY",
+    ": SY",
+    ": SB",
+    ": SY",
+    ": SY",
+    ": Swamp",
+    ": WR",
+    ": WB",
+    ": SR",
+    ": WY",
+    ": WY",
+    ": WY",
+    ": Removed",
+    ": WY",
+    ": WB",
+    ": Removed",
+    ": WR",
+    ": SY",
+    ": WR",
+    ": SY",
+    ": SR",
+    ": WB+SB",
+    ": SR",
+    ": WR+WB",
+    ": SR",
+    ": Wood",
+    ": SR",
+    ": SR+SB",
+    ": WY",
+    ": WY",
+    ": SB",
+    ": SR",
+    ": SR",
+    ": SR",
+    ": SY",
+    ": SY",
+    ": SB"];
+      const ItemsValues = ["",
+    "AcidMutation",
+    "AcidicWitherleaf",
+    "ArcaneBell",
+    "ArcaneCloak",
+    "ArcaneGauntlet",
+    "ArcaneLens",
+    "ArcaneShield",
+    "ArmorRegrowth",
+    "AssaultGreaves",
+    "BasiliskScale",
+    "BeltOfGluttony",
+    "BigBoom",
+    "BitterMelon",
+    "BlackbriarArmor",
+    "BlackbriarGauntlet",
+    "BlackbriarRose",
+    "BlacksmithBond",
+    "BlastcapArmor",
+    "BloodChain",
+    "BloodOrange",
+    "BloodRune",
+    "BloodSausage",
+    "BloodmoonArmor",
+    "BloodstoneRing",
+    "BloodySteak",
+    "BoiledHam",
+    "BombBag",
+    "BootsOfSloth",
+    "BootsOfTheHero",
+    "BrambleBelt",
+    "BrambleBuckler",
+    "BrambleTalisman",
+    "BrambleVest",
+    "BrittlebarkArmor",
+    "BrittlebarkBuckler",
+    "CactusCap",
+    "CandiedNuts",
+    "CausticTome",
+    "ChainlinkMedallion",
+    "ChainmailArmor",
+    "ChainmailCloak",
+    "ChampionsArmor",
+    "CherryBomb",
+    "CherryCocktail",
+    "ChestOfLust",
+    "CitrineEarring",
+    "CitrineGemstone",
+    "CitrineRing",
+    "ClearspringCloak",
+    "ClearspringDuck",
+    "ClearspringFeather",
+    "ClearspringOpal",
+    "ClearspringRose",
+    "ClearspringWatermelon",
+    "ColdResistance",
+    "CombustibleLemon",
+    "Cookbook",
+    "CorrodedBone",
+    "CrackedBouldershield",
+    "CrackedWhetstone",
+    "CrimsonCloak",
+    "CrimsonFang",
+    "DeepseaWine",
+    "DeviledEgg",
+    "DoubleExplosion",
+    "DoubleplatedArmor",
+    "DoubleplatedVest",
+    "DruidsCloak",
+    "EchoRune",
+    "ElderwoodNecklace",
+    "EmeraldCrown",
+    "EmeraldEarring",
+    "EmeraldGemstone",
+    "EmeraldRing",
+    "EmergencyShield",
+    "EnergyDrain",
+    "ExplosiveArrow",
+    "ExplosiveFish",
+    "ExplosivePowder",
+    "ExplosiveRoast",
+    "ExplosiveSurprise",
+    "FeatherweightArmor",
+    "FeatherweightGauntlet",
+    "FeatherweightGreaves",
+    "FeatherweightHelmet",
+    "FeatherweightWings",
+    "FirecrackerBelt",
+    "FlameburstTome",
+    "ForgeGauntlet",
+    "FortifiedGauntlet",
+    "FriendshipBracelet",
+    "FrostbiteArmor",
+    "FrostbiteCurse",
+    "FrostbiteGauntlet",
+    "FrostbiteGreaves",
+    "FrostbiteTrap",
+    "GoldRing",
+    "GrandTome",
+    "GrandCrescendo",
+    "GraniteCherry",
+    "GraniteCrown",
+    "GraniteEgg",
+    "GraniteFungi",
+    "GraniteThorns",
+    "GraniteTome",
+    "HeartshapedAcorn",
+    "HeartshapedElixir",
+    "HeartshapedPotion",
+    "HelmetOfEnvy",
+    "HerosCrossguard",
+    "HolyShield",
+    "HolyTome",
+    "HoneyCaviar",
+    "HoneyHam",
+    "Honeycomb",
+    "HoneydewMelon",
+    "HoneyglazedShroom",
+    "HornedHelmet",
+    "HornedMelon",
+    "IceSpikes",
+    "IceTomb",
+    "IceblockShield",
+    "ImpressivePhysique",
+    "IronRose",
+    "IronRune",
+    "IronShrapnel",
+    "IronTransfusion",
+    "IronskinElixir",
+    "IronskinPotion",
+    "IronstoneArmor",
+    "IronstoneBracelet",
+    "IronstoneSandals",
+    "KindlingBomb",
+    "KnightsArmor",
+    "LeatherBelt",
+    "LeatherBoots",
+    "LeatherGlove",
+    "LeatherVest",
+    "LeatherWaterskin",
+    "LemonRoast",
+    "LemonShark",
+    "LemonSyrup",
+    "LifeZap",
+    "LifebloodArmor",
+    "LifebloodBurst",
+    "LifebloodHelmet",
+    "LiferootBeast",
+    "LiferootGauntlet",
+    "LiferootLute",
+    "LiferootTome",
+    "LightningBottle",
+    "LightningElixir",
+    "LightspeedElixir",
+    "LightspeedPotion",
+    "LimestoneFruit",
+    "LooseChange",
+    "MarbleMushroom",
+    "MarbledStonefish",
+    "MarbleMirror",
+    "MarshlightLantern",
+    "MelonBomb",
+    "MelonLemonade",
+    "MelonWine",
+    "MineralWater",
+    "MistArmor",
+    "MoldyMeat",
+    "MoonlightCrest",
+    "MoonlightShield",
+    "MuscleElixir",
+    "MuscleGrowth",
+    "MusclePotion",
+    "MushroomBuckler",
+    "MushroomSoup",
+    "NerveElixir",
+    "NervePoison",
+    "NoxiousGas",
+    "OakHeart",
+    "OreHeart",
+    "PetrifiedStatue",
+    "PetrifiedChestnut",
+    "PetrifyingElixir",
+    "PetrifyingFlask",
+    "PiercingThorns",
+    "PineconeBreastplate",
+    "PlatedGreaves",
+    "PlatedHelmet",
+    "PlatedShield",
+    "PoisonousDurian",
+    "PoisonousLemon",
+    "PoisonousMushroom",
+    "PoisonousPufferfish",
+    "PowderKeg",
+    "PrimeForm",
+    "PrimordialSoup",
+    "PurelakeArmor",
+    "PurelakeChalice",
+    "PurelakeElixir",
+    "PurelakeHelmet",
+    "PurelakePotion",
+    "PurelakeTome",
+    "RazorBreastplate",
+    "RazorScales",
+    "RazorvineTalisman",
+    "RedwoodCloak",
+    "RedwoodHelmet",
+    "RedwoodRoast",
+    "RiverflowTalisman",
+    "RiverflowViolin",
+    "RoastedChestnut",
+    "RockCandy",
+    "RockRoast",
+    "RoyalHelmet",
+    "RoyalHorn",
+    "RoyalShield",
+    "RubyCrown",
+    "RubyEarring",
+    "RubyGemstone",
+    "RubyRing",
+    "RustedPlate",
+    "RustyRing",
+    "SaffronFeather",
+    "SaltcrustedCrown",
+    "SanguineImp",
+    "SanguineMorphosis",
+    "SanguineRose",
+    "SanguineTome",
+    "SapphireCrown",
+    "SapphireEarring",
+    "SapphireGemstone",
+    "SapphireRing",
+    "SerpentLyre",
+    "SerpentMask",
+    "SerpentScalemail",
+    "SharkRoast",
+    "SheetMusic",
+    "ShieldTalisman",
+    "ShieldOfTheHero",
+    "SilverAnchor",
+    "SilverscaleArmor",
+    "SilverscaleFish",
+    "SilverscaleGauntlet",
+    "SilverscaleGreaves",
+    "SilverscaleTome",
+    "SinfulMirror",
+    "SlimeArmor",
+    "SlimeBomb",
+    "SlimeBooster",
+    "SlimeElixir",
+    "SlimeHeart",
+    "SlimePotion",
+    "SmokeBomb",
+    "SoapStone",
+    "SourLemon",
+    "SpikedWine",
+    "SpinyChestnut",
+    "SpinyKiwifruit",
+    "SpinySnapper",
+    "SpiralShell",
+    "SpiritualBalance",
+    "SquiresArmor",
+    "StillwaterPearl",
+    "StoneSteak",
+    "StonebornTurtle",
+    "StormcloudArmor",
+    "StormcloudCurse",
+    "StormcloudDrum",
+    "StormcloudTome",
+    "StormtideAnchor",
+    "StuddedGauntlet",
+    "SugarBomb",
+    "SunlightCrest",
+    "SweetWine",
+    "SwiftstrikeBelt",
+    "SwiftstrikeCloak",
+    "SwiftstrikeCrown",
+    "SwiftstrikeGauntlet",
+    "SwordTalisman",
+    "TempestBreastplate",
+    "ThornRing",
+    "ThunderCloud",
+    "TimeBomb",
+    "TomeOfTheHero",
+    "ToxicAlgae",
+    "ToxicCherry",
+    "ToxicRose",
+    "TrailMix",
+    "TreebarkEgg",
+    "TwinfuseKnot",
+    "TwistedRoot",
+    "UnderwaterWatermelon",
+    "VampiricWine",
+    "VampiresTooth",
+    "VampiricStasis",
+    "VenomousFang",
+    "ViperElixir",
+    "ViperExtract",
+    "WeaverArmor",
+    "WeaverShield",
+    "WetEgg"];
         for (let i = 0; i < 12; i++) {
-            const content = ItemSlots.content.cloneNode(true);
-            const labelIS = content.querySelector("label");
-            const selectIS = content.querySelector("select");
+            // Create wrapper div
+            const wrapper = document.createElement("div");
+            wrapper.style.display = "flex";
+            wrapper.style.alignItems = "center";
+            wrapper.style.gap = "4px";
+            wrapper.style.flexWrap = "wrap";
 
-            const IS = `itemslots_${i}`;
-            selectIS.id = IS;
-            selectIS.name = IS;
-            labelIS.setAttribute("for", IS);
-            container.appendChild(content);
-            labelIS.style.display = "none";
-            selectIS.style.display = "none";
+            // Create label
+            const label = document.createElement("label");
+            label.setAttribute("for", `itemslots_${i}Label`);
+            label.id = `itemslots_${i}Label`;
+            label.textContent = "Item Slot:";
+            label.style.position = "relative";
+            label.style.top = "3px";
+
+            // Create selector container
+            const selectorBox = document.createElement("div");
+            selectorBox.id = `LeftItemSlot${i}SelectorBox`;
+            selectorBox.style.flex = "1";
+            selectorBox.style.display = "flex";
+            selectorBox.style.alignItems = "center";
+            selectorBox.style.marginRight = "20%";
+
+            // Append label and selectorBox to wrapper
+            wrapper.appendChild(label);
+            wrapper.appendChild(selectorBox);
+
+            // Append wrapper to container
+            container.appendChild(wrapper);
+
+
+            createSearchableSelector(selectorBox, ItemsList, ItemsBundles, toggle, `itemslots_${i}`, ItemsValues);
+            document.getElementById(`itemslots_${i}Label`).style.display = "none";
+            document.getElementById(`itemslots_${i}`).style.display = "none";
 
             const contentQ = Quality.content.cloneNode(true);
             const labelQ = contentQ.querySelector("label");
@@ -635,17 +2147,17 @@
             selectQ.id = Q;
             selectQ.name = Q;
             labelQ.setAttribute("for", Q);
-            container.appendChild(contentQ);
+            selectorBox.appendChild(contentQ);
             labelQ.style.display = "none";
             selectQ.style.display = "none";
-            }
+    }
 
       countSelector.addEventListener("change", () => {
         const count = parseInt(countSelector.value);
         if (count < PrevCount) { //Removes dropdowns if the Week is decreased
           for (let i = count; i < PrevCount; i++) {
             document.getElementById(`itemslots_${i}`).style.display = "none";
-            document.querySelector(`label[for=itemslots_${i}]`).style.display = "none";
+            document.getElementById(`itemslots_${i}Label`).style.display = "none";
             document.getElementById(`quality_${i}`).style.display = "none";
           }
           PrevCount = count;
@@ -654,16 +2166,15 @@
           // Add new dropdowns if Week is increased
           for (let i = PrevCount; i < count; i++) {
                     document.getElementById(`itemslots_${i}`).style.display = "initial"; 
-                    document.querySelector(`label[for=itemslots_${i}]`).style.display = "initial";
+                    document.getElementById(`itemslots_${i}Label`).style.display = "initial";
                     document.getElementById(`quality_${i}`).style.display = "initial";
-                    // document.querySelector(`label[for=quality_${i}]`).style.display = "initial";
                 }
           PrevCount = count;
         }
       });
     </script>
   </div>
-<!-- <br> -->
+
 
 
 <!-- Right Side (Foe) -->
@@ -677,111 +2188,15 @@
     <br><br>
 
     <div id="dropdownContainer2"></div>
-    <div id="dropdownContainer2Lower"></div>
+    <div id="dropdownContainer2Lower">
 
-    <template id="WeaponsRightTemplate">
+      <br>
       <div class="right-column">
-        <br>
-      <label for="WeaponsRight" id="WeaponsRightLabel">Right Weapon:</label>
-      <select name="WeaponsRight" id="WeaponsRight">
-        <option value="WoodenStick">Wooden Stick</option>
-        <option value="AncientWarhammer">Ancient Warhammer</option>
-        <option value="ArcaneWand">Arcane Wand</option>
-        <option value="BasiliskFang">Basilisk Fang</option>
-        <option value="BattleAxe">Battle Axe</option>
-        <option value="BearclawBlade">Bearclaw Blade</option>
-        <option value="BeeStinger">Bee Stinger</option>
-        <option value="BejeweledBlade">Bejeweled Blade</option>
-        <option value="BlackbriarBlade">Blackbriar Blade</option>
-        <option value="BlackbriarBow">Blackbriar Bow</option>
-        <option value="BloodlordsAxe">Bloodlord's Axe</option>
-        <option value="BloodmoonDagger">Bloodmoon Dagger</option>
-        <option value="BloodmoonSickle">Bloodmoon Sickle</option>
-        <option value="BoomStick">Boom Stick</option>
-        <option value="BrittlebarkBow">Brittlebark Bow</option>
-        <option value="BrittlebarkClub">Brittlebark Club</option>
-        <option value="BrokenWineglass">Broken Winebottle</option>
-        <option value="BubblegloopStaff">Bubblegloop Staff</option>
-        <option value="ChainmailSword">Chainmail Sword</option>
-        <option value="ChampionsBlade">Champion's Blade</option>
-        <option value="CherryBlade">Cherry Blade</option>
-        <option value="CleaverOfWrath">Cleaver of Wrath</option>
-        <option value="DashmastersDagger">Dashmaster's Dagger</option>
-        <option value="DeathcapBow">Deathcap Bow</option>
-        <option value="ElderwoodStaff">Elderwood Staff</option>
-        <option value="ExplosiveSword">Explosive Sword</option>
-        <option value="FeatherweightBlade">Featherweight Blade</option>
-        <option value="ForgeHammer">Forge Hammer</option>
-        <option value="FrostbiteDagger">Frostbite Dagger</option>
-        <option value="FrozenIceblade">Frozen Iceblade</option>
-        <option value="FungalRapier">Fungal Rapier</option>
-        <option value="GaleStaff">Gale Staff</option>
-        <option value="GemstoneScepter">Gemstone Scepter</option>
-        <option value="GraniteAxe">Granite Axe</option>
-        <option value="GraniteHammer">Granite Hammer</option>
-        <option value="GraniteLance">Granite Lance</option>
-        <option value="GrillingSkewer">Grilling Skewer</option>
-        <option value="GrindstoneClub">Grindstone Club</option>
-        <option value="HamBat">Ham Bat</option>
-        <option value="Haymaker">Haymaker</option>
-        <option value="HeartDrinker">Heart Drinker</option>
-        <option value="HiddenDagger">Hidden Dagger</option>
-        <option value="IcicleSpear">Icicle Spear</option>
-        <option value="IronstoneBow">Ironstone Bow</option>
-        <option value="IronstoneGreatsword">Ironstone Greatsword</option>
-        <option value="IronstoneSpear">Ironstone Spear</option>
-        <option value="KingsBlade">King's Blade</option>
-        <option value="KnightsBlade">Knight's Blade</option>
-        <option value="LakebedSword">Lakebed Sword</option>
-        <option value="LeatherWhip">Leather Whip</option>
-        <option value="LemontreeBranch">Lemontree Branch</option>
-        <option value="LifebloodSpear">Lifeblood Spear</option>
-        <option value="LiferootHammer">Liferoot Hammer</option>
-        <option value="LiferootStaff">Liferoot Staff</option>
-        <option value="LifestealScythe">Lifesteal Scythe</option>
-        <option value="LightningRod">Lightning Rod</option>
-        <option value="LightningWhip">Lightning Whip</option>
-        <option value="MarbleSword">Marble Sword</option>
-        <option value="MelonvineWhip">Melonvine Whip</option>
-        <option value="MeltingIceblade">Melting Iceblade</option>
-        <option value="MoonlightCleaver">Moonlight Cleaver</option>
-        <option value="MountainCleaver">Mountain Cleaver</option>
-        <option value="PacifistStaff">Pacifist Staff</option>
-        <option value="PurelakeStaff">Purelake Staff</option>
-        <option value="QuickgrowthSpear">Quickgrowth Spear</option>
-        <option value="RazorthornSpear">Razorthorn Spear</option>
-        <option value="RedwoodRod">Redwood Rod</option>
-        <option value="RingBlades">Ring Blades</option>
-        <option value="RiverflowRapier">Riverflow Rapier</option>
-        <option value="RocksaltSword">Rocksalt Sword</option>
-        <option value="RoyalCrownblade">Royal Crownblade</option>
-        <option value="RoyalScepter">Royal Scepter</option>
-        <option value="RustySword">Rusty Sword</option>
-        <option value="SanguineScepter">Sanguine Scepter</option>
-        <option value="ScepterOfGreed">Scepter Of Greed</option>
-        <option value="SerpentDagger">Serpent Dagger</option>
-        <option value="SilverscaleDagger">Silverscale Dagger</option>
-        <option value="SilverscaleSwordfish">Silverscale Swordfish</option>
-        <option value="SilverscaleTrident">Silverscale Trident</option>
-        <option value="SlimeSword">Slime Sword</option>
-        <option value="SpearshieldLance">Spearshield Lance</option>
-        <option value="SpikyClub">Spiky Club</option>
-        <option value="SquiresBlade">Squire's Blade</option>
-        <option value="StoneslabSword">Stoneslab Sword</option>
-        <option value="StormcloudSpear">Stormcloud Spear</option>
-        <option value="SwiftstrikeBow">Swiftstrike Bow</option>
-        <option value="SwiftstrikeRapier">Swiftstrike Rapier</option>
-        <option value="SwordOfPride">Sword Of Pride</option>
-        <option value="SwordOfTheHero">Sword Of The Hero</option>
-        <option value="TempestBlade">Tempest Blade</option>
-        <option value="ThunderboundSabre">Thunderbound Sabre</option>
-        <option value="TwinBlade">Twin Blade</option>
-        <option value="WaveBreaker">Wave Breaker</option>
-        <option value="WoodcuttersAxe">Woodcutter's Axe</option>
-      </select>
+        <div style="display: flex; align-items: center; gap: 4px;flex-wrap: wrap;">
+        <label for="WeaponsRight" id="WeaponsRightLabel" style="position:relative; top:3px">Right Weapon:</label>
+        <div id="RightWeaponsSelectorBox" style="flex: 1;display: flex; align-items: center;margin-right:20%"></div>
+        </div>
       </div>
-    </template>
-
 
     <template id="RightStatsTemplate">
       <fieldset id="RightStats">
@@ -816,33 +2231,13 @@
       </fieldset>
     </template>
 
+    <div style="display: flex; align-items: center; gap: 4px;flex-wrap: wrap;">
+    <label for="RightEdges" id="RightEdgesLabel" style="position:relative; top:3px">Right Edge:</label>
+    <div id="RightEdgesSelectorBox" style="flex: 1;display: flex; align-items: center;margin-right:20%"></div>
+    </div>
 
+</div>
 
-    <template id="RightEdges">
-      <div class="right-column">
-      <label for="BlacksmithEdges" id="RightEdgesLabel">Right Edge:</label>
-      <select name="RightEdges" id="RightEdges" style="margin-bottom: 5px; margin-top: 15px">
-            <option value="">None</option>
-            <option value="AgileEdge">Agile Edge</option>
-            <option value="BleedingEdge">Bleeding Edge</option>
-            <option value="BluntEdge">Blunt Edge</option>
-            <option value="CleansingEdge">Cleansing Edge</option>
-            <option value="CuttingEdge">Cutting Edge</option>
-            <option value="FeatherweightEdge">Featherweight Edge</option>
-            <option value="FreezingEdge">Freezing Edge</option>
-            <option value="GildedEdge">Gilded Edge</option>
-            <option value="JaggedEdge">Jagged Edge</option>
-            <option value="OakenEdge">Oaken Edge</option>
-            <option value="OozingEdge">Oozing Edge</option>
-            <option value="PetrifiedEdge">Petrified Edge</option>
-            <option value="PlatedEdge">Plated Edge</option>
-            <option value="RazorEdge">Razor Edge</option>
-            <option value="SmokingEdge">Smoking Edge</option>
-            <option value="StormcloudEdge">Stormcloud Edge</option>
-            <option value="WhirlpoolEdge">Whirlpool Edge</option>
-      </select>
-      </div>
-    </template>
 
     <template id="EnemiesType">
       <label for="enemies" id="enemiesLabel">Enemy:</label>
@@ -920,51 +2315,79 @@
       </select>
     </template>
 
+
     <script>
         const containerright = document.getElementById("dropdownContainer2");
         const containerright2 = document.getElementById("dropdownContainer2Lower");
-        const Weapons2 = document.getElementById("WeaponsRightTemplate").innerHTML;
-        const Edges2 = document.getElementById("RightEdges").innerHTML;
         const Stats2 = document.getElementById("RightStatsTemplate").innerHTML;
         const EnemyList = document.getElementById("EnemiesType").innerHTML;
         const Foe2 = document.getElementById("FoeType");
         const template = document.getElementById("ItemSlots");
-        containerright.innerHTML = ""; 
+        // containerright.innerHTML = ""; 
         //Stats2.id = 'RightStats'
         containerright.innerHTML += EnemyList;
         document.getElementById("enemiesLabel").style.display = "none";
         document.getElementById("enemies").style.display = "none";
         containerright.innerHTML += Stats2
-        containerright.innerHTML += Weapons2
-        containerright.innerHTML += Edges2
+
+        const containerSelectionRight = document.getElementById("RightWeaponsSelectorBox");
+        createSearchableSelector(containerSelectionRight, WeaponsList, WeaponsBundles, toggle, "WeaponsRight", Values);
+
+        const containerSelectionREdges = document.getElementById("RightEdgesSelectorBox");
+        createSearchableSelector(containerSelectionREdges, EdgesList, EdgesBundles, toggle, "RightEdges", EdgesValues);
+
         let PrevCountRight = 0;
         // const ItemSlots = document.getElementById("ItemSlots");
         // const Quality = document.getElementById("QualitySlider");
         for (let i = 0; i < 12; i++) {
-                    const content = ItemSlots.content.cloneNode(true);
-                    const labelIS = content.querySelector("label");
-                    const selectIS = content.querySelector("select");
+            // Create wrapper div
+            const wrapper = document.createElement("div");
+            wrapper.style.display = "flex";
+            wrapper.style.alignItems = "center";
+            wrapper.style.gap = "4px";
+            wrapper.style.flexWrap = "wrap";
 
-                    const IS = `itemslotRight_${i}`;
-                    selectIS.id = IS;
-                    selectIS.name = IS;
-                    labelIS.setAttribute("for", IS);
-                    containerright2.appendChild(content);
-                    labelIS.style.display = "none";
-                    selectIS.style.display = "none";
+            // Create label
+            const label = document.createElement("label");
+            label.setAttribute("for", `itemslotRight_${i}Label`);
+            label.id = `itemslotRight_${i}Label`;
+            label.textContent = "Item Slot:";
+            label.style.position = "relative";
+            label.style.top = "3px";
 
-                    const contentQ = Quality.content.cloneNode(true);
-                    const labelQ = contentQ.querySelector("label");
-                    const selectQ= contentQ.querySelector("input");
+            // Create selector container
+            const selectorBox = document.createElement("div");
+            selectorBox.id = `RightItemSlot${i}SelectorBox`;
+            selectorBox.style.flex = "1";
+            selectorBox.style.display = "flex";
+            selectorBox.style.alignItems = "center";
+            selectorBox.style.marginRight = "20%";
 
-                    const Q = `qualityRight_${i}`;
-                    selectQ.id = Q;
-                    selectQ.name = Q;
-                    labelQ.setAttribute("for", Q);
-                    containerright2.appendChild(contentQ);
-                    labelQ.style.display = "none";
-                    selectQ.style.display = "none";
-                }
+            // Append label and selectorBox to wrapper
+            wrapper.appendChild(label);
+            wrapper.appendChild(selectorBox);
+
+            // Append wrapper to container
+            containerright2.appendChild(wrapper);
+
+            // Now you can safely attach event listeners to selectorBox without losing previous ones
+            createSearchableSelector(selectorBox, ItemsList, ItemsBundles, toggle, `itemslotRight_${i}`, ItemsValues);
+                
+            document.getElementById(`itemslotRight_${i}Label`).style.display = "none";
+            document.getElementById(`itemslotRight_${i}`).style.display = "none";
+
+            const contentQ = Quality.content.cloneNode(true);
+            const labelQ = contentQ.querySelector("label");
+            const selectQ= contentQ.querySelector("input");
+
+            const Q = `qualityRight_${i}`;
+            selectQ.id = Q;
+            selectQ.name = Q;
+            labelQ.setAttribute("for", Q);
+            selectorBox.appendChild(contentQ);
+            labelQ.style.display = "none";
+            selectQ.style.display = "none";
+        }
 
         countSelector.addEventListener("change", () => {
             const Type = parseInt(Foe2.value);
@@ -975,7 +2398,7 @@
                 if (count < PrevCountRight) { //Removes dropdowns if the Week is decreased
                     for (let i = count; i < PrevCountRight; i++) {
                         document.getElementById(`itemslotRight_${i}`).style.display = "none"; 
-                        document.querySelector(`label[for=itemslotRight_${i}]`).style.display = "none";
+                        document.getElementById(`itemslotRight_${i}Label`).style.display = "none";
                         document.getElementById(`qualityRight_${i}`).style.display = "none";
                     }
                     PrevCountRight = count;
@@ -984,7 +2407,7 @@
                 // Add new dropdowns if Week is increased
                 for (let i = PrevCountRight; i < count; i++) {
                     document.getElementById(`itemslotRight_${i}`).style.display = "initial"; 
-                    document.querySelector(`label[for=itemslotRight_${i}]`).style.display = "initial";
+                    document.getElementById(`itemslotRight_${i}Label`).style.display = "initial";
                     document.getElementById(`qualityRight_${i}`).style.display = "initial";
                 }
                 PrevCountRight = count;
@@ -1001,7 +2424,7 @@
                 document.getElementById("RightStats").style.display = "none";
                 for (let i = 0; i < count; i++) {
                     document.getElementById(`itemslotRight_${i}`).style.display = "none"; 
-                    document.querySelector(`label[for=itemslotRight_${i}]`).style.display = "none";
+                    document.getElementById(`itemslotRight_${i}Label`).style.display = "none";
                     document.getElementById(`qualityRight_${i}`).style.display = "none";
                 }
                 document.getElementById("enemiesLabel").style.display = "initial";
@@ -1025,7 +2448,7 @@
                 document.getElementById("WeaponsRightLabel").style.display = "initial";
                 for (let i = 0; i < count; i++) {
                     document.getElementById(`itemslotRight_${i}`).style.display = "initial"; 
-                    document.querySelector(`label[for=itemslotRight_${i}]`).style.display = "initial";
+                    document.getElementById(`itemslotRight_${i}Label`).style.display = "initial";
                     document.getElementById(`qualityRight_${i}`).style.display = "initial";
                 }
             }
@@ -1040,7 +2463,7 @@
                 document.getElementById("RightStats").style.display = "none";
                 for (let i = 0; i < count; i++) {
                     document.getElementById(`itemslotRight_${i}`).style.display = "none";
-                    document.querySelector(`label[for=itemslotRight_${i}]`).style.display = "none";
+                    document.getElementById(`itemslotRight_${i}Label`).style.display = "none";
                     document.getElementById(`qualityRight_${i}`).style.display = "none";
                 }
                     //containerright.innerHTML = EnemyList;
@@ -1457,7 +2880,7 @@
               "MeltingIceblade" : {"OnHit", "Water"}, #Lose 1 attack
               "MoonlightCleaver" : {"PreventStatusGain"}, #If below 50% hp cannot gain status
               "PurelakeStaff" : {"BattleStart", "OnHit", "Water"}, #BS: Gain 2 purity. OH: Lose 1 purity
-              "QuickgrowthSpear" : {"Weapon", "EveryOtherTurn", "Wood"}, #Gain 1 attack and restore 1 HP
+              "EvergrowthSpear" : {"Weapon", "EveryOtherTurn", "Wood"}, #Gain 1 attack and restore 1 HP
               "RiverflowRapier" : {"Water", "FirstGainStatus"}, #First time you gain a new status effect, gain 1 strike
               "RoyalCrownblade" : {"Weapon", "OnHit"}, #Gain 1 Gold
               "RoyalScepter" : {"Weapon", "PreStrikeL", "Jewelry"}, #Set temp attack equal to gold. Cannot have more than 10 gold
@@ -4368,7 +5791,7 @@
               #StatusInterp("Purity", Player, Foe, -1)
               #GainPurity(Player, Foe, -1)
 
-      if Name == "QuickgrowthSpear":  #Gain 1 attack and restore 1 HP
+      if Name == "EvergrowthSpear":  #Gain 1 attack and restore 1 HP
           Player.Attack = Player.Attack + 1
           HealingCalc(Player, Foe, 1)
 
@@ -5290,7 +6713,7 @@
     if Name == "PurelakeStaff":  #1 Attack
         BaseStats = [0, 1, 0, 0]
 
-    if Name == "QuickgrowthSpear":  #3 Attack
+    if Name == "EvergrowthSpear":  #3 Attack
         BaseStats = [0, 3, 0, 0]
 
     if Name == "RazorBreastplate": #3 Armor
@@ -5495,14 +6918,14 @@
 
         count = int(document.getElementById("WeekCount").value)
 
-        Weapon = document.getElementById("LeftWeapons").value
+        Weapon = document.getElementById("LeftWeapons").querySelector(".selected").dataset.value;
         StatsChange = ItemsBaseStats(Quality, Weapon)
         LeftMaxHP = LeftMaxHP + ConditionalMult(StatsChange[0], HolyCrux)
         LeftAttack = LeftAttack + ConditionalMult(StatsChange[1], HolyCrux)
         LeftArmor = LeftArmor + ConditionalMult(StatsChange[2], HolyCrux)
         LeftSpeed = LeftSpeed + ConditionalMult(StatsChange[3], HolyCrux)
 
-        Edge = document.getElementById("LeftEdges").value
+        Edge = document.getElementById("LeftEdges").querySelector(".selected").dataset.value
         StatsChange = ItemsBaseStats(Quality, Edge)
         LeftMaxHP = LeftMaxHP + ConditionalMult(StatsChange[0], HolyCrux)
         LeftAttack = LeftAttack + ConditionalMult(StatsChange[1], HolyCrux)
@@ -5510,7 +6933,7 @@
         LeftSpeed = LeftSpeed + ConditionalMult(StatsChange[3], HolyCrux)
 
         for i in range(0, count):
-            Item = document.getElementById(f"itemslots_{i}").value
+            Item = document.getElementById(f"itemslots_{i}").querySelector(".selected").dataset.value #document.getElementById(f"itemslots_{i}").value
             Quality = document.getElementById(f"quality_{i}").value
             StatsChange = ItemsBaseStats(Quality, Item)
             LeftMaxHP = LeftMaxHP + ConditionalMult(StatsChange[0], HolyCrux)
@@ -5569,14 +6992,14 @@
           HolyCrux = True
         count = int(document.getElementById("WeekCount").value)
 
-        Weapon = document.getElementById("WeaponsRight").value
+        Weapon = document.getElementById("WeaponsRight").querySelector(".selected").dataset.value;
         StatsChange = ItemsBaseStats(Quality, Weapon)
         RightMaxHP = RightMaxHP + ConditionalMult(StatsChange[0], HolyCrux)
         RightAttack = RightAttack + ConditionalMult(StatsChange[1], HolyCrux)
         RightArmor = RightArmor + ConditionalMult(StatsChange[2], HolyCrux)
         RightSpeed = RightSpeed + ConditionalMult(StatsChange[3], HolyCrux)
 
-        Edge = document.getElementById("RightEdges").value
+        Edge = document.getElementById("RightEdges").querySelector(".selected").dataset.value;
         StatsChange = ItemsBaseStats(Quality, Edge)
         RightMaxHP = RightMaxHP + ConditionalMult(StatsChange[0], HolyCrux)
         RightAttack = RightAttack + ConditionalMult(StatsChange[1], HolyCrux)
@@ -5584,7 +7007,7 @@
         RightSpeed = RightSpeed + ConditionalMult(StatsChange[3], HolyCrux)
 
         for i in range(0, count):
-            Item = document.getElementById(f"itemslotRight_{i}").value
+            Item = document.getElementById(f"itemslotRight_{i}").querySelector(".selected").dataset.value
             Quality = document.getElementById(f"qualityRight_{i}").value
             StatsChange = ItemsBaseStats(Quality, Item)
             RightMaxHP = RightMaxHP + ConditionalMult(StatsChange[0], HolyCrux)
@@ -5643,7 +7066,7 @@
 
         count = int(document.getElementById("WeekCount").value)
         for i in range(0, count):
-            Item = document.getElementById(f"itemslot{S}_{i}").value
+            Item = document.getElementById(f"itemslot{S}_{i}").querySelector(".selected").dataset.value
             Quality = document.getElementById(f"quality{Q}_{i}").value
             if CheckingForItem == Item:
                 Count = Count + 2**int(Quality)
@@ -6226,12 +7649,12 @@ def saveSelections(event):
     except ValueError:
         LeftGold = 0
 
-    LeftWeapons = document.getElementById("LeftWeapons").value
-    LeftEdge = document.getElementById("LeftEdges").value
+    LeftWeapons = document.getElementById("LeftWeapons").querySelector(".selected").dataset.value
+    LeftEdge = document.getElementById("LeftEdges").querySelector(".selected").dataset.value
 
     if int(Level) > 2:
         try:
-            ItemsLeft = [document.getElementById("itemslots_0").value, document.getElementById("itemslots_1").value]
+            ItemsLeft = [document.getElementById("itemslots_0").querySelector(".selected").dataset.value, document.getElementById("itemslots_1").querySelector(".selected").dataset.value]
         except ValueError:
             ItemsLeft = ["", ""]
     else:
@@ -6244,7 +7667,7 @@ def saveSelections(event):
 
     for ii in  range(2, int(Level)):
         try:
-            ItemsLeft.append(document.getElementById(f"itemslots_{ii}").value)
+            ItemsLeft.append(document.getElementById(f"itemslots_{ii}").querySelector(".selected").dataset.value)
         except ValueError:
             ItemsLeft.append([""])
 
@@ -6303,23 +7726,23 @@ def saveSelections(event):
       except ValueError:
         RightGold = 0
 
-      RightWeapons = document.getElementById("WeaponsRight").value
-      RightEdge = document.getElementById("RightEdges").value
+      RightWeapons = document.getElementById("WeaponsRight").querySelector(".selected").dataset.value
+      RightEdge = document.getElementById("RightEdges").querySelector(".selected").dataset.value;
 
       if int(Level) > 2:
         try:
-            ItemsRight = [document.getElementById("itemslotRight_0").value, document.getElementById("itemslotRight_1").value]
+            ItemsRight = [document.getElementById("itemslotRight_0").querySelector(".selected").dataset.value, document.getElementById("itemslotRight_1").querySelector(".selected").dataset.value]
         except ValueError:
             ItemsRight = ["", ""]
       else:
           ItemsRight = ["", ""]
 
-      #ItemsRight = [document.getElementById("itemslotRight_0").value]
+      #ItemsRight = [document.getElementById("itemslotRight_0").querySelector(".selected").dataset.value]
       # const PlayOrEn =  document.getElementById("FoeType").value
 
       for ii in  range(2, int(Level)):
         try:
-            ItemsRight.append(document.getElementById(f"itemslotRight_{ii}").value) #ItemsRight = ItemsRight + ", " + document.getElementById(f"itemslotRight_{ii}").value
+            ItemsRight.append(document.getElementById(f"itemslotRight_{ii}").querySelector(".selected").dataset.value) #ItemsRight = ItemsRight + ", " + document.getElementById(f"itemslotRight_{ii}").value
         except ValueError:
             ItemsRight.append([])
 
@@ -6418,12 +7841,12 @@ def saveSelections(event):
       ImportBox.value += document.getElementById("LeftArmorOil").checked ? "Armor / " : "/ "
       ImportBox.value += document.getElementById("LeftSpeedOil").checked ? "Speed" : ""
 
-      ImportBox.value += "\nWeapon: " + document.getElementById("LeftWeapons").value
-      ImportBox.value +="\n" + document.getElementById("LeftEdges").value
+      ImportBox.value += "\nWeapon: " + document.getElementById("LeftWeapons").querySelector(".selected").textContent.match(/([^:]*)/i)[0];
+      ImportBox.value +="\n" + document.getElementById("LeftEdges").querySelector(".selected").textContent.match(/([^:]*)/i)[0];
       ImportBox.value +="\nSlots: " + count
 
       for (let i = 0; i < count; i++) {
-            ImportBox.value += "\n- " + document.getElementById(`itemslots_${i}`).value
+            ImportBox.value += "\n- " + document.getElementById(`itemslots_${i}`).querySelector(".selected").textContent.match(/([^:]*)/i)[0]
             ImportBox.value += " " + document.getElementById(`quality_${i}`).value
           }
     });
@@ -6444,39 +7867,61 @@ def saveSelections(event):
       ImportBox.value += document.getElementById("RightArmorOil").checked ? "Armor / " : "/ "
       ImportBox.value += document.getElementById("RightSpeedOil").checked ? "Speed" : ""
 
-      ImportBox.value += "\nWeapon: " + document.getElementById("WeaponsRight").value
-      ImportBox.value +="\n" + document.getElementById("RightEdges").value
+      ImportBox.value += "\nWeapon: " + document.getElementById("WeaponsRight").querySelector(".selected").textContent.match(/([^:]*)/i)[0];
+      ImportBox.value +="\n" + document.getElementById("RightEdges").querySelector(".selected").textContent.match(/([^:]*)/i)[0];
       ImportBox.value +="\nSlots: " + count
 
       for (let i = 0; i < count; i++) {
-            ImportBox.value += "\n- " + document.getElementById(`itemslotRight_${i}`).value
+            ImportBox.value += "\n- " + document.getElementById(`itemslotRight_${i}`).querySelector(".selected").textContent.match(/([^:]*)/i)[0]
             ImportBox.value += " " + document.getElementById(`qualityRight_${i}`).value
           }
     });
 
+    //Need to add a check to make sure all items are valid before adding them to your set
+    //ItemsValues, EdgesValues, and Values for weapons are the name I need to check the SlimeArmor type style
     function LeftImport() {
         const ImportBox = document.getElementById("ImportBox");
         const ImportBoxText = document.getElementById("ImportBox").value;
         const Stats = ImportBoxText.match(/Stat(s*):([^\n]+)/i)
         const Oils = ImportBoxText.match(/Oil(s*):([^\n]+)/i)
-        const Weapon = ImportBoxText.match(/Weapon(s*):\s*([a-zA-Z]*)/i)
+        const Weapon = ImportBoxText.match(/Weapon(s*):\s*([^\n]*)/i)
         const ItemSlots = ImportBoxText.match(/Slot(s*):\s*(\d*)/i)
-        const Edge = ImportBoxText.match(/(\w+)Edge/i)
-        const Items = [...ImportBoxText.matchAll(/-\s*([a-zA-Z]*)\s*(\d*)/gi)];
-        // ImportBox.value += Items[0][1] + Items[1][1] + "\n" + ItemSlots[2]
+        const Edge = ImportBoxText.match(/(\w+) Edge/i)
+        const Items = [...ImportBoxText.matchAll(/-\s+([a-zA-Z ']*)\s*(\d*)/gi)];
+        const BundleToggle = document.getElementById("BundleInfo");
+        const BunTogPrev = BundleToggle.checked;
+        ImportBox.value = ImportBox.value.replace(/\nError: .*/g, '');
+        if (BunTogPrev){
+            BundleToggle.checked = false;
+            const ForceChange = new Event("change");
+            BundleToggle.dispatchEvent(ForceChange);
+        }
 
-        try {if (ItemSlots[2]) {const X = Math.min(parseInt(ItemSlots[2]), 12)
+        try {if ([0, 4, 6, 8, 10, 12].includes(parseInt(ItemSlots[2]))) {const X = Math.min(parseInt(ItemSlots[2]), 12)
             document.getElementById("WeekCount").value = String(X)
-        }}catch (e) {}
+        }else{ImportBox.value += "\nError: Invalid number of item slots"}}catch (e) {}
 
-        try {if (Weapon[2]) {document.getElementById("LeftWeapons").value = Weapon[2]}}catch (e) {}
-        try {if (Edge[0]) {document.getElementById("LeftEdges").value = Edge[0]}}catch (e) {}
+
+        try {if (Values.includes(Weapon[2].match(/[a-zA-Z]/g)?.join(''))) {document.getElementById("LeftWeapons").querySelector(".selected").dataset.value = Weapon[2].match(/[a-zA-Z]/g)?.join('') || '';
+            document.getElementById("LeftWeapons").querySelector(".selected").textContent = Weapon[2];
+        }else{ImportBox.value += "\nError: Invalid weapon ${Weapon[2]}"}}catch (e) {}
+        try {if (EdgesValues.includes(Edge[0].match(/[a-zA-Z]/g)?.join(''))) {document.getElementById("LeftEdges").querySelector(".selected").dataset.value = Edge[0].match(/[a-zA-Z]/g)?.join('') || '';
+            document.getElementById("LeftEdges").querySelector(".selected").textContent = Edge[0];
+        }else{ImportBox.value += "\nError: Invalid Edge ${Edge[0]}"}}catch (e) {}
 
         try{for(let i = 0; i < document.getElementById("WeekCount").value; i++) {
             try { 
-                const Item = Items[i][1]
-                try {if (Item) {document.getElementById(`itemslots_${i}`).value = Item}
-                    else{document.getElementById(`itemslots_${i}`).value =""}}catch (e) {}
+                const Item = Items[i][1].trim()
+                try {if (Item == '' || Item == "None"){document.getElementById(`itemslots_${i}`).querySelector(".selected").dataset.value  = "";
+                document.getElementById(`itemslots_${i}`).querySelector(".selected").textContent  = "None";
+                }
+                    else if (ItemsValues.includes(Item.match(/[a-zA-Z]/g)?.join(''))) {document.getElementById(`itemslots_${i}`).querySelector(".selected").dataset.value = Item.match(/[a-zA-Z]/g)?.join('') || '';
+                    document.getElementById(`itemslots_${i}`).querySelector(".selected").textContent = Item;
+                }
+                    else{document.getElementById(`itemslots_${i}`).querySelector(".selected").dataset.value ="";
+                        document.getElementById(`itemslots_${i}`).querySelector(".selected").textContent = "Import Error";
+                        ImportBox.value += `\nError: Invalid Item Name ${Item} at slot ${i+1}`
+                    }}catch (e) {}
                 const Quality = Items[i][2]
                 try {if (Quality) {document.getElementById(`quality_${i}`).value = Quality}}catch (e) {} 
             }catch (e) {}}}catch (e) {}
@@ -6498,14 +7943,20 @@ def saveSelections(event):
                 const ForceChangeItemSlots = new Event("change");
                 countSelector.dispatchEvent(ForceChangeItemSlots);
                 PrevCount = parseInt(ItemSlots[2])}}}catch (e) {}
+        
+        if (BunTogPrev){
+            BundleToggle.checked = true;
+            const ForceChange = new Event("change");
+            BundleToggle.dispatchEvent(ForceChange);
+        }
 
         try{
-        const CurrentHP = Stats[0].match(/(\d+)\s*CurrentHP/i);
-        const MaxHP = Stats[0].match(/(\d+)\s*MaxHP/i);
-        const Attack = Stats[0].match(/(\d+)\s*Attack/i);
-        const Armor = Stats[0].match(/(\d+)\s*Armor/i);
-        const Speed = Stats[0].match(/(\d+)\s*Speed/i);
-        const Gold = Stats[0].match(/(\d+)\s*Gold/i);
+        const CurrentHP = Stats[0].match(/([\d-]+)\s*CurrentHP/i);
+        const MaxHP = Stats[0].match(/([\d-]+)\s*MaxHP/i);
+        const Attack = Stats[0].match(/([\d-]+)\s*Attack/i);
+        const Armor = Stats[0].match(/([\d-]+)\s*Armor/i);
+        const Speed = Stats[0].match(/([\d-]+)\s*Speed/i);
+        const Gold = Stats[0].match(/([\d-]+)\s*Gold/i);
 
         try {if (CurrentHP[1]) {document.getElementById("LeftCurrentHP").value = CurrentHP[1]}}catch (e) {}
         try {if (MaxHP[1]) {document.getElementById("LeftMaxHP").value =  MaxHP[1]}}catch (e) {}
@@ -6514,6 +7965,7 @@ def saveSelections(event):
         try {if (Speed[1]) {document.getElementById("LeftSpeed").value =  Speed[1]}}catch (e) {}
         try {if (Gold[1]) {document.getElementById("LeftGold").value =  Gold[1]}}catch (e) {}
         }catch (e) {}
+
     }
 
         function RightImport() {
@@ -6521,25 +7973,45 @@ def saveSelections(event):
         const ImportBoxText = document.getElementById("ImportBox").value;
         const Stats = ImportBoxText.match(/Stat(s*):([^\n]+)/i)
         const Oils = ImportBoxText.match(/Oil(s*):([^\n]+)/i)
-        const Weapon = ImportBoxText.match(/Weapon(s*):\s*([a-zA-Z]*)/i)
+        const Weapon = ImportBoxText.match(/Weapon(s*):\s*([^\n]*)/i)
         const ItemSlots = ImportBoxText.match(/Slot(s*):\s*(\d*)/i)
-        const Edge = ImportBoxText.match(/(\w+)Edge/i)
-        const Items = [...ImportBoxText.matchAll(/-\s*([a-zA-Z]*)\s*(\d*)/gi)];
+        const Edge = ImportBoxText.match(/(\w+) Edge/i)
+        const Items = [...ImportBoxText.matchAll(/-\s+([a-zA-Z ']*)\s*(\d*)/gi)];
+        const BundleToggle = document.getElementById("BundleInfo");
+        const BunTogPrev = BundleToggle.checked;
+        ImportBox.value = ImportBox.value.replace(/\nError: .*/g, '');
+        if (BunTogPrev){
+            BundleToggle.checked = false;
+            const ForceChange = new Event("change");
+            BundleToggle.dispatchEvent(ForceChange);
+        }
         // ImportBox.value += Items[0][1] + Items[1][1] + "\n" + ItemSlots[2]
 
 
-        try {if (ItemSlots[2]) {const X = Math.min(parseInt(ItemSlots[2]), 12)
+        try {if ([0, 4, 6, 8, 10, 12].includes(parseInt(ItemSlots[2]))) {const X = Math.min(parseInt(ItemSlots[2]), 12)
             document.getElementById("WeekCount").value = X
-        }}catch (e) {}
+        }else{ImportBox.value += "\nError: Invalid number of item slots"}}catch (e) {}
 
-        try {if (Weapon[2]) {document.getElementById("WeaponsRight").value = Weapon[2]}}catch (e) {}
-        try {if (Edge[0]) {document.getElementById("RightEdges").value = Edge[0]}}catch (e) {}
+        try {if (Values.includes(Weapon[2].match(/[a-zA-Z]/g)?.join(''))) {document.getElementById("WeaponsRight").querySelector(".selected").textContent = Weapon[2]
+            document.getElementById("WeaponsRight").querySelector(".selected").dataset.value = Weapon[2].match(/[a-zA-Z]/g)?.join('') || '';
+        }else{ImportBox.value += "\nError: Invalid weapon ${Weapon[2]}"}}catch (e) {}
+        try {if (EdgesValues.includes(Edge[0].match(/[a-zA-Z]/g)?.join(''))) {document.getElementById("RightEdges").querySelector(".selected").textContent = Edge[0]
+            document.getElementById("RightEdges").querySelector(".selected").dataset.value = Edge[0].match(/[a-zA-Z]/g)?.join('') || '';
+        }else{ImportBox.value += "\nError: Invalid Edge ${Edge[0]}"}}catch (e) {}
 
         try{for(let i = 0; i < document.getElementById("WeekCount").value; i++) {
             try { 
-                const Item = Items[i][1]
-                try {if (Item) {document.getElementById(`itemslotRight_${i}`).value  = Item}
-                    else{document.getElementById(`itemslotRight_${i}`).value =""}}catch (e) {}
+                const Item = Items[i][1].trim()
+                try {if (Item == '' || Item == "None"){document.getElementById(`itemslotRight_${i}`).querySelector(".selected").dataset.value  = "";
+                document.getElementById(`itemslotRight_${i}`).querySelector(".selected").textContent  = "None";
+                }
+                    else if (ItemsValues.includes(Item.match(/[a-zA-Z]/g)?.join(''))) {document.getElementById(`itemslotRight_${i}`).querySelector(".selected").dataset.value  = Item.match(/[a-zA-Z]/g)?.join('') || '';
+                    document.getElementById(`itemslotRight_${i}`).querySelector(".selected").textContent = Item;
+                }
+                    else{document.getElementById(`itemslotRight_${i}`).querySelector(".selected").dataset.value =""
+                        document.getElementById(`itemslotRight_${i}`).querySelector(".selected").textContent = "Import Error";
+                    ImportBox.value += `\nError: Invalid Item Name ${Item} at slot ${i+1}`
+                    }}catch (e) {}
                 const Quality = Items[i][2]
                 try {if (Quality) {document.getElementById(`qualityRight_${i}`).value  = Quality}}catch (e) {} 
             }catch (e) {}}}catch (e) {}
@@ -6560,14 +8032,19 @@ def saveSelections(event):
                 const ForceChangeItemSlots = new Event("change");
                 countSelector.dispatchEvent(ForceChangeItemSlots);
                 PrevCount = parseInt(ItemSlots[2])}}}catch (e) {}
-
+        
+        if (BunTogPrev){
+            BundleToggle.checked = true;
+            const ForceChange = new Event("change");
+            BundleToggle.dispatchEvent(ForceChange);
+        }
         try{
-        const CurrentHP = Stats[0].match(/(\d+)\s*CurrentHP/i);
-        const MaxHP = Stats[0].match(/(\d+)\s*MaxHP/i);
-        const Attack = Stats[0].match(/(\d+)\s*Attack/i);
-        const Armor = Stats[0].match(/(\d+)\s*Armor/i);
-        const Speed = Stats[0].match(/(\d+)\s*Speed/i);
-        const Gold = Stats[0].match(/(\d+)\s*Gold/i);
+        const CurrentHP = Stats[0].match(/([\d-]+)\s*CurrentHP/i);
+        const MaxHP = Stats[0].match(/([\d-]+)\s*MaxHP/i);
+        const Attack = Stats[0].match(/([\d-]+)\s*Attack/i);
+        const Armor = Stats[0].match(/([\d-]+)\s*Armor/i);
+        const Speed = Stats[0].match(/([\d-]+)\s*Speed/i);
+        const Gold = Stats[0].match(/([\d-]+)\s*Gold/i);
 
         try {if (CurrentHP[1]) {document.getElementById("RightCurrentHP").value = CurrentHP[1]}}catch (e) {}
         try {if (MaxHP[1]) {document.getElementById("RightMaxHP").value =  MaxHP[1]}}catch (e) {}
@@ -6576,7 +8053,8 @@ def saveSelections(event):
         try {if (Speed[1]) {document.getElementById("RightSpeed").value =  Speed[1]}}catch (e) {}
         try {if (Gold[1]) {document.getElementById("RightGold").value =  Gold[1]}}catch (e) {}
         }catch (e) {}
-    }
+
+}
 </script>
 
 
