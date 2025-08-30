@@ -54,6 +54,8 @@
         border-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAApCAYAAACoYAD2AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAC6SURBVFhH7dixDYMwEIVhzAp06SMm8BSZlykyAfR07EAUyy58ukNCejnH0vsrg5D4kE1z4Tk9zmV9D7LXHPPKL8sRtmM/y0WpPOwJ1d5Z7iWkhtG+6tdZjjGvUy1gWtJRIT239yrp6ONM9vB3p+2WoBbAb5ajOpP/GpGoiERFJCoiURGJikhURKIiEhWRqIhERSQqIlH1g5QzGG0m45Hl4KT3bpajOpMtYFrSUSE9t/cq6eCk9266Iw4fJe50ORS4PgAAAAAASUVORK5CYII=") 6;
         border-width: 6px;
         font-size: normal;
+        box-sizing: border-box;
+        width: 100%;
       }
 
     label {
@@ -7391,14 +7393,14 @@ def saveSelections(event):
 <label for="ImportExportView">Import/Export?</label>
 <input type="checkbox" id="ImportExportView" name="ImportExportView" value="1">
 <br>
-<div id="ImportExport" style="display:none">
+<div id="ImportExport" style="display:none;">
 <button id="ImportLeft" type ="button" style="font-size:10px;height:30px;width:60px;" onclick="LeftImport()">Import</button>
 <button id="ExportLeft" type ="button" style="font-size:10px;height:30px;width:60px;">Export</button>
 
 <button id="ExportRight" type ="button" style="font-size:10px;height:30px;width:60px;float:right;">Export</button>
 <button id="ImportRight" type ="button" style="font-size:10px;height:30px;width:60px;float:right;margin-right:5px" onclick="RightImport()">Import</button>
 
-<textarea style="height:100px;margin-bottom:10px;margin-top:10px;min-height:100px;min-width:stretch;max-width:stretch;" id="ImportBox"></textarea>
+<textarea style="height:100px;margin-bottom:10px;margin-top:10px; margin-right:0px;min-height:100px;width:100%;resize:vertical;" id="ImportBox"></textarea>
 </div>
 
 <script>
