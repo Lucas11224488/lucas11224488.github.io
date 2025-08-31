@@ -1699,6 +1699,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
     "WeaverArmor",
     "WeaverShield",
     "WetEgg"];
+        let firstClicked = -1;
         for (let i = 0; i < 12; i++) {
             // Create wrapper div
             const wrapper = document.createElement("div");
@@ -1746,7 +1747,54 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
             selectorBox.appendChild(contentQ);
             labelQ.style.display = "none";
             selectQ.style.display = "none";
+
+
+
+            document.getElementById(`itemslots_${i}Label`).addEventListener("click", function () {
+                event.stopPropagation();
+                const slotId = `itemslots_${i}`;       // slot (without Label)
+                // const slotLabelId = `itemslots_${i}Label`; // label
+                const qualityId = `quality_${i}`;
+
+                if (firstClicked == -1) {
+                firstClicked = i; // just store the index
+                this.style.border = "2px dashed #CF831E"; 
+                } else {
+                // Build slot ids from index
+                const firstSlotId = `itemslots_${firstClicked}`;
+                const firstQualityId = `quality_${firstClicked}`
+                const secondSlotId = slotId;
+
+                // Swap values
+                const tempValue = document.getElementById(firstSlotId).querySelector(".selected").dataset.value;
+                document.getElementById(firstSlotId).querySelector(".selected").dataset.value = document.getElementById(secondSlotId).querySelector(".selected").dataset.value;
+                document.getElementById(secondSlotId).querySelector(".selected").dataset.value = tempValue;
+
+                const tempValueText = document.getElementById(firstSlotId).querySelector(".selected").textContent;
+                document.getElementById(firstSlotId).querySelector(".selected").textContent = document.getElementById(secondSlotId).querySelector(".selected").textContent;
+                document.getElementById(secondSlotId).querySelector(".selected").textContent = tempValueText;
+
+                const tempValueQuality = document.getElementById(firstQualityId).value
+                document.getElementById(firstQualityId).value = document.getElementById(qualityId).value;
+                document.getElementById(qualityId).value = tempValueQuality;
+
+
+                // Reset
+                const firstLabel = document.getElementById(`itemslots_${firstClicked}Label`);
+                firstLabel.style.border = "";
+                firstClicked = -1;
+                }
+            });
     }
+
+    // Unselects the Item Slot
+    document.addEventListener("click", function () {
+        if (firstClicked !== -1) {
+            const firstLabel = document.getElementById(`itemslots_${firstClicked}Label`);
+            if (firstLabel) firstLabel.style.border = "";
+            firstClicked = -1;
+        }
+    });
 
       countSelector.addEventListener("change", () => {
         const count = parseInt(countSelector.value);
@@ -1931,6 +1979,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
         createSearchableSelector(containerSelectionREdges, EdgesList, EdgesBundles, toggle, "RightEdges", EdgesValues);
 
         let PrevCountRight = 0;
+        let firstClickedR = -1;
         for (let i = 0; i < 12; i++) {
             // Create wrapper div
             const wrapper = document.createElement("div");
@@ -1979,7 +2028,51 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
             selectorBox.appendChild(contentQ);
             labelQ.style.display = "none";
             selectQ.style.display = "none";
+
+            document.getElementById(`itemslotRight_${i}Label`).addEventListener("click", function () {
+                event.stopPropagation();
+                const slotId = `itemslotRight_${i}`;
+                const qualityId = `qualityRight_${i}`;
+
+                if (firstClickedR == -1) {
+                firstClickedR = i;
+                this.style.border = "2px dashed #CF831E"; 
+                } else {
+
+                const firstSlotId = `itemslotRight_${firstClickedR}`;
+                const firstQualityId = `qualityRight_${firstClickedR}`
+                const secondSlotId = slotId;
+
+                // Swap values
+                const tempValue = document.getElementById(firstSlotId).querySelector(".selected").dataset.value;
+                document.getElementById(firstSlotId).querySelector(".selected").dataset.value = document.getElementById(secondSlotId).querySelector(".selected").dataset.value;
+                document.getElementById(secondSlotId).querySelector(".selected").dataset.value = tempValue;
+
+                const tempValueText = document.getElementById(firstSlotId).querySelector(".selected").textContent;
+                document.getElementById(firstSlotId).querySelector(".selected").textContent = document.getElementById(secondSlotId).querySelector(".selected").textContent;
+                document.getElementById(secondSlotId).querySelector(".selected").textContent = tempValueText;
+
+                const tempValueQuality = document.getElementById(firstQualityId).value
+                document.getElementById(firstQualityId).value = document.getElementById(qualityId).value;
+                document.getElementById(qualityId).value = tempValueQuality;
+
+
+                // Reset
+                const firstLabel = document.getElementById(`itemslotRight_${firstClickedR}Label`);
+                firstLabel.style.border = "";
+                firstClickedR = -1;
+                }
+            });
         }
+
+            // Unselects the Item Slot
+            document.addEventListener("click", function () {
+                if (firstClickedR !== -1) {
+                    const firstLabel = document.getElementById(`itemslotRight_${firstClickedR}Label`);
+                    if (firstLabel) firstLabel.style.border = "";
+                    firstClickedR = -1;
+                }
+            });
 
         countSelector.addEventListener("change", () => {
             const Type = parseInt(Foe2.value);
