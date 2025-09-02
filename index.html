@@ -2176,6 +2176,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
       
   ItemTags = {
               '':{''},
+              "None":{""},
               "ArcaneBell" : {"BattleStart", "Unique", "Instrument"}, #Decrease all cooldowns by 1... Maybe just "activate" cooldown items
               "ArcaneBellS" : {"BattleStart", "Unique", "Instrument"}, 
               "BootsOfTheHero" : {}, #Its just base stats
@@ -3565,9 +3566,9 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               StatusInterp(Status, Foe, Player, Stacks)
 
       if Name == "ClearspringWatermelon":  #Decrease a random status effect by 1
-          if any(p in ("BattleStart", "Wounded") for p in Phase):
+          if PhaseChecker(Phase, ("BattleStart", "Wounded")): #any(p in ("BattleStart", "Wounded") for p in Phase):
             [Status, Stacks] = Player.RandomStatus(Foe, -1*(2**Quality), True) #This automagically changes a random self status effect
-          if any(p in ("Exposed") for p in Phase): 
+          if PhaseChecker(Phase, ("Exposed")): #any(p in ("Exposed") for p in Phase): 
             for nn in range(0, Player.ExposedMultiTrigger):
                 [Status, Stacks] = Player.RandomStatus(Foe, -1*(2**Quality), True)
 
@@ -3868,13 +3869,13 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
             SelfBombDamage(5, Player, Foe)
 
       if Name == "BombBag": #Spend 3 speed to retrigger a random bomb
-          if any(p in ("BattleStart", "Wounded") for p in Phase): #if Phase in ("BattleStart", "Wounded"):
+          if PhaseChecker(Phase, ("BattleStart", "Wounded")): #any(p in ("BattleStart", "Wounded") for p in Phase): #if Phase in ("BattleStart", "Wounded"):
             if Player.Speed > 2:
                 #Idk if it takes speed if you have no bombs
                 #Player.Speed = Player.Speed - 3
                 GainSpeed(Player, Foe, -3)
                 Player.RandomSearch("Bomb", Foe)
-          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
+          if PhaseChecker(Phase, ("Exposed")): #any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
             for nn in range(0, Player.ExposedMultiTrigger):
                 if Player.Speed > 2:
                     #Idk if it takes speed if you have no bombs
@@ -4445,9 +4446,9 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               #GainPoison(Foe, Player, 9)
 
       if Name == "AcidMutation":  #gain 1 Acid
-          if any(p in ("BattleStart") for p in Phase): #if Phase == "BattleStart":
+          if PhaseChecker(Phase, ("BattleStart")): #any(p in ("BattleStart") for p in Phase): #if Phase == "BattleStart":
               StatusInterp("Acid", Player, Foe, 1)
-          if any(p in ("PreStrike") for p in Phase):
+          if PhaseChecker(Phase, ("PreStrike")): #any(p in ("PreStrike") for p in Phase):
               if Player.Acid > 0:
                   Player.TempAttack = Player.TempAttack + Player.Acid
           #GainAcid(Player, Foe, 1)
@@ -4795,13 +4796,13 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               #GainPoison(Player, Foe, 1)
 
       if Name == "BloodOrange":  #Gain 3 acid
-          if any(p in ("Wounded") for p in Phase): #if Phase == "Wounded":
+          if PhaseChecker(Phase, ("Wounded")): #any(p in ("Wounded") for p in Phase): #if Phase == "Wounded":
               if Player.Acid > 0:
                   x = Player.Acid
                   StatusInterp("Acid", Player, Foe, -Player.Acid)
                   StatusInterp("Regen", Player, Foe, x)
 
-          if any(p in ("BattleStart") for p in Phase):
+          if PhaseChecker(Phase, ("BattleStart")): #any(p in ("BattleStart") for p in Phase):
               StatusInterp("Acid", Player, Foe, 3)
 
       # if Name == "BloodOrange":  #Gain 3 acid
@@ -4831,7 +4832,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
 
       if Name == "BoiledHam": #Decrease all status effects by 1
           Amount = 1
-          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
+          if PhaseChecker(Phase, ("Exposed")): #any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
             Amount = Player.ExposedMultiTrigger
 
           for nn in range(0, Amount):
@@ -4875,9 +4876,9 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               BombDamage(2, Player, Foe)
 
       if Name == "DeepseaWine":  #Give foe 1 riptide. Whenever a riptide triggers restore 3 hp
-          if any(p in ("Wounded") for p in Phase):
+          if PhaseChecker(Phase, ("Wounded")): #any(p in ("Wounded") for p in Phase):
               StatusInterp("Riptide", Foe, Player, 1)
-          if any(p in ("RiptideDamage") for p in Phase):
+          if PhaseChecker(Phase, ("RiptideDamage")): #any(p in ("RiptideDamage") for p in Phase):
               HealingCalc(Player, Foe, 3)
 
       if Name == "ExplosiveFish": #Give foe 1 riptide and deal 2xfoe.riptide bombdamage
@@ -4948,7 +4949,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
 
       if Name == "HornedMelon":  #Decrease 2 random status effects by 1 and gain that many thorns
           Amount = 1
-          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
+          if PhaseChecker(Phase, ("Exposed")): #any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
             Amount = Player.ExposedMultiTrigger
           for nn in range(0, Amount): #Probably shouldnt decrease thorns
               [Status, Stacks1] = Player.RandomStatus(Foe, -1, True) #This automagically changes a random self status effect
@@ -4962,10 +4963,10 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
           #GainAcid(Player, Foe, 2)
 
       if Name == "LemonShark":  #Gain 1 acid
-          if any(p in ("BattleStart") for p in Phase): #if Phase == "BattleStart":
+          if PhaseChecker(Phase, ("BattleStart")): #any(p in ("BattleStart") for p in Phase): #if Phase == "BattleStart":
               StatusInterp("Acid", Player, Foe, 1)
 
-          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
+          if PhaseChecker(Phase, ("Exposed")): #any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
               for nn in range(0, Player.ExposedMultiTrigger):
                 if Player.Acid > 0:
                     StatusInterp("Riptide", Foe, Player, Player.Acid)
@@ -4996,7 +4997,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
 
       if Name == "MarbledStonefish":  #If you hp is full, gain 5 armor and give foe 1 riptide
           Amount = 1
-          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
+          if PhaseChecker(Phase, ("Exposed")): #any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
             Amount = Player.ExposedMultiTrigger
           for nn in range(0, Amount):
             if Player.CurrentHP == Player.MaxHP:
@@ -5005,17 +5006,17 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
                 #GainRiptide(Foe, Player, 1)
 
       if Name == "MelonBomb": #Decrease a random status effect by 1. I believe both effects currently should trigger 3 times with powder keg but only the damage does
-          if any(p in ("BattleStart", "Wounded") for p in Phase): #if Phase in ("BattleStart", "Wounded"):
+          if PhaseChecker(Phase, ("BattleStart", "Wounded")): #any(p in ("BattleStart", "Wounded") for p in Phase): #if Phase in ("BattleStart", "Wounded"):
               [Status, Stacks1] = Player.RandomStatus(Foe, -1, True) #This automagically changes a random self status effect
-          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
+          if PhaseChecker(Phase, ("Exposed")): #any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
               for nn in range(0, Player.ExposedMultiTrigger):
                 [Status, Stacks1] = Player.RandomStatus(Foe, -1, True) #This automagically changes a random self status effect
-          if any(p in ("LoseStatus") for p in Phase): #Whenever a status effect is decreased, deal 1 damage to foe.
+          if PhaseChecker(Phase, ("LoseStatus")): #any(p in ("LoseStatus") for p in Phase): #Whenever a status effect is decreased, deal 1 damage to foe.
               BombDamage(1, Player, Foe)
 
       if Name == "MelonLemonade":  #Remove all your acid
           Amount = 1
-          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
+          if PhaseChecker(Phase, ("Exposed")): #any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
             Amount = Player.ExposedMultiTrigger
           for nn in range(0, Amount):
             if Player.Acid > 0:
@@ -5023,12 +5024,12 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
                 #GainAcid(Player, Foe, -Player.Acid)
 
       if Name == "MelonWine":  #Decrease a random status by 1 and restore 3 hp
-          if any(p in ("BattleStart", "Wounded") for p in Phase): #if Phase in ("BattleStart", "Wounded"):
+          if PhaseChecker(Phase, ("BattleStart", "Wounded")): #any(p in ("BattleStart", "Wounded") for p in Phase): #if Phase in ("BattleStart", "Wounded"):
               [Status, Stacks] = Player.RandomStatus(Foe, -1, True)
               if Stacks > 0:
                   HealingCalc(Player, Foe, 3)
 
-          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
+          if PhaseChecker(Phase, ("Exposed")): #any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
               for nn in range(0, Player.ExposedMultiTrigger):
                 [Status, Stacks] = Player.RandomStatus(Foe, -1, True)
                 if Stacks > 0:
@@ -5036,7 +5037,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
 
       if Name == "MineralWater":  #If HP is full, decrease a random status by 2 and gain 5 armor
           Amount = 1
-          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
+          if PhaseChecker(Phase, ("Exposed")): #any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
             Amount = Player.ExposedMultiTrigger
           for nn in range(0, Amount):
             if Player.MaxHP == Player.CurrentHP:
@@ -5106,9 +5107,9 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               #GainThorns(Player, Foe, Player.Acid)
 
       if Name == "SpinySnapper":  #Give foe 1 riptide. Whenever riptide triggers, gain 3 thorns
-          if any(p in ("BattleStart") for p in Phase):
+          if PhaseChecker(Phase, ("BattleStart")): #any(p in ("BattleStart") for p in Phase):
               StatusInterp("Riptide", Foe, Player, 1)
-          if any(p in ("RiptideDamage") for p in Phase):
+          if PhaseChecker(Phase, ("RiptideDamage")): #any(p in ("RiptideDamage") for p in Phase):
               StatusInterp("Thorns", Player, Foe, 3)
 
       if Name == "SugarBomb":  #Deal 1 damage 3 times
@@ -5132,7 +5133,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
 
       if Name == "UnderwaterWatermelon":  #Decrease 1 random status effect and give foe 1 riptide
           Amount = 1
-          if any(p in ("Exposed") for p in Phase):
+          if PhaseChecker(Phase, ("Exposed")): #any(p in ("Exposed") for p in Phase):
             Amount = Player.ExposedMultiTrigger
           for nn in range(0, Amount):
             [Status, Stacks] = Player.RandomStatus(Foe, -1, True)
@@ -5387,7 +5388,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
 
       if Name == "BrittlebarkClub": #Exp or Wound lose 2 attack
           Amount = 1
-          if any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
+          if PhaseChecker(Phase, ("Exposed")): #any(p in ("Exposed") for p in Phase): #if Phase == "Exposed":
             Amount = Player.ExposedMultiTrigger
           for nn in range(0, Amount):
             if Player.NoBBB:
@@ -5458,9 +5459,9 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               Player.PreventStatusGain = True
 
       if Name == "PurelakeStaff":  #BS: Gain 2 purity. OH: Lose 1 purity
-          if any(p in ("BattleStart") for p in Phase):
+          if PhaseChecker(Phase, ("BattleStart")): #any(p in ("BattleStart") for p in Phase):
             StatusInterp("Purity", Player, Foe, 2)
-          if Player.Purity > 0 and any(p in ("OnHit") for p in Phase):
+          if Player.Purity > 0 and PhaseChecker(Phase, ("OnHit")): #any(p in ("OnHit") for p in Phase):
               StatusInterp("Purity", Player, Foe, -1)
           #GainPurity(Player, Foe, 2)
           #Player.Items = [word.replace("PurelakeStaff", "PurelakeStaffOH") for word in Player.Items]
@@ -5546,21 +5547,21 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
           Player.StrikeMult = 1
 
       if Name == "BrokenWineglass": #When wounded, on your next turn keep striking until the foe is wounded
-          if Phase == "Wounded":
+          if PhaseChecker(Phase, ("Wounded")): #Phase == "Wounded":
             Player.BrokenWineglass = True
 
       if Name == "CherryBlade":  #Deal 4 damage on batstart and exposed
           Amount = 1
-          if any(p in ("Exposed") for p in Phase):
+          if PhaseChecker(Phase, ("Exposed")): #any(p in ("Exposed") for p in Phase):
             Amount = Player.ExposedMultiTrigger
           for nn in range(0, Amount):
             BombDamage(4, Player, Foe)
 
       if Name == "DeathcapBow": #BS: Gain 3 Poison. TS: Gain 1 additional strike, if you are poisoned
-          if any(p in ("BattleStart") for p in Phase):
+          if PhaseChecker(Phase, ("BattleStart")): #any(p in ("BattleStart") for p in Phase):
               StatusInterp("Poison", Player, Foe, 3)
 
-          if any(p in ("TurnStart") for p in Phase):
+          if PhaseChecker(Phase, ("TurnStart")): #any(p in ("TurnStart") for p in Phase):
               if Player.Poison > 0:
                   GainStrikes(Player, Foe, 1)
 
@@ -5580,9 +5581,9 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               GainStrikes(Player, Foe, 1)
 
       if Name == "SilverscaleSwordfish":  #Gain 1 extra strike on battle start, #First Turn on hit give the foe 1 riptide
-          if any(p in ("BattleStart") for p in Phase):
+          if PhaseChecker(Phase, ("BattleStart")): #any(p in ("BattleStart") for p in Phase):
               GainStrikes(Player, Foe, 1)
-          if any(p in ("FirstTurnStrike") for p in Phase):
+          if PhaseChecker(Phase, ("FirstTurnStrike")): #any(p in ("FirstTurnStrike") for p in Phase):
               StatusInterp("Riptide", Foe, Player, 1)
 
       #Blacksmith Edge
@@ -5633,10 +5634,10 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               #GainPoison(Foe, Player, 2)
 
       if Name == "PetrifiedEdge":  #Double your attack, OH: gain 1 stun
-          if Phase == "OnHit":
+          if PhaseChecker(Phase, ("OnHit")): #Phase == "OnHit":
             StatusInterp("Stun", Player, Foe, 1)
           #Stun(1, Foe, Player)
-          if Phase == "PreStrike":
+          if PhaseChecker(Phase, ("PreStrike")): #Phase == "PreStrike":
             Player.StrikeMult = Player.StrikeMult*2
 
       if Name == "PlatedEdge":  #Convert 1 speed to 3 armor
@@ -5951,9 +5952,9 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
 
       #Swamp Week 2
       if Name == "ClearspringSpirit": #BS: Gains 10 Purity. On Hit randomly decrease a self or player status
-          if any(p in ("BattleStart") for p in Phase):
+          if PhaseChecker(Phase, ("BattleStart")): #any(p in ("BattleStart") for p in Phase):
               StatusInterp("Purity", Player, Foe, 10)
-          elif any(p in ("OnHit") for p in Phase): #This is missing the removing self status effect
+          elif PhaseChecker(Phase, ("OnHit")): #any(p in ("OnHit") for p in Phase): #This is missing the removing self status effect
               Player.RandomStatus(Foe, -1, True)
 
       if Name == "GraniteGriffin": #Gain 40 Armor and Stun for 4 turns
@@ -6821,6 +6822,8 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
         else:
             Player.Search("OnHit", Foe)
 
+  def PhaseChecker(Phase, ItemPhases):
+    return any(p in ItemPhases for p in (Phase if isinstance(Phase, list) else [Phase]))
 
   def GainSpeed(Player, Foe, SpeedChange):
       if SpeedChange > 0:
@@ -7284,6 +7287,15 @@ def MainFight(Left, Right, EnemyType):
       #Below this line is not updated from the main python code file
 
       document.getElementById("resultDisplay").innerText = str(Result)
+      if document.getElementById("LogView").checked and Players[0] == "Left" and document.getElementById("Log").innerHTML == "":
+        document.getElementById("Log").innerHTML += "Battle Ended Before The End Of The First Turn"
+        document.getElementById("Log").innerHTML += "<br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br><br>"
+        WriteLog(P1, P2, -2, "Player")
+      elif document.getElementById("LogView").checked and document.getElementById("Log").innerHTML == "":
+        document.getElementById("Log").innerHTML += "Battle Ended Before The End Of The First Turn"
+        document.getElementById("Log").innerHTML += "<br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br><br>"
+        WriteLog(P2, P1, -2, "Foe")
+      
       #result_box.innerText = str(Result)
       #return Result
 
