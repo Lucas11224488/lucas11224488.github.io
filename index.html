@@ -580,7 +580,7 @@ const WeaponsBundles = [": All",
 ": WY",
 ": SB",
 ": SY",
-": SY",
+": SR",
 ": SB+SY",
 ": SR",
 ": SY",
@@ -891,6 +891,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
         "Fortified Gauntlet",
         "Friendship Bracelet",
         "Frostbite Armor",
+        "Frostbite Claw",
         "Frostbite Curse",
         "Frostbite Gauntlet",
         "Frostbite Greaves",
@@ -1151,7 +1152,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
     ": Removed",
     ": SB",
     ": SB",
-    ": SB",
+    ": SY",
     ": SB",
     ": SB",
     ": Wood",
@@ -1191,6 +1192,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
     ": SY",
     ": WR",
     ": SR",
+    ": WY",
     ": WY",
     ": WB",
     ": WY",
@@ -1258,7 +1260,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
     ": WY",
     ": WB+SB",
     ": WB+SR",
-    ": SY",
+    ": SR",
     ": SB",
     ": WB+SB",
     ": SB",
@@ -1492,6 +1494,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
     "FortifiedGauntlet",
     "FriendshipBracelet",
     "FrostbiteArmor",
+    "FrostbiteClaw",
     "FrostbiteCurse",
     "FrostbiteGauntlet",
     "FrostbiteGreaves",
@@ -2267,9 +2270,9 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               "BrambleVest" : {"ThornsLose"}, #The first time you lose thorns, restore hp = to lost thorns
               "RazorvineTalisman" : {"Unique", "GainThorns"}, #When gain thorns, gain another one: ~~~~~~~~~~~~Might need to add GainThornsS
               "BrittlebarkBuckler" : {"AfterFoeFirstStrike", "Wood"}, #After Foe's First Strike take damage then lose all armor Probably can just put it as a check directly in the strike calc
-              "CausticTome" : {"Cooldown", "Tome"}, #CD 3: Give the foe 3 acid, unless they have no armor, then give 3 poison
+              "CausticTome" : {"Cooldown", "Tome"}, #CD 4: Give the foe 4 acid, unless they have no armor, then give 6 poison
               "ChainmailCloak" : {"TurnStart"}, #If you have armor restore 2 hp
-              "ClearspringCloak" : {"Exposed"}, #Remove all status effects and gain 1 armor per stack removed
+              "ClearspringCloak" : {"Exposed"}, #Exposed: Remove all your poison and gain 2 armor equal to stacks removed
               "ClearspringOpal" : {"TurnStart", "Water"}, #TS: Spend 1 speed to decrease a random status effect by 1
               "ClearspringRose" : {"HPRestore", "Unique", "Water", "HPRestoreS"}, #Whenever you restore hp, decrease a random status effect by 1.
               "Cookbook" : {"Tome"}, #This might not count idk
@@ -2293,8 +2296,9 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               "FortifiedGauntlet" : {"TurnStart"}, #If you have armor, gain an armor
               "FriendshipBracelet" : {"BattleStart"}, #Battle Start: The enemy loses 1 attack
               "FrostbiteArmor" : {"Water", "AfterFoeFirstStrike"}, #Enemy's first strike does 2x, then give them 4 freeze
+              "FrostbiteClaw" : {"TurnStart", "PreStrike", "TurnEnd"}, #If foe has freeze, remove 1 and gain 3 temp attack this turn.
               "FrostbiteCurse" : {"BattleStart", "Water"}, #Give yourself and foe 5 freeze each
-              "FrostbiteGreaves": {"LoseSpeed"}, #Whenever you lose speed, give the foe 1 freeze
+              "FrostbiteGreaves": {"LoseSpeed", "Water"}, #Whenever you lose speed, give the foe 1 freeze
               "GoldRing" : {"BattleStart", "Jewelry", "Ring"}, #Gain 1 gold
               "GraniteCrown" : {"BattleStart", "Stone", "Unique"}, #Gain max HP = to Base armor
               "GraniteFungi" : {"TurnEnd", "Stone"}, #Gain 2 armor to you and foe
@@ -2337,9 +2341,9 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               "RiverflowViolin" : {"Exposed", "Unique", "Instrument", "Water"}, #Gain 4 armor Sym
               "RiverflowViolinS" : {"Exposed", "Unique", "Instrument", "Water"}, #Gain 4 armor
               "RoyalHelmet" : {"Exposed"}, #Gain 10 armor IF you have more than 20 gold
-              "RustedPlate" : {"AcidDamage"}, #If the foe loses armor to acid, you gain that armor
+              "RustedPlate" : {"AcidDamage", "Unique"}, #If the foe loses armor to acid, you gain that armor
               "SaltcrustedCrown" : {"BattleStart"}, #gain 1 riptide
-              "SanguineRose" : {"HPRestore", "Unique", "Sanguine"}, #Whenever you restore 1 hp restore another (This restore doesnt count)
+              "SanguineRose" : {"Unique", "Sanguine"}, #Whenever you restore 1 hp restore another (This restore doesnt count)
               "SilverAnchor" : {"LoseSpeed"}, #Whenever you lose speed, give the foe 1 riptide
               "SilverscaleArmor" : {"RiptideDamage"}, #Whenever riptide triggers, gain 2 armor
               "SilverscaleGreaves" : {"BattleStart"}, #If you have more speed, give foe 2 riptide
@@ -2371,7 +2375,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               "AcidMutation" : {"BattleStart", "PreStrike"}, #gain 1 Acid
               "AcidicWitherleaf" : {"BattleStart"}, #Give the foe acid = to your speed
               "AssaultGreaves" : {"TakeDamage", "TakeDamageS", "Unique"}, #Deal 1 damage
-              "BlackbriarArmor" : {"TakeDamage", "TakeDamageS", "Unique"}, #Whenever you take damage, gain 2 thorns
+              "BlackbriarArmor" : {"TakeDamage", "TakeDamageS", "Unique"}, #Whenever you take damage, gain 1 thorns
               "BloodstoneRing" : {"BattleStart", "Sanguine", "Ring"}, #BS: Gain 5 max hp and restore 5 hp
               "BrittlebarkArmor" : {"TakeDamage", "Wood"}, #Take another damage
               "CactusCap" : {"ThornMultNoArmor", "Unique"}, #Convert armor to thorns
@@ -2443,7 +2447,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               "CherryCocktail" : {"BattleStart", "Wounded", "Sanguine", "Bomb", "Food"}, #Deal 3 damage and restore 3 hp
               "CombustibleLemon" : {"TurnStart", "Bomb", "Food"}, #Spend 1 speed to deal 2 bomb damage
               "DeepseaWine" : {"Wounded", "Food", "RiptideDamage"}, #Give foe 1 riptide. Whenever a riptide triggers restore 3 hp
-              "ExplosiveFish" : {"BattleStart", "Food", "Bomb"}, #Give foe 1 riptide and deal 2xfoe.riptide bombdamage
+              "ExplosiveFish" : {"BattleStart", "Food", "Bomb"}, #Give foe 1 riptide. Whenever Riptide triggers, deal 1 damage 2 times.
               "ExplosiveRoast" : {"BattleStart", "Bomb", "Food"}, #Deal 1 damage 4 times
               "GraniteCherry" : {"BattleStart", "Stone", "Bomb", "Food"}, #If your hp is full, gain 2 armor and deal 2 damage 3 times
               "HoneyCaviar" : {"Exposed", "Food"}, #Give foe 10 riptide
@@ -2538,7 +2542,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               "IronstoneBow" : {"Weapon", "OnHit", "Stone"}, #On hit lose 1 speed. If Speed is 0 or less only attack every other turn (Idk if it attacks everytime the first turn you are at 0 or less speed)
               "LifebloodSpear" : {"Weapon", "HP3Restore"}, #Whenever you heal for 3 or more, gain 1 attack
               "LiferootHammer" : {"Weapon", "Wood", "OnHit"}, #Regen that triggers overheal increases max hp. I assume this is before the Overheal gem
-              "LightningRod" : {"Weapon", "Unique", "TurnStart"}, #If stunned, gain 3 attack
+              "LightningRod" : {"Weapon", "Unique", "TurnStart"}, #If stunned, gain 2 attack
               "LightningWhip" : {"Weapon", "Unique", "TurnStart"}, #If foe is stunned, gain 1 strike
               "RingBlades" : {"Weapon", "BattleStart"}, #Steal 1 attack from foe
               "RustySword" : {"Weapon", "FirstTurnOnHit"}, #First Turn, On Hit Give the foe acid = your attack
@@ -2551,7 +2555,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               "ChainmailSword" : {"Weapon", "Exposed"}, #Gain armor equal to base armor
               "FrozenIceblade" : {"Weapon", "BattleStart", "Water"}, #Gain 3 freeze
               "GemstoneScepter" : {"Weapon", "Jewelry", "OnHit"}, #Gain an on hit effect if you have emerald(+1HP), ruby(+1damage), sapphire(+1Armor), or citrine(+1spd) items
-              "GraniteHammer" : {"Weapon", "Stone", "OnHit"}, #Convert 1 armor to 2 attack p sure this the right order to gain the attack
+              "GraniteHammer" : {"Weapon", "Stone", "OnHit"}, #Convert 1 armor to 1 attack p sure this the right order to gain the attack
               "GraniteLance" : {"Weapon", "Stone"}, #Stat effect 2x base armor
               "GrindstoneClub" : {"Weapon", "Stone"}, #Effect +2 attack to next weapon equipped (Makes figuring out weapon base stats more annoying)
               "KingsBlade" : {"BattleStart"}, #Wounded and Exposed trigger at battle start
@@ -2624,6 +2628,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               "SaffronTalon" :{"Set", "OnHit"}, #Gain 1 speed on hit
               "SteelplatedThorns" : {"Set", "ThornsLose"}, #Whenever you lose thorns gain that much armor
               "BasilisksGaze" : {"Set", "BattleStart"}, #Your foe is stunned for 2 turns
+              "BloodstonePendant" : {"Set", "HP5Restore"} #Whenever you restore 5 or more health in a single instance, gain 2 attack
               "ChampionsGreaves" : {"Set"}, #Just Stats
               "CrystalMirror": {"Set", "StatusGain"}, #Whenever you gain a status effect, give it to the foe too
               "DeadlyToxin" : {"Set", "GainPoison"}, #First time foe gains poison, give 2 acid
@@ -2896,6 +2901,10 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
         self.Items.append("BasilisksGaze") #Your foe is stunned for 2 turns
         self.Quality.append(0)
 
+    if "BloodlordsAxe" in self.Items and "BloodstoneRing" in self.Items:
+        self.items.append("BloodstonePendant") #Whenever you restore 5 or more health in a single instance, gain 2 attack
+        self.Quality.append(0)
+
     if "BloodmoonDagger" in self.Items and "SwiftstrikeGauntlet" in self.Items:
         self.Items.append("BloodmoonStrike") #On your next turn restore hp = to damage done by strikes
         self.Quality.append(0)
@@ -3130,6 +3139,10 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
           if "SanguineScepter" in self.Items:
               self.SanguineScepterMult = 2
 
+          self.SanguineRose = 0
+          if "SanguineRose" in self.Items:
+              self.SanguineRose = 1
+
           self.TwilightCrestMult = 1
           if "TwilightCrest" in self.Items:
               self.TwilightCrestMult = 2
@@ -3159,6 +3172,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
           self.ViperPot = True
           self.ViperElixir= True
           self.DeadlyToxin = True
+          self.FrostbiteClaw = 0
 
           self.PlatedShield = False
           if "PlatedShield" in self.Items:
@@ -3910,13 +3924,13 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               if Player.Armor > 0:
                   SelfArmorLose(Player, Foe, Player.Armor)
 
-      if Name == "CausticTome":  #CD 3: Give the foe 3 acid, unless they have no armor, then give 3 poison
-          if (Player.Cooldown + Player.CooldownReduction > np.ceil(3*Player.CooldownMult) and Player.CausticTome) or Player.GrandTomeRetriggers:
+      if Name == "CausticTome":  #CD 4: Give the foe 4 acid, unless they have no armor, then give 6 poison
+          if (Player.Cooldown + Player.CooldownReduction > np.ceil(4*Player.CooldownMult) and Player.CausticTome) or Player.GrandTomeRetriggers:
               for nn in range(0, Player.TomeTriggers):
                   if Foe.Armor > 0:
-                      StatusInterp("Acid", Foe, Player, 3)
+                      StatusInterp("Acid", Foe, Player, 4)
                   elif Foe.Armor == 0:
-                      StatusInterp("Poison", Foe, Player, 5)
+                      StatusInterp("Poison", Foe, Player, 6)
                   Cooldowned(Player, Foe)
               Player.CausticTome = False
 
@@ -3924,48 +3938,48 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
           if Player.Armor > 0:
               HealingCalc(Player, Foe, 2)
 
-      if Name == "ClearspringCloak": #Remove all status effects and gain 1 armor per stack removed
+      if Name == "ClearspringCloak": #Exposed: Remove all your poison and gain 2 armor equal to stacks removed
           for nn in range(0, Player.ExposedMultiTrigger):
-            if Player.Thorns > 0: 
-                x = Player.Thorns
-                StatusInterp("Thorns", Player, Foe, -Player.Thorns)
-                ArmorGain(Player, Foe, x)
+            #if Player.Thorns > 0: 
+                #x = Player.Thorns
+                #StatusInterp("Thorns", Player, Foe, -Player.Thorns)
+                #ArmorGain(Player, Foe, x)
 
-            if Player.Freeze > 0: 
-                x = Player.Freeze
-                StatusInterp("Freeze", Player, Foe, -Player.Freeze) 
-                ArmorGain(Player, Foe, x)
+            #if Player.Freeze > 0: 
+                #x = Player.Freeze
+                #StatusInterp("Freeze", Player, Foe, -Player.Freeze) 
+                #ArmorGain(Player, Foe, x)
 
-            if Player.Regen > 0: 
-                x = Player.Regen
-                StatusInterp("Regen", Player, Foe, -Player.Regen)
-                ArmorGain(Player, Foe, x) 
+            #if Player.Regen > 0: 
+                #x = Player.Regen
+                #StatusInterp("Regen", Player, Foe, -Player.Regen)
+                #ArmorGain(Player, Foe, x) 
                 
             if Player.Poison > 0: 
                 x = Player.Poison
                 StatusInterp("Poison", Player, Foe, -Player.Poison)
-                ArmorGain(Player, Foe, x)
+                ArmorGain(Player, Foe, 2*x)
 
-            if Player.Stun > 0: 
-                x = Player.Stun
-                StatusInterp("Stun", Player, Foe, -Player.Stun)
-                ArmorGain(Player, Foe, x)
+            #if Player.Stun > 0: 
+                #x = Player.Stun
+                #StatusInterp("Stun", Player, Foe, -Player.Stun)
+                #ArmorGain(Player, Foe, x)
                 
-            if Player.Riptide > 0: 
-                x = Player.Riptide
-                StatusInterp("Riptide", Player, Foe, -Player.Riptide)
-                ArmorGain(Player, Foe, x)
+            #if Player.Riptide > 0: 
+                #x = Player.Riptide
+                #StatusInterp("Riptide", Player, Foe, -Player.Riptide)
+                #ArmorGain(Player, Foe, x)
                 
-            if Player.Acid > 0: 
-                x = Player.Acid
-                StatusInterp("Acid", Player, Foe, -Player.Acid)
-                ArmorGain(Player, Foe, x)
+            #if Player.Acid > 0: 
+                #x = Player.Acid
+                #StatusInterp("Acid", Player, Foe, -Player.Acid)
+                #ArmorGain(Player, Foe, x)
 
 
-            if Player.Purity > 0:
-                x = Player.Purity 
-                StatusInterp("Purity", Player, Foe, -Player.Purity)
-                ArmorGain(Player, Foe, x)
+            #if Player.Purity > 0:
+                #x = Player.Purity 
+                #StatusInterp("Purity", Player, Foe, -Player.Purity)
+                #ArmorGain(Player, Foe, x)
                 #GainPurity(Player, Foe, -Player.Purity)
 
       if Name == "ClearspringOpal":  #TS: Spend 1 speed to decrease a random status effect by 1
@@ -4076,6 +4090,16 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
       if Name == "FrostbiteArmor":  #Enemy's first strike does 2x, then give them 4 freeze
           StatusInterp("Freeze", Foe, Player, 4)
           #Freeze(4, Foe, Player)
+
+      if Name == "FrostbiteClaw": #If foe has freeze, remove 1 and gain 3 temp attack this turn.
+          if PhaseChecker(Phase, ("TurnStart")) and Foe.Freeze > 0:
+            StatusInterp("Freeze", Foe, Player, -1)
+            Player.FrostbiteClaw = Player.FrostbiteClaw + 1
+          if PhaseChecker(Phase, ("PreStrike")) and Player.FrostbiteClaw > 0:
+            Player.TempAttack = Player.TempAttack + 3
+            Player.FrostbiteClaw = Player.FrostbiteClaw - 1
+          if PhaseChecker(Phase, ("TurnEnd")):
+            Player.FrostbiteClaw = 0
 
       if Name == "FrostbiteCurse": #Give yourself and foe 5 freeze each
           StatusInterp("Freeze", Player, Foe, 5)
@@ -4293,19 +4317,19 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
           StatusInterp("Riptide", Player, Foe, 1)
           #GainRiptide(Player, Foe, 1)
 
-      if Name == "SanguineRose": #When healed heal again for 1 hp
-          l = 1
-          if Player.CurrentHP/Player.MaxHP < 0.5:
-              l = Player.TwilightCrestMult
-          v = 1
-          if Player.Stun > 0: #
-              v = Player.VampireCloak
-          x = Player.CurrentHP - Player.MaxHP + 1*Player.SanguineMult*l*v*Player.SanguineScepterMult
-          if Healable(Player):
-              Player.CurrentHP = min(Player.MaxHP, Player.CurrentHP + 1*Player.SanguineMult*l*v*Player.SanguineScepterMult)
-              Player.Search("HPRestoredS", Foe)
-          if "HPOverHeal" in Player.Items and x > 0:
-              DealDamage(x, Player, Foe)
+      #if Name == "SanguineRose": #When healed heal again for 1 hp
+          #l = 1
+          #if Player.CurrentHP/Player.MaxHP < 0.5:
+          #    l = Player.TwilightCrestMult
+          #v = 1
+          #if Player.Stun > 0: #
+          #    v = Player.VampireCloak
+          #x = Player.CurrentHP - Player.MaxHP + 1*Player.SanguineMult*l*v*Player.SanguineScepterMult
+          #if Healable(Player):
+          #    Player.CurrentHP = min(Player.MaxHP, Player.CurrentHP + 1*Player.SanguineMult*l*v*Player.SanguineScepterMult)
+          #    Player.Search("HPRestoredS", Foe)
+          #if "HPOverHeal" in Player.Items and x > 0:
+          #    DealDamage(x, Player, Foe)
 
       if Name == "SilverAnchor":  #Whenever you lose speed, give the foe 1 riptide
           StatusInterp("Riptide", Foe, Player, 1)
@@ -4466,8 +4490,8 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
       if Name == "AssaultGreaves": #Deal 1 damage
           DealDamage(1, Player, Foe)
 
-      if Name == "BlackbriarArmor": #Whenever you take damage, gain 2 thorns
-          StatusInterp("Thorns", Player, Foe, 2)
+      if Name == "BlackbriarArmor": #Whenever you take damage, gain 1 thorns
+          StatusInterp("Thorns", Player, Foe, 1)
           #GainThorns(Player, Foe, 2)
 
       if Name == "BloodstoneRing":  #BS: Gain 5 max hp and restore 5 hp
@@ -4881,10 +4905,11 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
           if PhaseChecker(Phase, ("RiptideDamage")): #any(p in ("RiptideDamage") for p in Phase):
               HealingCalc(Player, Foe, 3)
 
-      if Name == "ExplosiveFish": #Give foe 1 riptide and deal 2xfoe.riptide bombdamage
+      if Name == "ExplosiveFish": #Give foe 1 riptide. Whenever Riptide triggers, deal 1 damage 2 times.
           StatusInterp("Riptide", Foe, Player, 1)
           #GainRiptide(Foe, Player, 1)
-          BombDamage(2*Foe.Riptide, Player, Foe)
+          BombDamage(1, Player, Foe)
+          BombDamage(1, Player, Foe)
 
       if Name == "ExplosiveRoast": #Deal 1 damage 3 times
       #Might be other order
@@ -5352,9 +5377,9 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
             ArmorGain(Player, Foe, 3*X)
             StatusInterp("Regen", Player, Foe, -Player.Regen)
 
-      if Name == "LightningRod":  #If stunned, gain 3 attack
+      if Name == "LightningRod":  #If stunned, gain 2 attack
           if Player.Stun > 0:
-              Player.Attack = Player.Attack + 3
+              Player.Attack = Player.Attack + 2
 
       if Name == "LightningWhip":  #If foe is stunned, gain 1 strike
           if Foe.Stun > 0:
@@ -5424,10 +5449,10 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               #Player.DeltaSpeed = 1
               #GainSpeed(Player, Foe, 1)
 
-      if Name == "GraniteHammer": #Convert 1 armor to 2 attack p sure this the right order to gain the attack
+      if Name == "GraniteHammer": #Convert 1 armor to 1 attack p sure this the right order to gain the attack
           if Player.Armor > 0:
               SelfArmorLose(Player, Foe, 1)
-              Player.Attack = Player.Attack + 2
+              Player.Attack = Player.Attack + 1
 
       # if Name == "GraniteLance" : {"Weapon", "Stone"}, #Stat effect 2x base armor
       #     #base stats
@@ -5712,6 +5737,9 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
       if Name == "BasilisksGaze":  #Your foe is stunned for 2 turns
           StatusInterp("Stun", Foe, Player, 2)
           #Stun(2, Player, Foe)
+
+      if Name == "BloodstonePendant": #Whenever you restore 5 or more health in a single instance, gain 2 attack
+          Player.Attack = Player.Attack + 2
 
       #if Name == "CrystalMirror": #Whenever you gain a status effect, give it to the foe too
 
@@ -6327,8 +6355,8 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
     if Name == "WaveBreaker":  #-2 Attack
         BaseStats = [0, -2, 0, 0]
 
-    if Name == "AcidicWitherleaf": #1 Speed
-        BaseStats = [0, 0, 0, 1]
+    if Name == "AcidicWitherleaf": #0 Speed
+        BaseStats = [0, 0, 0, 0]
 
     if Name == "BlackbriarArmor": #-1 Attack
         BaseStats = [0, -1, 0, 0]
@@ -6366,8 +6394,8 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
     if Name == "IronstoneArmor": #-2 speed
         BaseStats = [0, 0, 0, -2]
 
-    if Name == "KingsBlade":  #2 Attack
-        BaseStats = [0, 2, 0, 0]
+    if Name == "KingsBlade":  #3 Attack
+        BaseStats = [0, 3, 0, 0]
 
     if Name == "LeatherWhip":  #5 max hp and 4 attack
         BaseStats = [5, 4, 0, 0]
@@ -6410,6 +6438,9 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
 
     if Name == "SerpentDagger": #2 Attack
         BaseStats = [0, 2, 0, 0]
+
+    if Name == "SerpentMask": #1 Attack
+        BaseStats = [0, 1, 0, 0]
 
     if Name == "SilverscaleTrident":  #0 Attack
         BaseStats = [0, 0, 0, 0]
@@ -6770,6 +6801,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
 
   def HealingCalc(Player, Foe, Value):
       if not Player.HealingDisabled:
+        Value = Value + Player.SanguineRose #Sanguine Rose Could simply not be effected by the multipliers.
         if Player.CurrentHP/Player.MaxHP < 0.5:
             Value = Player.TwilightCrestMult*Value
         if Player.Stun > 0:
@@ -6781,7 +6813,9 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
             Player.CurrentHP = min(Player.MaxHP, Player.CurrentHP + Value)
             if Player.FirstHealToggle == True:
                 FirstHPRestore(Player, Foe, min(Value, Value - x))
-            if  z >= 3:
+            if z >= 5:
+                Player.Search(["HP3Restore", "HP5Restore"], Foe)
+            elif  z >= 3:
                 Player.Search("HP3Restore", Foe)
                 
             HPRestored(Player, Foe)
@@ -6919,15 +6953,36 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
           Foe.Search("TurnStartFoe", Player)
           Player.Search(["TurnStart", "OddEveryOtherTurn"], Foe)
 
-      if "PrimordialSoup" in Player.Items: #This does break Rusted Plate
+      if "PrimordialSoup" in Foe.Items: #This does break Rusted Plate
           if Player.Acid > 0:
             Player.DeltaArmor = min(Player.Armor, Player.Acid)
-            DealDamage(Player.Acid, Foe, Player)
+            #DealDamage(Player.Acid, Foe, Player)
+            Player.CurrentHP = min(Player.CurrentHP, Player.CurrentHP + Player.Armor - Player.Acid) #Updates hp of Player if Player's armor reached 0
+            Player.AliveCheck(Foe)
+            Death(Player)
+            HP1Check(Player, Foe)
+            if Player.Armor > 0:
+              Player.DeltaArmor = max(min(Player.Armor, Player.Acid), 0)
+              ArmorLose(Player, Foe)
+              Player.DeltaArmor = 0
+              Player.Armor = max(0, Player.Armor - Player.Acid)
+            Nonweapon(Foe, Player) #Might not trigger on acid damage?
             Foe.Search("AcidDamage", Player)
       else:
         if Player.Armor > 0 and Player.Acid > 0:
             Player.DeltaArmor = min(Player.Armor, Player.Acid)
-            DealDamage(Player.DeltaArmor, Foe, Player)
+            Damagevalue = Player.DeltaArmor
+            #DealDamage(Player.DeltaArmor, Foe, Player)
+            Player.CurrentHP = min(Player.CurrentHP, Player.CurrentHP + Player.Armor - Player.DeltaArmor) #Updates hp of foe if foe's armor reached 0
+            Player.AliveCheck(Foe)
+            Death(Player)
+            HP1Check(Player, Foe)
+            if Player.Armor > 0:
+              Player.DeltaArmor = max(min(Player.Armor, Damagevalue), 0)
+              ArmorLose(Player, Foe)
+              Player.DeltaArmor = 0
+              Player.Armor = max(0, Player.Armor - Damagevalue)
+            Nonweapon(Foe, Player) #Might not trigger on acid damage?
             Foe.Search("AcidDamage", Player)
 
       if Player.Armor == 0 and Player.Poison > 0:
@@ -7055,7 +7110,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
   def Cooldowned(Player, Foe):
       Player.Search("CooldownTrigger", Foe)
 
-  def EndTurn(Player, Foe, TurnNum):
+  def TurnEnd(Player, Foe, TurnNum):
       RipTriggs = Count(Player, "RiptideTriggers") + Count(Foe, "RiptideTriggers")
       if TurnNum == 0:
           Player.FirstTurn = False
@@ -7102,7 +7157,7 @@ createSearchableSelector(containerSelectionLEdges, EdgesList, EdgesBundles, togg
               Foe.Search("RiptideDamage", Player)
               DealDamage(5, Foe, Player)
 
-      Player.Search("EndTurn", Foe)
+      Player.Search("TurnEnd", Foe)
       Player.SecondTakeDamage = True
       Player.TakeDamageCount = 0
       #Also do other stuff like reduce freezecount activate turn end items
@@ -7221,10 +7276,11 @@ def MainFight(Left, Right, EnemyType):
                 if checkLife(P1, P2, Players) == 1:
                     break
             elif P1.Stun > 0:
-                StatusInterp("Stun", P1, P2, -1)
+                StrikesValue = min(P1.Stun, P1.StrikesCount)
+                StatusInterp("Stun", P1, P2, -StrikesValue)
 
             #PostTurn Stuff for firstturn
-            EndTurn(P1, P2, turn)
+            TurnEnd(P1, P2, turn)
             if document.getElementById("LogView").checked and turn < 50 and Players[0] == "Left":
                 WriteLog(P1, P2, turn, "Player")
             elif document.getElementById("LogView").checked and turn < 50:
@@ -7244,10 +7300,11 @@ def MainFight(Left, Right, EnemyType):
                 if checkLife(P1, P2, Players) == 1:
                     break
             elif P2.Stun > 0:
-                StatusInterp("Stun", P2, P1, -1)
+                StrikesValue = min(P1.Stun, P1.StrikesCount)
+                StatusInterp("Stun", P2, P1, -StrikesValue)
 
             #PostTurn Stuff for firstturn
-            EndTurn(P2, P1, turn)
+            TurnEnd(P2, P1, turn)
             if document.getElementById("LogView").checked and turn < 50 and Players[0] == "Left":
                 WriteLog(P1, P2, turn, "Foe")
             elif document.getElementById("LogView").checked and turn < 50:
