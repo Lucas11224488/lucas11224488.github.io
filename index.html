@@ -7332,7 +7332,7 @@ def MainFight(Left, Right, EnemyType):
                 if checkLife(P1, P2, Players) == 1:
                     break
             elif P2.Stun > 0:
-                StrikesValue = min(P1.Stun, P1.StrikesCount)
+                StrikesValue = min(P2.Stun, P2.StrikesCount)
                 StatusInterp("Stun", P2, P1, -StrikesValue)
 
             #PostTurn Stuff for firstturn
